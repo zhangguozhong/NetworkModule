@@ -1,5 +1,5 @@
 //
-//  NetworkModuleManager.h
+//  NetworkRequestProtocol.h
 //  NetworkModule
 //
 //  Created by 张国忠 on 2018/2/2.
@@ -8,8 +8,9 @@
 
 #import <Foundation/Foundation.h>
 
-@interface NetworkModuleManager : NSObject
+@protocol NetworkRequestProtocol <NSObject>
 
-+ (NetworkModuleManager *)apiClient;
+- (NSString *)method;
+- (NSDictionary *)requestParams;
 
 @end

@@ -14,7 +14,7 @@
     static NetworkConfig *networkConfigInstance;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        networkConfigInstance=[[self alloc] init];
+        networkConfigInstance = [[self alloc] init];
     });
     return networkConfigInstance;
 }

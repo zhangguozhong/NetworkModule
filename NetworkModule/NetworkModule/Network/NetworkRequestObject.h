@@ -7,8 +7,9 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "NetworkRequestProtocol.h"
 
-@interface NetworkRequestObject : NSObject
+@interface NetworkRequestObject : NSObject<NetworkRequestProtocol>
 
 -(instancetype)initWithMethod:(NSString *)method withParams:(NSDictionary *)params;
 

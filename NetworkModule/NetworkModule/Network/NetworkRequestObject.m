@@ -8,14 +8,28 @@
 
 #import "NetworkRequestObject.h"
 
+@interface NetworkRequestObject()
+@property (nonatomic,copy) NSString *requestMethod;
+@property (nonatomic,copy) NSDictionary *requestParameters;
+@end
+
 @implementation NetworkRequestObject
 
 - (instancetype)initWithMethod:(NSString *)method withParams:(NSDictionary *)params{
     self = [super init];
     if (self) {
-        
+        self.requestMethod = method;
+        self.requestParameters = params;
     }
     return self;
+}
+
+- (NSString *)method{
+    return self.requestMethod;
+}
+
+- (NSDictionary *)requestParams{
+    return self.requestParameters;
 }
 
 @end

@@ -13,6 +13,9 @@
 		77F5EF7120249D8800DD9194 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 77F5EF7020249D8800DD9194 /* Assets.xcassets */; };
 		77F5EF7420249D8800DD9194 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 77F5EF7220249D8800DD9194 /* LaunchScreen.storyboard */; };
 		77F5EF7720249D8800DD9194 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 77F5EF7620249D8800DD9194 /* main.m */; };
+		77F5EF8020249F1D00DD9194 /* NetworkConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 77F5EF7F20249F1D00DD9194 /* NetworkConfig.m */; };
+		77F5EF842024A44D00DD9194 /* NetworkModuleManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 77F5EF832024A44D00DD9194 /* NetworkModuleManager.m */; };
+		77F5EF872024A49600DD9194 /* NetworkRequestObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 77F5EF862024A49600DD9194 /* NetworkRequestObject.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +29,12 @@
 		77F5EF7320249D8800DD9194 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		77F5EF7520249D8800DD9194 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		77F5EF7620249D8800DD9194 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		77F5EF7E20249F1D00DD9194 /* NetworkConfig.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NetworkConfig.h; sourceTree = "<group>"; };
+		77F5EF7F20249F1D00DD9194 /* NetworkConfig.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NetworkConfig.m; sourceTree = "<group>"; };
+		77F5EF822024A44D00DD9194 /* NetworkModuleManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NetworkModuleManager.h; sourceTree = "<group>"; };
+		77F5EF832024A44D00DD9194 /* NetworkModuleManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NetworkModuleManager.m; sourceTree = "<group>"; };
+		77F5EF852024A49600DD9194 /* NetworkRequestObject.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NetworkRequestObject.h; sourceTree = "<group>"; };
+		77F5EF862024A49600DD9194 /* NetworkRequestObject.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NetworkRequestObject.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,6 +67,7 @@
 		77F5EF6620249D8800DD9194 /* NetworkModule */ = {
 			isa = PBXGroup;
 			children = (
+				77F5EF7D20249EF900DD9194 /* NetworkModule */,
 				77F5EF6720249D8800DD9194 /* AppDelegate.h */,
 				77F5EF6820249D8800DD9194 /* AppDelegate.m */,
 				77F5EF6A20249D8800DD9194 /* ViewController.h */,
@@ -69,6 +79,27 @@
 				77F5EF7620249D8800DD9194 /* main.m */,
 			);
 			path = NetworkModule;
+			sourceTree = "<group>";
+		};
+		77F5EF7D20249EF900DD9194 /* NetworkModule */ = {
+			isa = PBXGroup;
+			children = (
+				77F5EF812024A41000DD9194 /* Network */,
+				77F5EF7E20249F1D00DD9194 /* NetworkConfig.h */,
+				77F5EF7F20249F1D00DD9194 /* NetworkConfig.m */,
+			);
+			path = NetworkModule;
+			sourceTree = "<group>";
+		};
+		77F5EF812024A41000DD9194 /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				77F5EF822024A44D00DD9194 /* NetworkModuleManager.h */,
+				77F5EF832024A44D00DD9194 /* NetworkModuleManager.m */,
+				77F5EF852024A49600DD9194 /* NetworkRequestObject.h */,
+				77F5EF862024A49600DD9194 /* NetworkRequestObject.m */,
+			);
+			path = Network;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -144,7 +175,10 @@
 			files = (
 				77F5EF6C20249D8800DD9194 /* ViewController.m in Sources */,
 				77F5EF7720249D8800DD9194 /* main.m in Sources */,
+				77F5EF8020249F1D00DD9194 /* NetworkConfig.m in Sources */,
 				77F5EF6920249D8800DD9194 /* AppDelegate.m in Sources */,
+				77F5EF842024A44D00DD9194 /* NetworkModuleManager.m in Sources */,
+				77F5EF872024A49600DD9194 /* NetworkRequestObject.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

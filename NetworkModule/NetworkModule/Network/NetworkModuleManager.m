@@ -10,4 +10,13 @@
 
 @implementation NetworkModuleManager
 
++ (NetworkModuleManager *)apiClient{
+    static NetworkModuleManager *apiClientManager;
+    static dispatch_once_t clientOnceToken;
+    dispatch_once(&clientOnceToken, ^{
+        apiClientManager = [[self alloc] init];
+    });
+    return apiClientManager;
+}
+
 @end

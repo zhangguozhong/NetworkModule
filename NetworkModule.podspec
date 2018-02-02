@@ -16,7 +16,7 @@ Pod::Spec.new do |s|
   #
 
   s.name         = "NetworkModule"
-  s.version      = "1.0.1"
+  s.version      = "1.0.2"
   s.summary      = "这是一个网络请求库，将AFNetworking封装成单例类"
 
   # This description is used to generate tags and improve search results.
@@ -91,7 +91,7 @@ Pod::Spec.new do |s|
   #  Not including the public_header_files will make all headers public.
   #
 
-  s.source_files  = "NetworkModule/NetworkModule/**/*.{h,m}"
+  s.source_files  = "NetworkModule/NetworkModule","NetworkModule/NetworkModule/**/*.{h,m}"
   s.exclude_files = "Classes/Exclude"
 
   # s.public_header_files = "Classes/**/*.h"

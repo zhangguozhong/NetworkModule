@@ -10,12 +10,4 @@
 
 @implementation NetworkRequestObject
 
-- (instancetype)initWithMethod:(NSString *)method withParams:(NSDictionary *)params{
-    self = [super init];
-    if (self) {
-        
-    }
-    return self;
-}
-
 @end

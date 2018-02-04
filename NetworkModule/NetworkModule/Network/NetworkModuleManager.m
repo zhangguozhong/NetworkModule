@@ -39,6 +39,12 @@
     return self;
 }
 
+
+/**
+ 发起一个网络请求
+
+ @param requestObject 请求对象包含请求的方法、参数等
+ */
 - (void)doNetworkTaskWithRequestObject:(NetworkRequestObject *)requestObject {
     NSString *strMethod = [requestObject method];
     NSDictionary *requestParams = [requestObject requestParams];
@@ -51,6 +57,15 @@
     [requestObject.requestDataTask resume];
 }
 
+
+/**
+ 根据请求方法、参数等创建网络请求任务
+
+ @param method 请求方法（POST、GET等）
+ @param parameters 请求参数
+ @param requestSerializer 用于生成request对象
+ @return 返回NSURLSessionDataTask对象
+ */
 - (NSURLSessionDataTask *)dataTaskWithHTTPMethod:(NSString *)method parameters:(NSDictionary *)parameters requestSerializer:(AFHTTPRequestSerializer *)requestSerializer {
     __block NSURLSessionDataTask *requestDataTask = nil;
     NSString *urlString = [NetworkConfig shareConfig].domain;
@@ -64,6 +79,14 @@
     return requestDataTask;
 }
 
+
+/**
+ 处理网络请求返回数据，并触发回调
+
+ @param requestDataTask 网络请求任务对象
+ @param responseObject 返回的数据对象
+ @param error 网络错误信息
+ */
 - (void)handleRequestResult:(NSURLSessionDataTask *)requestDataTask responseObject:(id)responseObject error:(NSError *)error {
     //处理回调，比如session过期，需要重新登录，可以发出已退出登录的通知，然后方便处理。
     Lock();
@@ -81,11 +104,17 @@
         }
     }
     
-//    dispatch_async(dispatch_get_main_queue(), ^{
-//        [self cancelNetworkTask:requestObject];
-//    });
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self cancelNetworkTask:requestObject];
+    });
 }
 
+
+/**
+ 用于保存所有创建的网络请求任务
+
+ @return 字典对象
+ */
 - (NSMutableDictionary *)dispatchTable {
     if (!_dispatchTable) {
         NSMutableDictionary *dispatchTable = [NSMutableDictionary dictionary];
@@ -94,6 +123,26 @@
     return _dispatchTable;
 }
 
+
+/**
+ 取消所有网络请求任务
+
+ @param requestObjects 所有封装过的请求对象包含请求的方法、参数等
+ */
+- (void)cancelNetworkTasks:(NSArray<NetworkRequestObject *> *)requestObjects {
+    if (requestObjects && requestObjects.count>0) {
+        [requestObjects enumerateObjectsUsingBlock:^(NetworkRequestObject * _Nonnull requestObject, NSUInteger idx, BOOL * _Nonnull stop) {
+            [self cancelNetworkTask:requestObject];
+        }];
+    }
+}
+
+
+/**
+ 取消指定的网络请求任务
+
+ @param requestObject 封装过的请求对象包含请求的方法、参数等
+ */
 - (void)cancelNetworkTask:(NetworkRequestObject *)requestObject {
     Lock();
     [requestObject.requestDataTask cancel];

@@ -17,10 +17,10 @@
         networkClient = [[self alloc] init];
         networkClient.securityPolicy = [AFSecurityPolicy policyWithPinningMode:AFSSLPinningModeNone];
         networkClient.requestSerializer = [AFJSONRequestSerializer serializer];
-        networkClient.requestSerializer.timeoutInterval = 20;
         networkClient.responseSerializer = [AFHTTPResponseSerializer serializer];
-        
-        [networkClient.requestSerializer setValuesForKeysWithDictionary:@{}];
+        networkClient.requestSerializer.timeoutInterval = 20;
+        //[networkClient.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Accept"];
+        //[networkClient.requestSerializer setValue:@"" forHTTPHeaderField:@"User-Agent"];
     });
     return networkClient;
 }

@@ -14,6 +14,7 @@
 + (NetworkModuleManager *)networkTaskSender;
 
 - (void)cancelNetworkTask:(NetworkRequestObject *)requestObject;
+- (void)cancelNetworkTasks:(NSArray <NetworkRequestObject *> *)requestObjects;
 - (void)doNetworkTaskWithRequestObject:(NetworkRequestObject *)requestObject;
 
 @end

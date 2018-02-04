@@ -40,21 +40,28 @@
 }
 
 - (void)doNetworkTaskWithRequestObject:(NetworkRequestObject *)requestObject {
-    NSURLSessionDataTask *requestDataTask = nil;
+    NSString *strMethod = [requestObject method];
+    NSDictionary *requestParams = [requestObject requestParams];
     AFHTTPRequestSerializer *requestSerializer = [AFHTTPRequestSerializer serializer];
-    NSString *urlString = [NetworkConfig shareConfig].domain;
-    NSURLRequest *request = [requestSerializer requestWithMethod:[requestObject method] URLString:urlString parameters:[requestObject requestParams] error:nil];
     
-   requestDataTask = [[NetworkClient networkClient] dataTaskWithRequest:request uploadProgress:nil downloadProgress:nil completionHandler:^(NSURLResponse * _Nonnull response, id  _Nullable responseObject, NSError * _Nullable error)
-    {
-       [self handleRequestResult:requestDataTask responseObject:responseObject error:error];
-    }];
-    
+    requestObject.requestDataTask = [self dataTaskWithHTTPMethod:strMethod parameters:requestParams requestSerializer:requestSerializer];
     Lock();
-    requestObject.requestDataTask = requestDataTask;
-    [self.dispatchTable setObject:requestObject forKey:@(requestDataTask.taskIdentifier)];
+    [self.dispatchTable setObject:requestObject forKey:@(requestObject.requestDataTask.taskIdentifier)];
     Unlock();
-    [requestDataTask resume];
+    [requestObject.requestDataTask resume];
+}
+
+- (NSURLSessionDataTask *)dataTaskWithHTTPMethod:(NSString *)method parameters:(NSDictionary *)parameters requestSerializer:(AFHTTPRequestSerializer *)requestSerializer {
+    __block NSURLSessionDataTask *requestDataTask = nil;
+    NSString *urlString = [NetworkConfig shareConfig].domain;
+    
+    NSURLRequest *request = [requestSerializer requestWithMethod:method URLString:urlString parameters:parameters error:nil];
+    requestDataTask = [[NetworkClient networkClient] dataTaskWithRequest:request uploadProgress:nil downloadProgress:nil completionHandler:^(NSURLResponse * _Nonnull response, id  _Nullable responseObject, NSError * _Nullable error)
+                       {
+                           [self handleRequestResult:requestDataTask responseObject:responseObject error:error];
+                       }];
+    
+    return requestDataTask;
 }
 
 - (void)handleRequestResult:(NSURLSessionDataTask *)requestDataTask responseObject:(id)responseObject error:(NSError *)error {
@@ -67,9 +74,16 @@
         requestObject.failBlock(error);
     }else{
         if (requestObject.successBlock) {
+            if ([responseObject isKindOfClass:[NSData class]]) {
+                responseObject = [NSJSONSerialization JSONObjectWithData:responseObject options:0 error:nil];
+            }
             requestObject.successBlock(responseObject);
         }
     }
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self cancelNetworkTask:requestObject];
+    });
 }
 
 - (NSMutableDictionary *)dispatchTable {

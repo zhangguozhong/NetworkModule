@@ -7,6 +7,7 @@
 //
 
 #import "ViewController.h"
+#import "ZTempViewController.h"
 
 @interface ViewController ()
 
@@ -16,9 +17,20 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view, typically from a nib.
+    self.view.backgroundColor = [UIColor whiteColor];
+    
+    UIButton *pushBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    pushBtn.frame = CGRectMake(0, 60, 200, 40);
+    [pushBtn setTitle:@"push" forState:UIControlStateNormal];
+    [pushBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [pushBtn addTarget:self action:@selector(pushToVC:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:pushBtn];
 }
 
+- (void)pushToVC:(UIButton *)sender {
+    ZTempViewController *hasNetworkTaskViewController = [[ZTempViewController alloc] init];
+    [self.navigationController pushViewController:hasNetworkTaskViewController animated:YES];
+}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

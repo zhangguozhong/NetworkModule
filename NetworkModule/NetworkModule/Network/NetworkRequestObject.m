@@ -7,6 +7,7 @@
 //
 
 #import "NetworkRequestObject.h"
+#import "NetworkModuleManager.h"
 
 @interface NetworkRequestObject()
 @property (nonatomic,copy) NSString *requestMethod;
@@ -32,6 +33,10 @@
 
 - (NSDictionary *)requestParams{
     return self.requestParameters;
+}
+
+- (void)dealloc {
+    NSLog(@"对象被释放");
 }
 
 @end

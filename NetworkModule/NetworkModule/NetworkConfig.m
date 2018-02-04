@@ -30,7 +30,7 @@
 - (NSDictionary *)configData {
     return @{
              @"dev":@{
-                     @"domain":@"https://dev.domain.com",
+                     @"domain":@"https://facebook.github.io/react-native/movies.json",
                      @"webDomain":@"https://devWebDomain.domain.com"
                      },
              @"staging":@{

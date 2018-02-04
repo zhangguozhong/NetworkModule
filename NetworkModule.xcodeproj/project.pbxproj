@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		06F43C4B51DBAB7627C4A26D /* libPods-NetworkModule.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 83F9AF6DC77D85699BFF5872 /* libPods-NetworkModule.a */; };
 		772E92AC20270E93008E30F1 /* NetworkClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 772E92AB20270E93008E30F1 /* NetworkClient.m */; };
+		772E92B0202726E0008E30F1 /* ZTempViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 772E92AF202726E0008E30F1 /* ZTempViewController.m */; };
 		77F5EF6920249D8800DD9194 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 77F5EF6820249D8800DD9194 /* AppDelegate.m */; };
 		77F5EF6C20249D8800DD9194 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 77F5EF6B20249D8800DD9194 /* ViewController.m */; };
 		77F5EF6F20249D8800DD9194 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 77F5EF6D20249D8800DD9194 /* Main.storyboard */; };
@@ -23,6 +24,8 @@
 /* Begin PBXFileReference section */
 		772E92AA20270E93008E30F1 /* NetworkClient.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NetworkClient.h; sourceTree = "<group>"; };
 		772E92AB20270E93008E30F1 /* NetworkClient.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NetworkClient.m; sourceTree = "<group>"; };
+		772E92AE202726E0008E30F1 /* ZTempViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZTempViewController.h; sourceTree = "<group>"; };
+		772E92AF202726E0008E30F1 /* ZTempViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZTempViewController.m; sourceTree = "<group>"; };
 		77F5EF6420249D8800DD9194 /* NetworkModule.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NetworkModule.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		77F5EF6720249D8800DD9194 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		77F5EF6820249D8800DD9194 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -72,6 +75,15 @@
 			path = APIClient;
 			sourceTree = "<group>";
 		};
+		772E92AD202726C2008E30F1 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				772E92AE202726E0008E30F1 /* ZTempViewController.h */,
+				772E92AF202726E0008E30F1 /* ZTempViewController.m */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
 		77F5EF5B20249D8800DD9194 = {
 			isa = PBXGroup;
 			children = (
@@ -93,6 +105,7 @@
 		77F5EF6620249D8800DD9194 /* NetworkModule */ = {
 			isa = PBXGroup;
 			children = (
+				772E92AD202726C2008E30F1 /* Controller */,
 				77F5EF7D20249EF900DD9194 /* NetworkModule */,
 				77F5EF6720249D8800DD9194 /* AppDelegate.h */,
 				77F5EF6820249D8800DD9194 /* AppDelegate.m */,
@@ -273,6 +286,7 @@
 				772E92AC20270E93008E30F1 /* NetworkClient.m in Sources */,
 				77F5EF842024A44D00DD9194 /* NetworkModuleManager.m in Sources */,
 				77F5EF872024A49600DD9194 /* NetworkRequestObject.m in Sources */,
+				772E92B0202726E0008E30F1 /* ZTempViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

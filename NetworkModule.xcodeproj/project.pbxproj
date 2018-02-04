@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		06F43C4B51DBAB7627C4A26D /* libPods-NetworkModule.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 83F9AF6DC77D85699BFF5872 /* libPods-NetworkModule.a */; };
+		772E92AC20270E93008E30F1 /* NetworkClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 772E92AB20270E93008E30F1 /* NetworkClient.m */; };
 		77F5EF6920249D8800DD9194 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 77F5EF6820249D8800DD9194 /* AppDelegate.m */; };
 		77F5EF6C20249D8800DD9194 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 77F5EF6B20249D8800DD9194 /* ViewController.m */; };
 		77F5EF6F20249D8800DD9194 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 77F5EF6D20249D8800DD9194 /* Main.storyboard */; };
@@ -20,6 +21,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		772E92AA20270E93008E30F1 /* NetworkClient.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NetworkClient.h; sourceTree = "<group>"; };
+		772E92AB20270E93008E30F1 /* NetworkClient.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NetworkClient.m; sourceTree = "<group>"; };
 		77F5EF6420249D8800DD9194 /* NetworkModule.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NetworkModule.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		77F5EF6720249D8800DD9194 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		77F5EF6820249D8800DD9194 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -36,6 +39,7 @@
 		77F5EF832024A44D00DD9194 /* NetworkModuleManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NetworkModuleManager.m; sourceTree = "<group>"; };
 		77F5EF852024A49600DD9194 /* NetworkRequestObject.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NetworkRequestObject.h; sourceTree = "<group>"; };
 		77F5EF862024A49600DD9194 /* NetworkRequestObject.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NetworkRequestObject.m; sourceTree = "<group>"; };
+		77F5EF882024B2FC00DD9194 /* NetworkRequestProtocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NetworkRequestProtocol.h; sourceTree = "<group>"; };
 		83F9AF6DC77D85699BFF5872 /* libPods-NetworkModule.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-NetworkModule.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		AAE1D25C8E8EB4B0C0300F1F /* Pods-NetworkModule.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NetworkModule.release.xcconfig"; path = "Pods/Target Support Files/Pods-NetworkModule/Pods-NetworkModule.release.xcconfig"; sourceTree = "<group>"; };
 		AC034E67A949EA79FDA0578A /* Pods-NetworkModule.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NetworkModule.debug.xcconfig"; path = "Pods/Target Support Files/Pods-NetworkModule/Pods-NetworkModule.debug.xcconfig"; sourceTree = "<group>"; };
@@ -59,6 +63,13 @@
 				83F9AF6DC77D85699BFF5872 /* libPods-NetworkModule.a */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		772E92A920270E40008E30F1 /* APIClient */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = APIClient;
 			sourceTree = "<group>";
 		};
 		77F5EF5B20249D8800DD9194 = {
@@ -99,6 +110,7 @@
 		77F5EF7D20249EF900DD9194 /* NetworkModule */ = {
 			isa = PBXGroup;
 			children = (
+				772E92A920270E40008E30F1 /* APIClient */,
 				77F5EF812024A41000DD9194 /* Network */,
 				77F5EF7E20249F1D00DD9194 /* NetworkConfig.h */,
 				77F5EF7F20249F1D00DD9194 /* NetworkConfig.m */,
@@ -109,10 +121,13 @@
 		77F5EF812024A41000DD9194 /* Network */ = {
 			isa = PBXGroup;
 			children = (
+				772E92AA20270E93008E30F1 /* NetworkClient.h */,
+				772E92AB20270E93008E30F1 /* NetworkClient.m */,
 				77F5EF822024A44D00DD9194 /* NetworkModuleManager.h */,
 				77F5EF832024A44D00DD9194 /* NetworkModuleManager.m */,
 				77F5EF852024A49600DD9194 /* NetworkRequestObject.h */,
 				77F5EF862024A49600DD9194 /* NetworkRequestObject.m */,
+				77F5EF882024B2FC00DD9194 /* NetworkRequestProtocol.h */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -255,6 +270,7 @@
 				77F5EF7720249D8800DD9194 /* main.m in Sources */,
 				77F5EF8020249F1D00DD9194 /* NetworkConfig.m in Sources */,
 				77F5EF6920249D8800DD9194 /* AppDelegate.m in Sources */,
+				772E92AC20270E93008E30F1 /* NetworkClient.m in Sources */,
 				77F5EF842024A44D00DD9194 /* NetworkModuleManager.m in Sources */,
 				77F5EF872024A49600DD9194 /* NetworkRequestObject.m in Sources */,
 			);

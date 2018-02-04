@@ -7,9 +7,13 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "NetworkRequestObject.h"
 
 @interface NetworkModuleManager : NSObject
 
-+ (NetworkModuleManager *)apiClient;
++ (NetworkModuleManager *)networkTaskSender;
+
+- (void)cancelNetworkTask:(NetworkRequestObject *)requestObject;
+- (void)doNetworkTaskWithRequestObject:(NetworkRequestObject *)requestObject;
 
 @end

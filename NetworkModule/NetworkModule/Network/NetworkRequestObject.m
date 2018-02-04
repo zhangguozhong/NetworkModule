@@ -15,11 +15,13 @@
 
 @implementation NetworkRequestObject
 
-- (instancetype)initWithMethod:(NSString *)method withParams:(NSDictionary *)params{
+- (instancetype)initWithMethod:(NSString *)method withParams:(NSDictionary *)params successBlock:(successBlock)successBlock failBlock:(failBlock)failBlock {
     self = [super init];
     if (self) {
         self.requestMethod = method;
         self.requestParameters = params;
+        _successBlock = successBlock;
+        _failBlock = failBlock;
     }
     return self;
 }

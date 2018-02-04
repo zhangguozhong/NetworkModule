@@ -9,8 +9,15 @@
 #import <Foundation/Foundation.h>
 #import "NetworkRequestProtocol.h"
 
+typedef void(^successBlock)(id responseObject);
+typedef void(^failBlock)(NSError *error);
+
 @interface NetworkRequestObject : NSObject<NetworkRequestProtocol>
 
--(instancetype)initWithMethod:(NSString *)method withParams:(NSDictionary *)params;
+@property (strong,nonatomic) NSURLSessionDataTask *requestDataTask;
+@property (copy,nonatomic,readonly) successBlock successBlock;
+@property (copy,nonatomic,readonly) failBlock failBlock;
+
+-(instancetype)initWithMethod:(NSString *)method withParams:(NSDictionary *)params successBlock:(successBlock)successBlock failBlock:(failBlock)failBlock;
 
 @end

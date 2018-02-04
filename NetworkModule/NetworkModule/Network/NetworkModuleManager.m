@@ -81,9 +81,9 @@
         }
     }
     
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [self cancelNetworkTask:requestObject];
-    });
+//    dispatch_async(dispatch_get_main_queue(), ^{
+//        [self cancelNetworkTask:requestObject];
+//    });
 }
 
 - (NSMutableDictionary *)dispatchTable {

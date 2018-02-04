@@ -7,11 +7,11 @@
 //
 
 #import "ZTempViewController.h"
-#import "NetworkModuleManager.h"
+#import "UserService.h"
 
 @interface ZTempViewController ()
 
-//@property (strong, nonatomic) NetworkRequestObject *userLoginRequest;
+@property (strong, nonatomic) UserService *userService;
 
 @end
 
@@ -20,12 +20,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
-    NetworkRequestObject *userLoginRequest = [[NetworkRequestObject alloc] initWithMethod:@"GET" withParams:@{@"key":@"value"} successBlock:^(id responseObject) {
-        NSLog(@"%@",responseObject);
-    } failBlock:^(NSError *error) {
-        NSLog(@"%@",error);
-    }];
-    [[NetworkModuleManager networkTaskSender] doNetworkTaskWithRequestObject:userLoginRequest];
+    
+    self.userService = [[UserService alloc] init];
+    [self.userService testAction];
 }
 
 - (void)didReceiveMemoryWarning {

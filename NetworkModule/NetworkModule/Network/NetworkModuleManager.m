@@ -10,6 +10,7 @@
 #import "NetworkClient.h"
 #import "NetworkConfig.h"
 #import <pthread/pthread.h>
+
 #define Lock() pthread_mutex_lock(&_lock)
 #define Unlock() pthread_mutex_unlock(&_lock)
 
@@ -57,7 +58,7 @@
 }
 
 - (void)handleRequestResult:(NSURLSessionDataTask *)requestDataTask responseObject:(id)responseObject error:(NSError *)error {
-    //处理回调，比如共有错误
+    //处理回调，比如session过期，需要重新登录，可以发出已退出登录的通知，然后方便处理。
     Lock();
     NetworkRequestObject *requestObject = [self.dispatchTable objectForKey:@(requestDataTask.taskIdentifier)];
     Unlock();

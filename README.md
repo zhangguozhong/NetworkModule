@@ -6,7 +6,10 @@ pod 'NetworkModule'
 使用方法：
 
 （1）创建请求对象NetworkRequestObject类型；
-self.userLoginRequest = [[NetworkRequestObject alloc] initWithMethod:@"GET" withParams:@{@"key":@"value"} successBlock:^(id responseObject) {
+
+    self.userLoginRequest = [[NetworkRequestObject alloc] initWithMethod:@"GET" withParams:@{@"key":@"value"}
+
+    successBlock:^(id responseObject) {
 
         NSLog(@"%@",responseObject);
         

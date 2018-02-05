@@ -31,17 +31,14 @@
 
 - (NSDictionary *)configDomainDatas {
     NSDictionary *domainDatas = nil;
-    if (!self.configDomainPlist) {
-        return domainDatas;
-    }
-    
-    NSString *resourceUrl = [[NSBundle mainBundle] pathForResource:self.configDomainPlist ofType:@".plist"];
-    if (resourceUrl && resourceUrl.length>0) {
-        if ([[NSFileManager defaultManager] fileExistsAtPath:resourceUrl]) {
-            domainDatas = [[NSDictionary alloc] initWithContentsOfFile:resourceUrl];
+    if (self.domainPlistName) {
+        NSString *resourceUrl = [[NSBundle mainBundle] pathForResource:self.domainPlistName ofType:@".plist"];
+        if (resourceUrl && resourceUrl.length>0) {
+            if ([[NSFileManager defaultManager] fileExistsAtPath:resourceUrl]) {
+                domainDatas = [[NSDictionary alloc] initWithContentsOfFile:resourceUrl];
+            }
         }
     }
-    
     NSLog(@"resource -- %@",domainDatas);
     return domainDatas;
 }

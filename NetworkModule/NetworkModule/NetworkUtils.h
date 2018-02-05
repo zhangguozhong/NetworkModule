@@ -15,7 +15,7 @@
 /**
  网络接口域名配置文件名（.plist）
  */
-@property (copy, nonatomic) NSString *configDomainPlist;
+@property (copy, nonatomic) NSString *domainPlistName;
 
 - (instancetype)init NS_UNAVAILABLE;
 - (instancetype)new NS_UNAVAILABLE;

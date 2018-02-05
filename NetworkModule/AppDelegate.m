@@ -18,7 +18,7 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    [NetworkUtils networkUtils].configDomainPlist = @"configDomainDatas";
+    [NetworkUtils networkUtils].domainPlistName = @"configDomainDatas";
     [NetworkUtils networkUtils].environment = @"dev";
     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     ViewController *viewController = [[ViewController alloc] init];

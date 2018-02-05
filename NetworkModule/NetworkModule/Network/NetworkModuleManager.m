@@ -8,7 +8,7 @@
 
 #import "NetworkModuleManager.h"
 #import "NetworkClient.h"
-#import "NetworkConfig.h"
+#import "NetworkUtils.h"
 #import <pthread/pthread.h>
 
 #define Lock() pthread_mutex_lock(&_lock)
@@ -48,9 +48,10 @@
 - (void)doNetworkTaskWithRequestObject:(NetworkRequestObject *)requestObject {
     NSString *strMethod = [requestObject method];
     NSDictionary *requestParams = [requestObject requestParams];
+    NSString *requestUrl = [self buildRequestUrl:requestObject];
     AFHTTPRequestSerializer *requestSerializer = [AFHTTPRequestSerializer serializer];
     
-    requestObject.requestDataTask = [self dataTaskWithHTTPMethod:strMethod parameters:requestParams requestSerializer:requestSerializer];
+    requestObject.requestDataTask = [self dataTaskWithHTTPMethod:strMethod requestUrl:requestUrl  parameters:requestParams requestSerializer:requestSerializer];
     Lock();
     [self.dispatchTable setObject:requestObject forKey:@(requestObject.requestDataTask.taskIdentifier)];
     Unlock();
@@ -66,11 +67,9 @@
  @param requestSerializer 用于生成request对象
  @return 返回NSURLSessionDataTask对象
  */
-- (NSURLSessionDataTask *)dataTaskWithHTTPMethod:(NSString *)method parameters:(NSDictionary *)parameters requestSerializer:(AFHTTPRequestSerializer *)requestSerializer {
+- (NSURLSessionDataTask *)dataTaskWithHTTPMethod:(NSString *)method requestUrl:(NSString *)requestUrl parameters:(NSDictionary *)parameters requestSerializer:(AFHTTPRequestSerializer *)requestSerializer {
     __block NSURLSessionDataTask *requestDataTask = nil;
-    NSString *urlString = [NetworkConfig shareConfig].domain;
-    
-    NSURLRequest *request = [requestSerializer requestWithMethod:method URLString:urlString parameters:parameters error:nil];
+    NSURLRequest *request = [requestSerializer requestWithMethod:method URLString:requestUrl parameters:parameters error:nil];
     requestDataTask = [[NetworkClient networkClient] dataTaskWithRequest:request uploadProgress:nil downloadProgress:nil completionHandler:^(NSURLResponse * _Nonnull response, id  _Nullable responseObject, NSError * _Nullable error)
                        {
                            [self handleRequestResult:requestDataTask responseObject:responseObject error:error];
@@ -107,6 +106,35 @@
     dispatch_async(dispatch_get_main_queue(), ^{
         [self cancelNetworkTask:requestObject];
     });
+}
+
+
+/**
+ 生成请求url字符串
+
+ @param requestObject 封装好的请求对象
+ @return 返回请求的url字符串
+ */
+- (NSString *)buildRequestUrl:(NetworkRequestObject *)requestObject {
+    NSString *requestUrl = [requestObject requestUrl];
+    NSURL *tempUrl = [NSURL URLWithString:requestUrl];
+    if (tempUrl && tempUrl.scheme && tempUrl.host) {
+        return requestUrl;
+    }
+    
+    NSString *domainUrl;
+    if ([requestObject respondsToSelector:@selector(baseUrl)] && [requestObject baseUrl]) {
+        domainUrl = [requestObject baseUrl];
+    }else {
+        domainUrl = [[NetworkUtils networkUtils] getDataForKey:@"domain"];
+    }
+    
+    tempUrl = [NSURL URLWithString:domainUrl];
+    if (domainUrl.length>0 && ![domainUrl hasPrefix:@"/"]) {
+        tempUrl = [tempUrl URLByAppendingPathComponent:@""];
+    }
+    
+    return [NSURL URLWithString:requestUrl relativeToURL:tempUrl].absoluteString;
 }
 
 

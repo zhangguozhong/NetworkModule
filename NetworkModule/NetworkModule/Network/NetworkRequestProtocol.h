@@ -12,5 +12,9 @@
 
 - (NSString *)method;
 - (NSDictionary *)requestParams;
+- (NSString *)requestUrl;
+
+@optional
+- (NSString *)baseUrl;
 
 @end

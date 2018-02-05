@@ -7,7 +7,7 @@
 //
 
 #import "AppDelegate.h"
-#import "NetworkConfig.h"
+#import "NetworkUtils.h"
 #import "ViewController.h"
 
 @interface AppDelegate ()
@@ -18,8 +18,8 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    // Override point for customization after application launch.
-    [NetworkConfig shareConfig].environment = @"dev";
+    [NetworkUtils networkUtils].configDomainPlist = @"configDomainDatas";
+    [NetworkUtils networkUtils].environment = @"dev";
     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     ViewController *viewController = [[ViewController alloc] init];
     UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:viewController];

@@ -16,7 +16,7 @@
 @implementation UserService
 
 - (void)testAction {
-    self.userLoginRequest = [[NetworkRequestObject alloc] initWithMethod:@"GET" withParams:@{@"key":@"value"} successBlock:^(id responseObject) {
+    self.userLoginRequest = [[NetworkRequestObject alloc] initWithMethod:@"GET" reqUrl:@"react-native/movies.json" withParams:@{@"key":@"value"} successBlock:^(id responseObject) {
         NSLog(@"%@",responseObject);
     } failBlock:^(NSError *error) {
         NSLog(@"%@",error);

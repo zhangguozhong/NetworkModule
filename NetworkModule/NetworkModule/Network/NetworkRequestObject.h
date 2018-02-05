@@ -18,6 +18,8 @@ typedef void(^failBlock)(NSError *error);
 @property (copy,nonatomic,readonly) successBlock successBlock;
 @property (copy,nonatomic,readonly) failBlock failBlock;
 
--(instancetype)initWithMethod:(NSString *)method withParams:(NSDictionary *)params successBlock:(successBlock)successBlock failBlock:(failBlock)failBlock;
+-(instancetype)initWithMethod:(NSString *)method reqUrl:(NSString *)reqUrl withParams:(NSDictionary *)params successBlock:(successBlock)successBlock failBlock:(failBlock)failBlock;
+
+- (instancetype)initWithMethod:(NSString *)method reqUrl:(NSString *)reqUrl domainUrl:(NSString *)domainUrl withParams:(NSDictionary *)params successBlock:(successBlock)successBlock failBlock:(failBlock)failBlock;
 
 @end

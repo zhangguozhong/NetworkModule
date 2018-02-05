@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>dev</key>
+	<dict>
+		<key>webDomain</key>
+		<string>https://devWebDomain.domain.com</string>
+		<key>domain</key>
+		<string>https://facebook.github.io/</string>
+	</dict>
+	<key>staging</key>
+	<dict>
+		<key>webDomain</key>
+		<string>https://stagingWebDomain.domain.com</string>
+		<key>domain</key>
+		<string>https://staging.domain.com</string>
+	</dict>
+	<key>production</key>
+	<dict>
+		<key>webDomain</key>
+		<string>https://productionWebDomain.domain.com</string>
+		<key>domain</key>
+		<string>https://production.domain.com</string>
+	</dict>
+</dict>
+</plist>

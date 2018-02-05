@@ -30,5 +30,7 @@ pod 'NetworkModule'
     
  创建并配置完成之后，
    
-（3）通过NetworkModuleManager，发起网络请求如[[NetworkModuleManager networkTaskSender] doNetworkTaskWithRequestObject:_userLoginRequest];
+（3）通过NetworkModuleManager，执行网络请求如下：
+
+    [[NetworkModuleManager networkTaskSender] doNetworkTaskWithRequestObject:_userLoginRequest];
 

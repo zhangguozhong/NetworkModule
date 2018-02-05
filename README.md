@@ -5,11 +5,11 @@ pod 'NetworkModule'
 
 使用方法：
 
- (1)创建配置文件
+（1）创建配置文件
  
- 先创建一个plist文件，用于配置dev，production的环境下对应的domain，方便在发起网络请求时，获取到正确的服务端地址；
+    先创建一个plist文件，用于配置dev，production的环境下对应的domain，方便在发起网络请求时，获取到正确的服务端地址；
  
- 然后通过NetworkUtils工具类进行配置配：
+    然后通过NetworkUtils工具类进行配置配：
  
     [NetworkUtils networkUtils].domainPlistName = @"configDomainDatas";
  

@@ -14,10 +14,11 @@
 #define Lock() pthread_mutex_lock(&_lock)
 #define Unlock() pthread_mutex_unlock(&_lock)
 
+NSString * const NetworkTaskRequestSessionExpired = @"NetworkTaskRequestSessionExpired";
 @interface NetworkModuleManager(){
     pthread_mutex_t _lock;
 }
-@property (strong, nonatomic) NSMutableDictionary *dispatchTable;
+@property (strong, nonatomic) NSMutableDictionary *requestTaskRecords;
 @end
 
 @implementation NetworkModuleManager
@@ -41,7 +42,7 @@
 
 
 /**
- 发起一个网络请求
+ 执行网络请求
 
  @param requestObject 请求对象包含请求的方法、参数等
  */
@@ -53,7 +54,7 @@
     
     requestObject.requestDataTask = [self dataTaskWithHTTPMethod:strMethod requestUrl:requestUrl  parameters:requestParams requestSerializer:requestSerializer];
     Lock();
-    [self.dispatchTable setObject:requestObject forKey:@(requestObject.requestDataTask.taskIdentifier)];
+    [self.requestTaskRecords setObject:requestObject forKey:@(requestObject.requestDataTask.taskIdentifier)];
     Unlock();
     [requestObject.requestDataTask resume];
 }
@@ -87,19 +88,24 @@
  @param error 网络错误信息
  */
 - (void)handleRequestResult:(NSURLSessionDataTask *)requestDataTask responseObject:(id)responseObject error:(NSError *)error {
-    //处理回调，比如session过期，需要重新登录，可以发出已退出登录的通知，然后方便处理。
     Lock();
-    NetworkRequestObject *requestObject = [self.dispatchTable objectForKey:@(requestDataTask.taskIdentifier)];
+    NetworkRequestObject *requestObject = [self.requestTaskRecords objectForKey:@(requestDataTask.taskIdentifier)];
     Unlock();
     
-    if (error && requestObject.failBlock) {
-        requestObject.failBlock(error);
-    }else{
-        if (requestObject.successBlock) {
-            if ([responseObject isKindOfClass:[NSData class]]) {
-                responseObject = [NSJSONSerialization JSONObjectWithData:responseObject options:0 error:nil];
+    if ([responseObject isKindOfClass:[NSData class]]) {
+        responseObject = [NSJSONSerialization JSONObjectWithData:responseObject options:0 error:nil];
+    }
+    
+    // 触发通知，统一处理session过期
+    if ([[responseObject objectForKey:@"code"] isEqualToString:@"session_expired"]) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:NetworkTaskRequestSessionExpired object:responseObject];
+    }else {
+        if (error && requestObject.failBlock) {
+            requestObject.failBlock(error);
+        }else{
+            if (requestObject.successBlock) {
+                requestObject.successBlock(responseObject);
             }
-            requestObject.successBlock(responseObject);
         }
     }
     
@@ -143,12 +149,12 @@
 
  @return 字典对象
  */
-- (NSMutableDictionary *)dispatchTable {
-    if (!_dispatchTable) {
-        NSMutableDictionary *dispatchTable = [NSMutableDictionary dictionary];
-        _dispatchTable = dispatchTable;
+- (NSMutableDictionary *)requestTaskRecords {
+    if (!_requestTaskRecords) {
+        NSMutableDictionary *requestTaskRecords = [NSMutableDictionary dictionary];
+        _requestTaskRecords = requestTaskRecords;
     }
-    return _dispatchTable;
+    return _requestTaskRecords;
 }
 
 
@@ -174,7 +180,7 @@
 - (void)cancelNetworkTask:(NetworkRequestObject *)requestObject {
     Lock();
     [requestObject.requestDataTask cancel];
-    [self.dispatchTable removeObjectForKey:@(requestObject.requestDataTask.taskIdentifier)];
+    [self.requestTaskRecords removeObjectForKey:@(requestObject.requestDataTask.taskIdentifier)];
     Unlock();
 }
 

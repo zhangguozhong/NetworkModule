@@ -30,15 +30,19 @@
 }
 
 - (NSDictionary *)configDomainDatas {
-    NSDictionary *domainDatas = nil;
-    if (self.domainPlistName) {
-        NSString *resourceUrl = [[NSBundle mainBundle] pathForResource:self.domainPlistName ofType:@".plist"];
-        if (resourceUrl && resourceUrl.length>0) {
-            if ([[NSFileManager defaultManager] fileExistsAtPath:resourceUrl]) {
-                domainDatas = [[NSDictionary alloc] initWithContentsOfFile:resourceUrl];
-            }
+    if (_configData && _configData.count>0) {
+        return _configData;
+    }
+    
+    NSAssert(self.domainPlistName, @"pilst文件用于配置服务端域名信息，目前必须配置。");
+    NSDictionary *domainDatas;
+    NSString *resourceUrl = [[NSBundle mainBundle] pathForResource:self.domainPlistName ofType:@".plist"];
+    if (resourceUrl && resourceUrl.length>0) {
+        if ([[NSFileManager defaultManager] fileExistsAtPath:resourceUrl]) {
+            domainDatas = [[NSDictionary alloc] initWithContentsOfFile:resourceUrl];
         }
     }
+    
     NSLog(@"resource -- %@",domainDatas);
     return domainDatas;
 }

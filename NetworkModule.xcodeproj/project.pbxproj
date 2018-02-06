@@ -11,6 +11,7 @@
 		772E92AC20270E93008E30F1 /* NetworkClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 772E92AB20270E93008E30F1 /* NetworkClient.m */; };
 		772E92B0202726E0008E30F1 /* ZTempViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 772E92AF202726E0008E30F1 /* ZTempViewController.m */; };
 		772E92B32027313F008E30F1 /* UserService.m in Sources */ = {isa = PBXBuildFile; fileRef = 772E92B22027313F008E30F1 /* UserService.m */; };
+		77456D222029E7950060B4FF /* ZBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 77456D212029E7950060B4FF /* ZBaseViewController.m */; };
 		77DC07D42028855200F2CA09 /* configDomainDatas.plist in Resources */ = {isa = PBXBuildFile; fileRef = 77DC07D32028855200F2CA09 /* configDomainDatas.plist */; };
 		77F5EF6920249D8800DD9194 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 77F5EF6820249D8800DD9194 /* AppDelegate.m */; };
 		77F5EF6C20249D8800DD9194 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 77F5EF6B20249D8800DD9194 /* ViewController.m */; };
@@ -30,6 +31,8 @@
 		772E92AF202726E0008E30F1 /* ZTempViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZTempViewController.m; sourceTree = "<group>"; };
 		772E92B12027313F008E30F1 /* UserService.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UserService.h; sourceTree = "<group>"; };
 		772E92B22027313F008E30F1 /* UserService.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UserService.m; sourceTree = "<group>"; };
+		77456D202029E7950060B4FF /* ZBaseViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZBaseViewController.h; sourceTree = "<group>"; };
+		77456D212029E7950060B4FF /* ZBaseViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZBaseViewController.m; sourceTree = "<group>"; };
 		77DC07D32028855200F2CA09 /* configDomainDatas.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = configDomainDatas.plist; sourceTree = "<group>"; };
 		77F5EF6420249D8800DD9194 /* NetworkModule.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NetworkModule.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		77F5EF6720249D8800DD9194 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -83,10 +86,12 @@
 		772E92AD202726C2008E30F1 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				772E92AE202726E0008E30F1 /* ZTempViewController.h */,
-				772E92AF202726E0008E30F1 /* ZTempViewController.m */,
 				772E92B12027313F008E30F1 /* UserService.h */,
 				772E92B22027313F008E30F1 /* UserService.m */,
+				772E92AE202726E0008E30F1 /* ZTempViewController.h */,
+				772E92AF202726E0008E30F1 /* ZTempViewController.m */,
+				77456D202029E7950060B4FF /* ZBaseViewController.h */,
+				77456D212029E7950060B4FF /* ZBaseViewController.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -298,6 +303,7 @@
 			files = (
 				77F5EF6C20249D8800DD9194 /* ViewController.m in Sources */,
 				77F5EF7720249D8800DD9194 /* main.m in Sources */,
+				77456D222029E7950060B4FF /* ZBaseViewController.m in Sources */,
 				77F5EF8020249F1D00DD9194 /* NetworkUtils.m in Sources */,
 				77F5EF6920249D8800DD9194 /* AppDelegate.m in Sources */,
 				772E92AC20270E93008E30F1 /* NetworkClient.m in Sources */,

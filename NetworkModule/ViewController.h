@@ -6,9 +6,9 @@
 //  Copyright © 2018年 张国忠. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import "ZBaseViewController.h"
 
-@interface ViewController : UIViewController
+@interface ViewController : ZBaseViewController
 
 
 @end

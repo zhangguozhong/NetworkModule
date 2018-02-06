@@ -11,9 +11,10 @@
 @interface NetworkUtils : NSObject
 
 @property (copy, nonatomic) NSString *environment;
+@property (copy, nonatomic) NSDictionary *configData;
 
 /**
- 网络接口域名配置文件名（.plist）
+ 服务端域名配置文件名
  */
 @property (copy, nonatomic) NSString *domainPlistName;
 

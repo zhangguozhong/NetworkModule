@@ -7,7 +7,7 @@
 //
 
 #import "NetworkModuleManager.h"
-#import "NetworkClient.h"
+#import "NetworkManager.h"
 #import "NetworkUtils.h"
 #import <pthread/pthread.h>
 
@@ -71,7 +71,7 @@ NSString * const NetworkTaskRequestSessionExpired = @"NetworkTaskRequestSessionE
 - (NSURLSessionDataTask *)dataTaskWithHTTPMethod:(NSString *)method requestUrl:(NSString *)requestUrl parameters:(NSDictionary *)parameters requestSerializer:(AFHTTPRequestSerializer *)requestSerializer {
     __block NSURLSessionDataTask *requestDataTask = nil;
     NSURLRequest *request = [requestSerializer requestWithMethod:method URLString:requestUrl parameters:parameters error:nil];
-    requestDataTask = [[NetworkClient networkClient] dataTaskWithRequest:request uploadProgress:nil downloadProgress:nil completionHandler:^(NSURLResponse * _Nonnull response, id  _Nullable responseObject, NSError * _Nullable error)
+    requestDataTask = [[NetworkManager networkClient] dataTaskWithRequest:request uploadProgress:nil downloadProgress:nil completionHandler:^(NSURLResponse * _Nonnull response, id  _Nullable responseObject, NSError * _Nullable error)
                        {
                            [self handleRequestResult:requestDataTask responseObject:responseObject error:error];
                        }];

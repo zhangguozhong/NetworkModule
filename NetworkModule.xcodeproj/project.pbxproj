@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		06F43C4B51DBAB7627C4A26D /* libPods-NetworkModule.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 83F9AF6DC77D85699BFF5872 /* libPods-NetworkModule.a */; };
-		772E92AC20270E93008E30F1 /* NetworkClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 772E92AB20270E93008E30F1 /* NetworkClient.m */; };
+		772E92AC20270E93008E30F1 /* NetworkManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 772E92AB20270E93008E30F1 /* NetworkManager.m */; };
 		772E92B0202726E0008E30F1 /* ZTempViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 772E92AF202726E0008E30F1 /* ZTempViewController.m */; };
 		772E92B32027313F008E30F1 /* UserService.m in Sources */ = {isa = PBXBuildFile; fileRef = 772E92B22027313F008E30F1 /* UserService.m */; };
 		77456D222029E7950060B4FF /* ZBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 77456D212029E7950060B4FF /* ZBaseViewController.m */; };
@@ -25,8 +25,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		772E92AA20270E93008E30F1 /* NetworkClient.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NetworkClient.h; sourceTree = "<group>"; };
-		772E92AB20270E93008E30F1 /* NetworkClient.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NetworkClient.m; sourceTree = "<group>"; };
+		772E92AA20270E93008E30F1 /* NetworkManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NetworkManager.h; sourceTree = "<group>"; };
+		772E92AB20270E93008E30F1 /* NetworkManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NetworkManager.m; sourceTree = "<group>"; };
 		772E92AE202726E0008E30F1 /* ZTempViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZTempViewController.h; sourceTree = "<group>"; };
 		772E92AF202726E0008E30F1 /* ZTempViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZTempViewController.m; sourceTree = "<group>"; };
 		772E92B12027313F008E30F1 /* UserService.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UserService.h; sourceTree = "<group>"; };
@@ -155,8 +155,8 @@
 		77F5EF812024A41000DD9194 /* Network */ = {
 			isa = PBXGroup;
 			children = (
-				772E92AA20270E93008E30F1 /* NetworkClient.h */,
-				772E92AB20270E93008E30F1 /* NetworkClient.m */,
+				772E92AA20270E93008E30F1 /* NetworkManager.h */,
+				772E92AB20270E93008E30F1 /* NetworkManager.m */,
 				77F5EF822024A44D00DD9194 /* NetworkModuleManager.h */,
 				77F5EF832024A44D00DD9194 /* NetworkModuleManager.m */,
 				77F5EF852024A49600DD9194 /* NetworkRequestObject.h */,
@@ -306,7 +306,7 @@
 				77456D222029E7950060B4FF /* ZBaseViewController.m in Sources */,
 				77F5EF8020249F1D00DD9194 /* NetworkUtils.m in Sources */,
 				77F5EF6920249D8800DD9194 /* AppDelegate.m in Sources */,
-				772E92AC20270E93008E30F1 /* NetworkClient.m in Sources */,
+				772E92AC20270E93008E30F1 /* NetworkManager.m in Sources */,
 				77F5EF842024A44D00DD9194 /* NetworkModuleManager.m in Sources */,
 				77F5EF872024A49600DD9194 /* NetworkRequestObject.m in Sources */,
 				772E92B32027313F008E30F1 /* UserService.m in Sources */,

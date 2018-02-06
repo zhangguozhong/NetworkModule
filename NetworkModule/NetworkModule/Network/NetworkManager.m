@@ -6,12 +6,12 @@
 //  Copyright © 2018年 张国忠. All rights reserved.
 //
 
-#import "NetworkClient.h"
+#import "NetworkManager.h"
 
-@implementation NetworkClient
+@implementation NetworkManager
 
-+ (NetworkClient *)networkClient {
-    static NetworkClient *networkClient;
++ (NetworkManager *)networkClient {
+    static NetworkManager *networkClient;
     static dispatch_once_t networkOnceToken;
     dispatch_once(&networkOnceToken, ^{
         networkClient = [[self alloc] init];

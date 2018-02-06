@@ -8,8 +8,8 @@
 
 #import "AFHTTPSessionManager.h"
 
-@interface NetworkClient : AFHTTPSessionManager
+@interface NetworkManager : AFHTTPSessionManager
 
-+ (NetworkClient *)networkClient;
++ (NetworkManager *)networkClient;
 
 @end

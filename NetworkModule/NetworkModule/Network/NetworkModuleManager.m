@@ -94,11 +94,14 @@ NSString * const NetworkTaskRequestSessionExpired = @"NetworkTaskRequestSessionE
     
     if ([responseObject isKindOfClass:[NSData class]]) {
         responseObject = [NSJSONSerialization JSONObjectWithData:responseObject options:0 error:nil];
+    }else if ([responseObject isKindOfClass:[NSString class]]){
+        NSData *jsonData = [responseObject dataUsingEncoding:NSUTF8StringEncoding];
+        responseObject = [NSJSONSerialization JSONObjectWithData:jsonData options:0 error:nil];
     }
     
     // 触发通知，统一处理session过期
     if ([[responseObject objectForKey:@"code"] isEqualToString:@"session_expired"]) {
-        [[NSNotificationCenter defaultCenter] postNotificationName:NetworkTaskRequestSessionExpired object:responseObject];
+        [[NSNotificationCenter defaultCenter] postNotificationName:NetworkTaskRequestSessionExpired object:requestObject];
     }else {
         if (error && requestObject.failBlock) {
             requestObject.failBlock(error);

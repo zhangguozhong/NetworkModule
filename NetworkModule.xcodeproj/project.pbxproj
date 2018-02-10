@@ -76,13 +76,6 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		772E92A920270E40008E30F1 /* APIClient */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = APIClient;
-			sourceTree = "<group>";
-		};
 		772E92AD202726C2008E30F1 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
@@ -144,7 +137,6 @@
 		77F5EF7D20249EF900DD9194 /* NetworkModule */ = {
 			isa = PBXGroup;
 			children = (
-				772E92A920270E40008E30F1 /* APIClient */,
 				77F5EF812024A41000DD9194 /* Network */,
 				77F5EF7E20249F1D00DD9194 /* NetworkUtils.h */,
 				77F5EF7F20249F1D00DD9194 /* NetworkUtils.m */,

@@ -8,18 +8,56 @@
 
 #import <Foundation/Foundation.h>
 #import "NetworkRequestProtocol.h"
+@class NetworkRequestObject;
 
-typedef void(^successBlock)(id responseObject);
-typedef void(^failBlock)(NSError *error);
+typedef NS_OPTIONS(NSUInteger, RequestSerializerType) {
+    RequestSerializerTypeHTTP = 0,
+    RequestSerializerTypeJSON
+};
+
+@protocol NetworkRequestParamDelegate<NSObject>
+
+/**
+ 配置参数方法
+
+ @param requestObject 请求对象
+ @return 所配置的参数
+ */
+- (id)parametersWithRequestObject:(NetworkRequestObject *)requestObject;
+
+@end
+
+typedef void(^CompletionBlock)(NetworkRequestObject *requestObject);
+typedef void(^HasErrorBlock)(NetworkRequestObject *requestObject);
 
 @interface NetworkRequestObject : NSObject<NetworkRequestProtocol>
 
+/**
+ 保存网络请求成功的结果
+ */
+@property (nonatomic) id responseObject;
+@property (strong, nonatomic) NSError *error;
+
 @property (strong,nonatomic) NSURLSessionDataTask *requestDataTask;
-@property (copy,nonatomic,readonly) successBlock successBlock;
-@property (copy,nonatomic,readonly) failBlock failBlock;
 
--(instancetype)initWithMethod:(NSString *)method reqUrl:(NSString *)reqUrl withParams:(NSDictionary *)params successBlock:(successBlock)successBlock failBlock:(failBlock)failBlock;
+/**
+ 配置参数委托对象
+ */
+@property (nonatomic,weak) id<NetworkRequestParamDelegate> requestParamDelegate;
 
-- (instancetype)initWithMethod:(NSString *)method reqUrl:(NSString *)reqUrl domainUrl:(NSString *)domainUrl withParams:(NSDictionary *)params successBlock:(successBlock)successBlock failBlock:(failBlock)failBlock;
+@property (copy,nonatomic,readonly) CompletionBlock completionBlock;
+@property (copy,nonatomic,readonly) HasErrorBlock hasErrorBlock;
+
+
+/**
+ 配置网络回调事件
+
+ @param completionBlock 请求成功block回调
+ @param hasErrorBlock 请求失败block回调
+ */
+- (void)setCompletionBlock:(CompletionBlock)completionBlock andHasErrorBlock:(HasErrorBlock)hasErrorBlock;
+
+- (void)cleanBlocks;
+
 
 @end

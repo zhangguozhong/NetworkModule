@@ -43,7 +43,6 @@
         }
     }
     
-    NSLog(@"resource -- %@",domainDatas);
     return domainDatas;
 }
 

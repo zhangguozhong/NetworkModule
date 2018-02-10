@@ -9,47 +9,43 @@
 #import "NetworkRequestObject.h"
 #import "NetworkModuleManager.h"
 
-@interface NetworkRequestObject() {
-    NSString *_reqUrl;
-    NSString *_domainUrl;
-}
-@property (nonatomic,copy) NSString *requestMethod;
-@property (nonatomic,copy) NSDictionary *requestParameters;
+@interface NetworkRequestObject()
+
 @end
 
 @implementation NetworkRequestObject
 
-- (instancetype)initWithMethod:(NSString *)method reqUrl:(NSString *)reqUrl withParams:(NSDictionary *)params successBlock:(successBlock)successBlock failBlock:(failBlock)failBlock {
-    return [self initWithMethod:method reqUrl:reqUrl domainUrl:nil withParams:params successBlock:successBlock failBlock:failBlock];
-}
-
-- (instancetype)initWithMethod:(NSString *)method reqUrl:(NSString *)reqUrl domainUrl:(NSString *)domainUrl withParams:(NSDictionary *)params successBlock:(successBlock)successBlock failBlock:(failBlock)failBlock {
-    self = [super init];
-    if (self) {
-        self.requestMethod = method;
-        self.requestParameters = params;
-        _successBlock = successBlock;
-        _failBlock = failBlock;
-        _reqUrl = reqUrl;
-        _domainUrl = domainUrl;
-    }
-    return self;
+- (void)setCompletionBlock:(CompletionBlock)completionBlock andHasErrorBlock:(HasErrorBlock)hasErrorBlock {
+    _completionBlock = completionBlock;
+    _hasErrorBlock = hasErrorBlock;
 }
 
 - (NSString *)method{
-    return self.requestMethod;
+    return @"GET";
 }
 
-- (NSDictionary *)requestParams{
-    return self.requestParameters;
+- (NSUInteger)requestSerializerType {
+    return RequestSerializerTypeJSON;
+}
+
+- (id)requestParams{
+    if (self.requestParamDelegate && [self.requestParamDelegate respondsToSelector:@selector(parametersWithRequestObject:)]) {
+        return [self.requestParamDelegate parametersWithRequestObject:self];
+    }
+    return nil;
 }
 
 - (NSString *)requestUrl {
-    return _reqUrl;
+    return @"react-native/movies.json";
 }
 
 - (NSString *)baseUrl {
-    return _domainUrl;
+    return nil;
+}
+
+- (void)cleanBlocks {
+    _completionBlock = nil;
+    _hasErrorBlock = nil;
 }
 
 - (void)dealloc {

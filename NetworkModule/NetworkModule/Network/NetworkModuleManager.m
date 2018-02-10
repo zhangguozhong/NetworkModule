@@ -47,16 +47,34 @@ NSString * const NetworkTaskRequestSessionExpired = @"NetworkTaskRequestSessionE
  @param requestObject 请求对象包含请求的方法、参数等
  */
 - (void)doNetworkTaskWithRequestObject:(NetworkRequestObject *)requestObject {
-    NSString *strMethod = [requestObject method];
+    NSString *method = [requestObject method];
     NSDictionary *requestParams = [requestObject requestParams];
     NSString *requestUrl = [self buildRequestUrl:requestObject];
-    AFHTTPRequestSerializer *requestSerializer = [AFHTTPRequestSerializer serializer];
+    AFHTTPRequestSerializer *requestSerializer = [self requestSerializerWithRequestObject:requestObject];
     
-    requestObject.requestDataTask = [self dataTaskWithHTTPMethod:strMethod requestUrl:requestUrl  parameters:requestParams requestSerializer:requestSerializer];
+    requestObject.requestDataTask = [self dataTaskWithHTTPMethod:method requestUrl:requestUrl  parameters:requestParams requestSerializer:requestSerializer];
     Lock();
     [self.requestTaskRecords setObject:requestObject forKey:@(requestObject.requestDataTask.taskIdentifier)];
     Unlock();
     [requestObject.requestDataTask resume];
+}
+
+
+/**
+ 创建requestSerializer对象
+
+ @param requestObject 请求对象requestObject
+ @return requestSerializer对象
+ */
+- (AFHTTPRequestSerializer *)requestSerializerWithRequestObject:(NetworkRequestObject *)requestObject {
+    AFHTTPRequestSerializer *requestSerializer;
+    if (requestObject.requestSerializerType == RequestSerializerTypeJSON) {
+        requestSerializer = [AFJSONRequestSerializer serializer];
+    }
+    else if (requestObject.requestSerializerType == RequestSerializerTypeHTTP) {
+        requestSerializer = [AFHTTPRequestSerializer serializer];
+    }
+    return requestSerializer;
 }
 
 
@@ -94,20 +112,25 @@ NSString * const NetworkTaskRequestSessionExpired = @"NetworkTaskRequestSessionE
     
     if ([responseObject isKindOfClass:[NSData class]]) {
         responseObject = [NSJSONSerialization JSONObjectWithData:responseObject options:0 error:nil];
-    }else if ([responseObject isKindOfClass:[NSString class]]){
+    }else if ([responseObject isKindOfClass:[NSString class]]) {
         NSData *jsonData = [responseObject dataUsingEncoding:NSUTF8StringEncoding];
         responseObject = [NSJSONSerialization JSONObjectWithData:jsonData options:0 error:nil];
     }
+    
+    requestObject.responseObject = responseObject;
+    requestObject.error = error;
     
     // 触发通知，统一处理session过期
     if ([[responseObject objectForKey:@"code"] isEqualToString:@"session_expired"]) {
         [[NSNotificationCenter defaultCenter] postNotificationName:NetworkTaskRequestSessionExpired object:requestObject];
     }else {
-        if (error && requestObject.failBlock) {
-            requestObject.failBlock(error);
+        if (error) {
+            if (requestObject.hasErrorBlock) {
+                requestObject.hasErrorBlock(requestObject);
+            }
         }else{
-            if (requestObject.successBlock) {
-                requestObject.successBlock(responseObject);
+            if (requestObject.completionBlock) {
+                requestObject.completionBlock(requestObject);
             }
         }
     }
@@ -183,6 +206,7 @@ NSString * const NetworkTaskRequestSessionExpired = @"NetworkTaskRequestSessionE
 - (void)cancelNetworkTask:(NetworkRequestObject *)requestObject {
     Lock();
     [requestObject.requestDataTask cancel];
+    [requestObject cleanBlocks];
     [self.requestTaskRecords removeObjectForKey:@(requestObject.requestDataTask.taskIdentifier)];
     Unlock();
 }

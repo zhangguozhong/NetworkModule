@@ -9,19 +9,26 @@
 #import "UserService.h"
 #import "NetworkModuleManager.h"
 
-@interface UserService()
+@interface UserService()<NetworkRequestParamDelegate>
 @property (strong,nonatomic) NetworkRequestObject *userLoginRequest;
 @end
 
 @implementation UserService
 
 - (void)testAction {
-    self.userLoginRequest = [[NetworkRequestObject alloc] initWithMethod:@"GET" reqUrl:@"react-native/movies.json" withParams:@{@"key":@"value"} successBlock:^(id responseObject) {
-        NSLog(@"%@",responseObject);
-    } failBlock:^(NSError *error) {
-        NSLog(@"%@",error);
+    self.userLoginRequest = [[NetworkRequestObject alloc] init];
+    _userLoginRequest.requestParamDelegate = self;
+    [_userLoginRequest setCompletionBlock:^(NetworkRequestObject *requestObject) {
+        NSLog(@"%@",requestObject.responseObject);
+    } andHasErrorBlock:^(NetworkRequestObject *requestObject) {
+        NSLog(@"%@",requestObject.error);
     }];
+    
     [[NetworkModuleManager networkTaskSender] doNetworkTaskWithRequestObject:_userLoginRequest];
+}
+
+- (id)parametersWithRequestObject:(NetworkRequestObject *)requestObject {
+    return @{@"key":@"value"};
 }
 
 - (void)dealloc {

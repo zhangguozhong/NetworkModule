@@ -16,7 +16,6 @@
     dispatch_once(&networkOnceToken, ^{
         networkClient = [[self alloc] init];
         networkClient.securityPolicy = [AFSecurityPolicy policyWithPinningMode:AFSSLPinningModeNone];
-        networkClient.requestSerializer = [AFJSONRequestSerializer serializer];
         networkClient.responseSerializer = [AFHTTPResponseSerializer serializer];
         networkClient.requestSerializer.timeoutInterval = 20;
         //[networkClient.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Accept"];

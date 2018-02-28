@@ -9,9 +9,9 @@
 #import <Foundation/Foundation.h>
 #import "NetworkRequestObject.h"
 
-@interface NetworkModuleManager : NSObject
+@interface RequestTaskHandler : NSObject
 
-+ (NetworkModuleManager *)networkTaskSender;
++ (RequestTaskHandler *)taskHandler;
 
 /**
  取消指定的网络请求任务

@@ -7,7 +7,7 @@
 //
 
 #import "NetworkRequestObject.h"
-#import "NetworkModuleManager.h"
+#import "RequestTaskHandler.h"
 
 @interface NetworkRequestObject()
 
@@ -29,8 +29,8 @@
 }
 
 - (id)requestParams{
-    if (self.requestParamDelegate && [self.requestParamDelegate respondsToSelector:@selector(parametersWithRequestObject:)]) {
-        return [self.requestParamDelegate parametersWithRequestObject:self];
+    if (self.requestParamsDelegate && [self.requestParamsDelegate respondsToSelector:@selector(requestTaskParamsWithRequestObject:)]) {
+        return [self.requestParamsDelegate requestTaskParamsWithRequestObject:self];
     }
     return nil;
 }
@@ -48,9 +48,16 @@
     _hasErrorBlock = nil;
 }
 
+- (void)taskStart {
+    if (_hasErrorBlock && _completionBlock && self.requestParamsDelegate) {
+        [[RequestTaskHandler taskHandler] doNetworkTaskWithRequestObject:self];
+    }
+}
+
 - (void)dealloc {
     NSLog(@"对象被释放");
     NSLog(@"对象被释放了，网络请求也就被取消了");
+    [[RequestTaskHandler taskHandler] cancelNetworkTask:self];
 }
 
 @end

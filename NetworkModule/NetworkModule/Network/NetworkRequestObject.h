@@ -15,7 +15,7 @@ typedef NS_OPTIONS(NSUInteger, RequestSerializerType) {
     RequestSerializerTypeJSON
 };
 
-@protocol NetworkRequestParamDelegate<NSObject>
+@protocol RequestTaskParamsDelegate<NSObject>
 
 /**
  配置参数方法
@@ -23,7 +23,7 @@ typedef NS_OPTIONS(NSUInteger, RequestSerializerType) {
  @param requestObject 请求对象
  @return 所配置的参数
  */
-- (id)parametersWithRequestObject:(NetworkRequestObject *)requestObject;
+- (id)requestTaskParamsWithRequestObject:(NetworkRequestObject *)requestObject;
 
 @end
 
@@ -43,7 +43,7 @@ typedef void(^HasErrorBlock)(NetworkRequestObject *requestObject);
 /**
  配置参数委托对象
  */
-@property (nonatomic,weak) id<NetworkRequestParamDelegate> requestParamDelegate;
+@property (nonatomic,weak) id<RequestTaskParamsDelegate> requestParamsDelegate;
 
 @property (copy,nonatomic,readonly) CompletionBlock completionBlock;
 @property (copy,nonatomic,readonly) HasErrorBlock hasErrorBlock;
@@ -58,6 +58,7 @@ typedef void(^HasErrorBlock)(NetworkRequestObject *requestObject);
 - (void)setCompletionBlock:(CompletionBlock)completionBlock andHasErrorBlock:(HasErrorBlock)hasErrorBlock;
 
 - (void)cleanBlocks;
+- (void)taskStart;
 
 
 @end

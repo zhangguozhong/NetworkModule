@@ -7,9 +7,9 @@
 //
 
 #import "UserService.h"
-#import "NetworkModuleManager.h"
+#import "NetworkRequestObject.h"
 
-@interface UserService()<NetworkRequestParamDelegate>
+@interface UserService() <RequestTaskParamsDelegate>
 @property (strong,nonatomic) NetworkRequestObject *userLoginRequest;
 @end
 
@@ -17,22 +17,18 @@
 
 - (void)testAction {
     self.userLoginRequest = [[NetworkRequestObject alloc] init];
-    _userLoginRequest.requestParamDelegate = self;
+    _userLoginRequest.requestParamsDelegate = self;
     [_userLoginRequest setCompletionBlock:^(NetworkRequestObject *requestObject) {
         NSLog(@"%@",requestObject.responseObject);
     } andHasErrorBlock:^(NetworkRequestObject *requestObject) {
         NSLog(@"%@",requestObject.error);
     }];
     
-    [[NetworkModuleManager networkTaskSender] doNetworkTaskWithRequestObject:_userLoginRequest];
+    [self.userLoginRequest taskStart];
 }
 
-- (id)parametersWithRequestObject:(NetworkRequestObject *)requestObject {
+- (id)requestTaskParamsWithRequestObject:(NetworkRequestObject *)requestObject {
     return @{@"key":@"value"};
-}
-
-- (void)dealloc {
-    [[NetworkModuleManager networkTaskSender] cancelNetworkTask:self.userLoginRequest];
 }
 
 @end

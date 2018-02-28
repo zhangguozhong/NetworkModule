@@ -6,8 +6,8 @@
 //  Copyright © 2018年 张国忠. All rights reserved.
 //
 
-#import "NetworkModuleManager.h"
-#import "NetworkManager.h"
+#import "RequestTaskHandler.h"
+#import "APIClient.h"
 #import "NetworkUtils.h"
 #import <pthread/pthread.h>
 
@@ -15,21 +15,21 @@
 #define Unlock() pthread_mutex_unlock(&_lock)
 
 NSString * const NetworkTaskRequestSessionExpired = @"NetworkTaskRequestSessionExpired";
-@interface NetworkModuleManager(){
+@interface RequestTaskHandler(){
     pthread_mutex_t _lock;
 }
 @property (strong, nonatomic) NSMutableDictionary *requestTaskRecords;
 @end
 
-@implementation NetworkModuleManager
+@implementation RequestTaskHandler
 
-+ (NetworkModuleManager *)networkTaskSender {
-    static NetworkModuleManager *networkTaskSender;
-    static dispatch_once_t senderOnceToken;
-    dispatch_once(&senderOnceToken, ^{
-        networkTaskSender = [[self alloc] init];
++ (RequestTaskHandler *)taskHandler {
+    static RequestTaskHandler *taskHandler;
+    static dispatch_once_t taskOnceToken;
+    dispatch_once(&taskOnceToken, ^{
+        taskHandler = [[self alloc] init];
     });
-    return networkTaskSender;
+    return taskHandler;
 }
 
 - (instancetype)init {
@@ -89,7 +89,7 @@ NSString * const NetworkTaskRequestSessionExpired = @"NetworkTaskRequestSessionE
 - (NSURLSessionDataTask *)dataTaskWithHTTPMethod:(NSString *)method requestUrl:(NSString *)requestUrl parameters:(NSDictionary *)parameters requestSerializer:(AFHTTPRequestSerializer *)requestSerializer {
     __block NSURLSessionDataTask *requestDataTask = nil;
     NSURLRequest *request = [requestSerializer requestWithMethod:method URLString:requestUrl parameters:parameters error:nil];
-    requestDataTask = [[NetworkManager networkClient] dataTaskWithRequest:request uploadProgress:nil downloadProgress:nil completionHandler:^(NSURLResponse * _Nonnull response, id  _Nullable responseObject, NSError * _Nullable error)
+    requestDataTask = [[APIClient httpClient] dataTaskWithRequest:request uploadProgress:nil downloadProgress:nil completionHandler:^(NSURLResponse * _Nonnull response, id  _Nullable responseObject, NSError * _Nullable error)
                        {
                            [self handleRequestResult:requestDataTask responseObject:responseObject error:error];
                        }];
@@ -113,7 +113,7 @@ NSString * const NetworkTaskRequestSessionExpired = @"NetworkTaskRequestSessionE
     requestObject.error = error;
     
     // 触发通知，统一处理session过期
-    if ([[responseObject objectForKey:@"code"] isEqualToString:@"session_expired"]) {
+    if ([[requestObject.responseObject objectForKey:@"code"] isEqualToString:@"session_expired"]) {
         [[NSNotificationCenter defaultCenter] postNotificationName:NetworkTaskRequestSessionExpired object:requestObject];
     } else {
         if (error) {
@@ -142,11 +142,11 @@ NSString * const NetworkTaskRequestSessionExpired = @"NetworkTaskRequestSessionE
 - (id)handleResponseObject:(id)responseObject {
     if ([responseObject isKindOfClass:[NSData class]]){
         responseObject = [NSJSONSerialization JSONObjectWithData:responseObject options:0 error:nil];
-    } else if ([responseObject isKindOfClass:[NSString class]]){
+    }
+    else if ([responseObject isKindOfClass:[NSString class]]){
         NSData *jsonData = [responseObject dataUsingEncoding:NSUTF8StringEncoding];
         responseObject = [NSJSONSerialization JSONObjectWithData:jsonData options:0 error:nil];
     }
-    
     return responseObject;
 }
 

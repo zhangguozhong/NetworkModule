@@ -19,7 +19,7 @@ pod 'NetworkModule'
 
     self.userLoginRequest = [[NetworkRequestObject alloc] init];
     
-    _userLoginRequest.requestParamDelegate = self;
+    _userLoginRequest.requestParamsDelegate = self;
     
     [_userLoginRequest setCompletionBlock:^(NetworkRequestObject *requestObject) {
     
@@ -30,16 +30,18 @@ pod 'NetworkModule'
         NSLog(@"%@",requestObject.error);
         
     }];
+    
+    
+    // 发起请求
     
- 创建并配置完成之后，需要实现配置参数方法：
+    [self.userLoginRequest taskStart];
+    
+    
+ 实现配置参数方法：
  
-    - (id)parametersWithRequestObject:(NetworkRequestObject *)requestObject {
+    - (id)requestTaskParamsWithRequestObject:(NetworkRequestObject *)requestObject {
     
     return @{@"key":@"value"};
     
     }
- 
-（3）通过NetworkModuleManager，执行网络请求如下：
-
-    [[NetworkModuleManager networkTaskSender] doNetworkTaskWithRequestObject:_userLoginRequest];
 

@@ -11,9 +11,10 @@ pod 'NetworkModule'
  
     然后通过NetworkUtils工具类进行配置配：
  
-    [NetworkUtils networkUtils].domainPlistName = @"configDomainDatas";
+    [NetworkUtils networkUtils].domainPlistName = @"configDomainDatas";// 配置域名的文件名
  
-    [NetworkUtils networkUtils].environment = @"dev";
+    [NetworkUtils networkUtils].environment = @"dev";// 当前运行环境
+    
 
 （2）创建请求对象NetworkRequestObject类型；
 
@@ -33,6 +34,7 @@ pod 'NetworkModule'
     
     
     // 发起请求
+    
     
     [self.userLoginRequest taskStart];
     

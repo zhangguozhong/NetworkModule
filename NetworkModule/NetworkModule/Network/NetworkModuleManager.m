@@ -109,26 +109,18 @@ NSString * const NetworkTaskRequestSessionExpired = @"NetworkTaskRequestSessionE
     Lock();
     NetworkRequestObject *requestObject = [self.requestTaskRecords objectForKey:@(requestDataTask.taskIdentifier)];
     Unlock();
-    
-    if ([responseObject isKindOfClass:[NSData class]]) {
-        responseObject = [NSJSONSerialization JSONObjectWithData:responseObject options:0 error:nil];
-    }else if ([responseObject isKindOfClass:[NSString class]]) {
-        NSData *jsonData = [responseObject dataUsingEncoding:NSUTF8StringEncoding];
-        responseObject = [NSJSONSerialization JSONObjectWithData:jsonData options:0 error:nil];
-    }
-    
-    requestObject.responseObject = responseObject;
+    requestObject.responseObject = [self handleResponseObject:responseObject];
     requestObject.error = error;
     
     // 触发通知，统一处理session过期
     if ([[responseObject objectForKey:@"code"] isEqualToString:@"session_expired"]) {
         [[NSNotificationCenter defaultCenter] postNotificationName:NetworkTaskRequestSessionExpired object:requestObject];
-    }else {
+    } else {
         if (error) {
             if (requestObject.hasErrorBlock) {
                 requestObject.hasErrorBlock(requestObject);
             }
-        }else{
+        } else{
             if (requestObject.completionBlock) {
                 requestObject.completionBlock(requestObject);
             }
@@ -138,6 +130,24 @@ NSString * const NetworkTaskRequestSessionExpired = @"NetworkTaskRequestSessionE
     dispatch_async(dispatch_get_main_queue(), ^{
         [self cancelNetworkTask:requestObject];
     });
+}
+
+
+/**
+ 格式化返回结果
+
+ @param responseObject 返回结果
+ @return 格式化返回结果
+ */
+- (id)handleResponseObject:(id)responseObject {
+    if ([responseObject isKindOfClass:[NSData class]]){
+        responseObject = [NSJSONSerialization JSONObjectWithData:responseObject options:0 error:nil];
+    } else if ([responseObject isKindOfClass:[NSString class]]){
+        NSData *jsonData = [responseObject dataUsingEncoding:NSUTF8StringEncoding];
+        responseObject = [NSJSONSerialization JSONObjectWithData:jsonData options:0 error:nil];
+    }
+    
+    return responseObject;
 }
 
 
@@ -210,5 +220,4 @@ NSString * const NetworkTaskRequestSessionExpired = @"NetworkTaskRequestSessionE
     [self.requestTaskRecords removeObjectForKey:@(requestObject.requestDataTask.taskIdentifier)];
     Unlock();
 }
-
 @end

@@ -30,10 +30,7 @@ pod 'NetworkModule'
     
  配置参数：
  ```objective-c
- 
     - (id)requestTaskParamsWithRequestObject:(NetworkRequestObject *)requestObject {
-    
     return @{@"key":@"value"};
-    
     }
 

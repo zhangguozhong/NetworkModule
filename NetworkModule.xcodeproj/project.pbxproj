@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		06F43C4B51DBAB7627C4A26D /* libPods-NetworkModule.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 83F9AF6DC77D85699BFF5872 /* libPods-NetworkModule.a */; };
+		77275AEB206FCDFD001D0C4E /* BaseService.m in Sources */ = {isa = PBXBuildFile; fileRef = 77275AEA206FCDFD001D0C4E /* BaseService.m */; };
 		772E92AC20270E93008E30F1 /* APIClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 772E92AB20270E93008E30F1 /* APIClient.m */; };
 		772E92B0202726E0008E30F1 /* ZTempViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 772E92AF202726E0008E30F1 /* ZTempViewController.m */; };
 		772E92B32027313F008E30F1 /* UserService.m in Sources */ = {isa = PBXBuildFile; fileRef = 772E92B22027313F008E30F1 /* UserService.m */; };
@@ -19,12 +20,14 @@
 		77F5EF7120249D8800DD9194 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 77F5EF7020249D8800DD9194 /* Assets.xcassets */; };
 		77F5EF7420249D8800DD9194 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 77F5EF7220249D8800DD9194 /* LaunchScreen.storyboard */; };
 		77F5EF7720249D8800DD9194 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 77F5EF7620249D8800DD9194 /* main.m */; };
-		77F5EF8020249F1D00DD9194 /* NetworkUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 77F5EF7F20249F1D00DD9194 /* NetworkUtils.m */; };
+		77F5EF8020249F1D00DD9194 /* AppContext.m in Sources */ = {isa = PBXBuildFile; fileRef = 77F5EF7F20249F1D00DD9194 /* AppContext.m */; };
 		77F5EF842024A44D00DD9194 /* RequestTaskHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 77F5EF832024A44D00DD9194 /* RequestTaskHandler.m */; };
 		77F5EF872024A49600DD9194 /* NetworkRequestObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 77F5EF862024A49600DD9194 /* NetworkRequestObject.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		77275AE9206FCDFD001D0C4E /* BaseService.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BaseService.h; sourceTree = "<group>"; };
+		77275AEA206FCDFD001D0C4E /* BaseService.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BaseService.m; sourceTree = "<group>"; };
 		772E92AA20270E93008E30F1 /* APIClient.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = APIClient.h; sourceTree = "<group>"; };
 		772E92AB20270E93008E30F1 /* APIClient.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = APIClient.m; sourceTree = "<group>"; };
 		772E92AE202726E0008E30F1 /* ZTempViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZTempViewController.h; sourceTree = "<group>"; };
@@ -44,13 +47,12 @@
 		77F5EF7320249D8800DD9194 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		77F5EF7520249D8800DD9194 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		77F5EF7620249D8800DD9194 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		77F5EF7E20249F1D00DD9194 /* NetworkUtils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NetworkUtils.h; sourceTree = "<group>"; };
-		77F5EF7F20249F1D00DD9194 /* NetworkUtils.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NetworkUtils.m; sourceTree = "<group>"; };
+		77F5EF7E20249F1D00DD9194 /* AppContext.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppContext.h; sourceTree = "<group>"; };
+		77F5EF7F20249F1D00DD9194 /* AppContext.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppContext.m; sourceTree = "<group>"; };
 		77F5EF822024A44D00DD9194 /* RequestTaskHandler.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RequestTaskHandler.h; sourceTree = "<group>"; };
 		77F5EF832024A44D00DD9194 /* RequestTaskHandler.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RequestTaskHandler.m; sourceTree = "<group>"; };
 		77F5EF852024A49600DD9194 /* NetworkRequestObject.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NetworkRequestObject.h; sourceTree = "<group>"; };
 		77F5EF862024A49600DD9194 /* NetworkRequestObject.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NetworkRequestObject.m; sourceTree = "<group>"; };
-		77F5EF882024B2FC00DD9194 /* NetworkRequestProtocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NetworkRequestProtocol.h; sourceTree = "<group>"; };
 		83F9AF6DC77D85699BFF5872 /* libPods-NetworkModule.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-NetworkModule.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		AAE1D25C8E8EB4B0C0300F1F /* Pods-NetworkModule.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NetworkModule.release.xcconfig"; path = "Pods/Target Support Files/Pods-NetworkModule/Pods-NetworkModule.release.xcconfig"; sourceTree = "<group>"; };
 		AC034E67A949EA79FDA0578A /* Pods-NetworkModule.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NetworkModule.debug.xcconfig"; path = "Pods/Target Support Files/Pods-NetworkModule/Pods-NetworkModule.debug.xcconfig"; sourceTree = "<group>"; };
@@ -81,6 +83,8 @@
 			children = (
 				772E92B12027313F008E30F1 /* UserService.h */,
 				772E92B22027313F008E30F1 /* UserService.m */,
+				77275AE9206FCDFD001D0C4E /* BaseService.h */,
+				77275AEA206FCDFD001D0C4E /* BaseService.m */,
 				772E92AE202726E0008E30F1 /* ZTempViewController.h */,
 				772E92AF202726E0008E30F1 /* ZTempViewController.m */,
 				77456D202029E7950060B4FF /* ZBaseViewController.h */,
@@ -138,10 +142,8 @@
 			isa = PBXGroup;
 			children = (
 				77F5EF812024A41000DD9194 /* Network */,
-				772E92AA20270E93008E30F1 /* APIClient.h */,
-				772E92AB20270E93008E30F1 /* APIClient.m */,
-				77F5EF7E20249F1D00DD9194 /* NetworkUtils.h */,
-				77F5EF7F20249F1D00DD9194 /* NetworkUtils.m */,
+				77F5EF7E20249F1D00DD9194 /* AppContext.h */,
+				77F5EF7F20249F1D00DD9194 /* AppContext.m */,
 			);
 			path = NetworkModule;
 			sourceTree = "<group>";
@@ -149,11 +151,12 @@
 		77F5EF812024A41000DD9194 /* Network */ = {
 			isa = PBXGroup;
 			children = (
+				772E92AA20270E93008E30F1 /* APIClient.h */,
+				772E92AB20270E93008E30F1 /* APIClient.m */,
 				77F5EF822024A44D00DD9194 /* RequestTaskHandler.h */,
 				77F5EF832024A44D00DD9194 /* RequestTaskHandler.m */,
 				77F5EF852024A49600DD9194 /* NetworkRequestObject.h */,
 				77F5EF862024A49600DD9194 /* NetworkRequestObject.m */,
-				77F5EF882024B2FC00DD9194 /* NetworkRequestProtocol.h */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -295,8 +298,9 @@
 			files = (
 				77F5EF6C20249D8800DD9194 /* ViewController.m in Sources */,
 				77F5EF7720249D8800DD9194 /* main.m in Sources */,
+				77275AEB206FCDFD001D0C4E /* BaseService.m in Sources */,
 				77456D222029E7950060B4FF /* ZBaseViewController.m in Sources */,
-				77F5EF8020249F1D00DD9194 /* NetworkUtils.m in Sources */,
+				77F5EF8020249F1D00DD9194 /* AppContext.m in Sources */,
 				77F5EF6920249D8800DD9194 /* AppDelegate.m in Sources */,
 				772E92AC20270E93008E30F1 /* APIClient.m in Sources */,
 				77F5EF842024A44D00DD9194 /* RequestTaskHandler.m in Sources */,

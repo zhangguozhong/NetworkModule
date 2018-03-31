@@ -8,13 +8,12 @@
 
 #import "RequestTaskHandler.h"
 #import "APIClient.h"
-#import "NetworkUtils.h"
+#import "AppContext.h"
 #import <pthread/pthread.h>
 
 #define Lock() pthread_mutex_lock(&_lock)
 #define Unlock() pthread_mutex_unlock(&_lock)
 
-NSString * const NetworkTaskRequestSessionExpired = @"NetworkTaskRequestSessionExpired";
 @interface RequestTaskHandler(){
     pthread_mutex_t _lock;
 }
@@ -47,12 +46,12 @@ NSString * const NetworkTaskRequestSessionExpired = @"NetworkTaskRequestSessionE
  @param requestObject 请求对象包含请求的方法、参数等
  */
 - (void)doNetworkTaskWithRequestObject:(NetworkRequestObject *)requestObject {
-    NSString *method = [requestObject method];
+    NSString *requestMethod = [requestObject requestMethod];
     NSDictionary *requestParams = [requestObject requestParams];
     NSString *requestUrl = [self buildRequestUrl:requestObject];
     AFHTTPRequestSerializer *requestSerializer = [self requestSerializerWithRequestObject:requestObject];
     
-    requestObject.requestDataTask = [self dataTaskWithHTTPMethod:method requestUrl:requestUrl  parameters:requestParams requestSerializer:requestSerializer];
+    requestObject.requestDataTask = [self dataTaskWithHTTPMethod:requestMethod requestUrl:requestUrl  parameters:requestParams requestSerializer:requestSerializer];
     Lock();
     [self.requestTaskRecords setObject:requestObject forKey:@(requestObject.requestDataTask.taskIdentifier)];
     Unlock();
@@ -112,18 +111,13 @@ NSString * const NetworkTaskRequestSessionExpired = @"NetworkTaskRequestSessionE
     requestObject.responseObject = [self handleResponseObject:responseObject];
     requestObject.error = error;
     
-    // 触发通知，统一处理session过期
-    if ([[requestObject.responseObject objectForKey:@"code"] isEqualToString:@"session_expired"]) {
-        [[NSNotificationCenter defaultCenter] postNotificationName:NetworkTaskRequestSessionExpired object:requestObject];
-    } else {
-        if (error) {
-            if (requestObject.hasErrorBlock) {
-                requestObject.hasErrorBlock(requestObject);
-            }
-        } else{
-            if (requestObject.completionBlock) {
-                requestObject.completionBlock(requestObject);
-            }
+    if (error) {
+        if (requestObject.hasErrorBlock) {
+            requestObject.hasErrorBlock(requestObject);
+        }
+    }else{
+        if (requestObject.completionBlock) {
+            requestObject.completionBlock(requestObject);
         }
     }
     
@@ -140,12 +134,12 @@ NSString * const NetworkTaskRequestSessionExpired = @"NetworkTaskRequestSessionE
  @return 格式化返回结果
  */
 - (id)handleResponseObject:(id)responseObject {
-    if ([responseObject isKindOfClass:[NSData class]]){
-        responseObject = [NSJSONSerialization JSONObjectWithData:responseObject options:0 error:nil];
+    if ([responseObject isKindOfClass:[NSData class]]) {
+        responseObject = [NSJSONSerialization JSONObjectWithData:responseObject options:kNilOptions error:nil];
     }
-    else if ([responseObject isKindOfClass:[NSString class]]){
+    else if ([responseObject isKindOfClass:[NSString class]]) {
         NSData *jsonData = [responseObject dataUsingEncoding:NSUTF8StringEncoding];
-        responseObject = [NSJSONSerialization JSONObjectWithData:jsonData options:0 error:nil];
+        responseObject = [NSJSONSerialization JSONObjectWithData:jsonData options:kNilOptions error:nil];
     }
     return responseObject;
 }
@@ -168,7 +162,7 @@ NSString * const NetworkTaskRequestSessionExpired = @"NetworkTaskRequestSessionE
     if ([requestObject respondsToSelector:@selector(baseUrl)] && [requestObject baseUrl]) {
         domainUrl = [requestObject baseUrl];
     }else {
-        domainUrl = [[NetworkUtils networkUtils] getDataForKey:@"domain"];
+        domainUrl = [AppContext appContext].domain;
     }
     
     tempUrl = [NSURL URLWithString:domainUrl];
@@ -200,7 +194,7 @@ NSString * const NetworkTaskRequestSessionExpired = @"NetworkTaskRequestSessionE
  @param requestObjects 所有封装过的请求对象包含请求的方法、参数等
  */
 - (void)cancelNetworkTasks:(NSArray<NetworkRequestObject *> *)requestObjects {
-    if (requestObjects && requestObjects.count>0) {
+    if (requestObjects && requestObjects.count > 0) {
         [requestObjects enumerateObjectsUsingBlock:^(NetworkRequestObject * _Nonnull requestObject, NSUInteger idx, BOOL * _Nonnull stop) {
             [self cancelNetworkTask:requestObject];
         }];

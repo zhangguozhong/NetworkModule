@@ -8,7 +8,6 @@
 
 #import "ZBaseViewController.h"
 
-extern NSString *NetworkTaskRequestSessionExpired;
 @interface ZBaseViewController ()
 
 @end
@@ -18,8 +17,6 @@ extern NSString *NetworkTaskRequestSessionExpired;
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    NSLog(@"%@",NetworkTaskRequestSessionExpired);
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(logout) name:NetworkTaskRequestSessionExpired object:nil];
 }
 
 - (void)logout{
@@ -40,9 +37,5 @@ extern NSString *NetworkTaskRequestSessionExpired;
     // Pass the selected object to the new view controller.
 }
 */
-
-- (void)dealloc {
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:NetworkTaskRequestSessionExpired object:nil];
-}
 
 @end

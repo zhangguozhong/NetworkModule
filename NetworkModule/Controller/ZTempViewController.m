@@ -23,6 +23,11 @@
     
     self.userService = [[UserService alloc] init];
     [self.userService testAction];
+    
+    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:@{@"test":@"value",@"name":@"zhangsan"} options:kNilOptions error:nil];
+    
+    NSString *testStr = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+    NSLog(@"json string == %@", testStr);
 }
 
 - (void)didReceiveMemoryWarning {

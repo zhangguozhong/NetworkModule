@@ -15,12 +15,7 @@
 
 @implementation NetworkRequestObject
 
-- (void)setCompletionBlock:(CompletionBlock)completionBlock andHasErrorBlock:(HasErrorBlock)hasErrorBlock {
-    _completionBlock = completionBlock;
-    _hasErrorBlock = hasErrorBlock;
-}
-
-- (NSString *)method{
+- (NSString *)requestMethod{
     return @"GET";
 }
 
@@ -28,9 +23,9 @@
     return RequestSerializerTypeJSON;
 }
 
-- (id)requestParams{
-    if (self.requestParamsDelegate && [self.requestParamsDelegate respondsToSelector:@selector(requestTaskParamsWithRequestObject:)]) {
-        return [self.requestParamsDelegate requestTaskParamsWithRequestObject:self];
+- (id)requestParams {
+    if ([self.paramsDelegate respondsToSelector:@selector(requestParamsWithRequestObject:)]) {
+        return [self.paramsDelegate requestParamsWithRequestObject:self];
     }
     return nil;
 }
@@ -43,15 +38,26 @@
     return nil;
 }
 
+
+- (void)setCompletionBlock:(CompletionBlock)completionBlock andHasErrorBlock:(HasErrorBlock)hasErrorBlock {
+    _completionBlock = completionBlock;
+    _hasErrorBlock = hasErrorBlock;
+}
+
+
+- (void)startWithCompletionBlock:(CompletionBlock)completionBlock andHasErrorBlock:(HasErrorBlock)hasErrorBlock {
+    [self setCompletionBlock:completionBlock andHasErrorBlock:hasErrorBlock];
+    [self taskStart];
+}
+
+
 - (void)cleanBlocks {
     _completionBlock = nil;
     _hasErrorBlock = nil;
 }
 
 - (void)taskStart {
-    if (_hasErrorBlock && _completionBlock && self.requestParamsDelegate) {
-        [[RequestTaskHandler taskHandler] doNetworkTaskWithRequestObject:self];
-    }
+    [[RequestTaskHandler taskHandler] doNetworkTaskWithRequestObject:self];
 }
 
 - (void)dealloc {

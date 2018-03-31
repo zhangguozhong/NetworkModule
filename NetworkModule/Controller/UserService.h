@@ -6,9 +6,9 @@
 //  Copyright © 2018年 张国忠. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+#import "BaseService.h"
 
-@interface UserService : NSObject
+@interface UserService : BaseService
 
 - (void)testAction;
 

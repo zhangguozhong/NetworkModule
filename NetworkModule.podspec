@@ -16,7 +16,7 @@ Pod::Spec.new do |s|
   #
 
   s.name         = "NetworkModule"
-  s.version      = "1.1.4"
+  s.version      = "1.1.5"
   s.summary      = "这是一个网络请求库，将AFNetworking封装成单例类"
 
   # This description is used to generate tags and improve search results.
@@ -118,7 +118,7 @@ Pod::Spec.new do |s|
   #
 
   # s.framework  = "SomeFramework"
-  s.frameworks = "UIKit", "Foundation", "CommonCrypto"
+  s.frameworks = "UIKit", "Foundation", "Security"
 
   # s.library   = "iconv"
   # s.libraries = "iconv", "xml2"

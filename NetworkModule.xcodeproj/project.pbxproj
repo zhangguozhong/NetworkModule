@@ -104,17 +104,6 @@
 			path = Controller;
 			sourceTree = "<group>";
 		};
-		77B1F935207078D200F6A15E /* Utils */ = {
-			isa = PBXGroup;
-			children = (
-				77B1F93C20708EF600F6A15E /* FileCacheManager.h */,
-				77B1F93D20708EF600F6A15E /* FileCacheManager.m */,
-				77B1F93F2070948800F6A15E /* NSString+ConvertToMd5.h */,
-				77B1F9402070948800F6A15E /* NSString+ConvertToMd5.m */,
-			);
-			path = Utils;
-			sourceTree = "<group>";
-		};
 		77DC07D22028851A00F2CA09 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
@@ -163,7 +152,6 @@
 		77F5EF7D20249EF900DD9194 /* NetworkModule */ = {
 			isa = PBXGroup;
 			children = (
-				77B1F935207078D200F6A15E /* Utils */,
 				77F5EF812024A41000DD9194 /* Network */,
 			);
 			path = NetworkModule;
@@ -180,6 +168,10 @@
 				77F5EF862024A49600DD9194 /* BaseRequestObject.m */,
 				77F5EF7E20249F1D00DD9194 /* AppContext.h */,
 				77F5EF7F20249F1D00DD9194 /* AppContext.m */,
+				77B1F93C20708EF600F6A15E /* FileCacheManager.h */,
+				77B1F93D20708EF600F6A15E /* FileCacheManager.m */,
+				77B1F93F2070948800F6A15E /* NSString+ConvertToMd5.h */,
+				77B1F9402070948800F6A15E /* NSString+ConvertToMd5.m */,
 			);
 			path = Network;
 			sourceTree = "<group>";

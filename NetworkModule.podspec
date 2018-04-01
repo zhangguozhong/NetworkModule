@@ -123,9 +123,6 @@ Pod::Spec.new do |s|
   # s.library   = "iconv"
   # s.libraries = "iconv", "xml2"
 
-  s.subspec 'Utils' do |a|
-    a.source_files = 'NetworkModule/NetworkModule/Utils/**/.{h,m}' 
-
 
   # ――― Project Settings ――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
   #

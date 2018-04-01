@@ -73,6 +73,8 @@
     else if (requestObject.requestSerializerType == RequestSerializerTypeHTTP) {
         requestSerializer = [AFHTTPRequestSerializer serializer];
     }
+    
+    requestSerializer.timeoutInterval = [requestObject requestTimeoutInterval];
     return requestSerializer;
 }
 

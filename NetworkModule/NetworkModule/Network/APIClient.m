@@ -18,8 +18,6 @@
         httpClient = [[self alloc] init];
         httpClient.securityPolicy = [AFSecurityPolicy policyWithPinningMode:AFSSLPinningModeNone];
         httpClient.responseSerializer = [AFHTTPResponseSerializer serializer];
-        httpClient.requestSerializer.timeoutInterval = 20;
-        
         // 设置headers
         [httpClient.requestSerializer setValue:[AppContext appContext].appVersion forHTTPHeaderField:@"appVersion"];
         [httpClient.requestSerializer setValue:[AppContext appContext].apiVersion forHTTPHeaderField:@"apiVersion"];

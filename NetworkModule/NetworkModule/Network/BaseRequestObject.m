@@ -116,6 +116,10 @@ static dispatch_queue_t cache_writing_queue() {
     return 20;
 }
 
+- (NSTimeInterval)requestTimeoutInterval {
+    return 30;
+}
+
 
 - (void)setCompletionBlock:(CompletionBlock)completionBlock andHasErrorBlock:(HasErrorBlock)hasErrorBlock {
     _completionBlock = completionBlock;

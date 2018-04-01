@@ -85,6 +85,7 @@ static dispatch_queue_t cache_writing_queue() {
     return RequestSerializerTypeJSON;
 }
 
+// 配置请求参数
 - (id)requestParams {
     if ([self.paramsDelegate respondsToSelector:@selector(requestParamsWithRequestObject:)]) {
         return [self.paramsDelegate requestParamsWithRequestObject:self];
@@ -92,6 +93,7 @@ static dispatch_queue_t cache_writing_queue() {
     return nil;
 }
 
+// 接口地址，可以配置完整的地址
 - (NSString *)requestUrl {
     return @"react-native/movies.json";
 }
@@ -104,6 +106,7 @@ static dispatch_queue_t cache_writing_queue() {
     return NO;
 }
 
+// 是否使用串行队列缓存
 - (BOOL)writeCacheAsynchronously {
     return NO;
 }

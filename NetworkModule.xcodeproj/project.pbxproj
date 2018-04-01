@@ -165,8 +165,6 @@
 			children = (
 				77B1F935207078D200F6A15E /* Utils */,
 				77F5EF812024A41000DD9194 /* Network */,
-				77F5EF7E20249F1D00DD9194 /* AppContext.h */,
-				77F5EF7F20249F1D00DD9194 /* AppContext.m */,
 			);
 			path = NetworkModule;
 			sourceTree = "<group>";
@@ -180,6 +178,8 @@
 				77F5EF832024A44D00DD9194 /* RequestTaskHandler.m */,
 				77F5EF852024A49600DD9194 /* BaseRequestObject.h */,
 				77F5EF862024A49600DD9194 /* BaseRequestObject.m */,
+				77F5EF7E20249F1D00DD9194 /* AppContext.h */,
+				77F5EF7F20249F1D00DD9194 /* AppContext.m */,
 			);
 			path = Network;
 			sourceTree = "<group>";

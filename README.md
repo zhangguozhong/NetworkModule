@@ -5,7 +5,7 @@ pod 'NetworkModule'
 
 ## 基本介绍
 
-### 配置接口域名
+### 配置服务端接口地址
 
  ```objective-c
  

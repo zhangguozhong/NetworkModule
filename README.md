@@ -127,9 +127,9 @@ typedef void(^HasErrorBlock)(BaseRequestObject *requestObject);
     self.userLoginRequest = [[TestRequestObj alloc] init];
     _userLoginRequest.paramsDelegate = self;
     __weak typeof(self) weakSelf = self;
-    [_userLoginRequest setCompletionBlock:^(NetworkRequestObject *requestObject) {
+    [_userLoginRequest setCompletionBlock:^(BaseRequestObject *requestObject) {
         NSLog(@"%@",requestObject.responseObject);
-    } andHasErrorBlock:^(NetworkRequestObject *requestObject) {
+    } andHasErrorBlock:^(BaseRequestObject *requestObject) {
         [weakSelf handleErrorAction:requestObject.responseObject];
         NSLog(@"%@",requestObject.error);
     }];
@@ -143,7 +143,7 @@ typedef void(^HasErrorBlock)(BaseRequestObject *requestObject);
  
  ```objective-c
  
-    - (id)requestTaskParamsWithRequestObject:(NetworkRequestObject *)requestObject {
+    - (id)requestParamsWithRequestObject:(BaseRequestObject *)requestObject {
     return @{@"key":@"value"};
     }
     

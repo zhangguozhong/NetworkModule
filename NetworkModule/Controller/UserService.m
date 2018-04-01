@@ -7,21 +7,21 @@
 //
 
 #import "UserService.h"
-#import "NetworkRequestObject.h"
+#import "TestRequestObj.h"
 
 @interface UserService() <RequestParametersDelegate>
-@property (strong,nonatomic) NetworkRequestObject *userLoginRequest;
+@property (strong,nonatomic) BaseRequestObject *userLoginRequest;
 @end
 
 @implementation UserService
 
 - (void)testAction {
-    self.userLoginRequest = [[NetworkRequestObject alloc] init];
+    self.userLoginRequest = [[TestRequestObj alloc] init];
     _userLoginRequest.paramsDelegate = self;
     __weak typeof(self) weakSelf = self;
-    [_userLoginRequest setCompletionBlock:^(NetworkRequestObject *requestObject) {
+    [_userLoginRequest setCompletionBlock:^(BaseRequestObject *requestObject) {
         NSLog(@"%@",requestObject.responseObject);
-    } andHasErrorBlock:^(NetworkRequestObject *requestObject) {
+    } andHasErrorBlock:^(BaseRequestObject *requestObject) {
         [weakSelf handleErrorAction:requestObject.responseObject];
         NSLog(@"%@",requestObject.error);
     }];
@@ -29,7 +29,7 @@
     [self.userLoginRequest taskStart];
 }
 
-- (id)requestParamsWithRequestObject:(NetworkRequestObject *)requestObject {
+- (id)requestParamsWithRequestObject:(BaseRequestObject *)requestObject {
     return @{@"key":@"value"};
 }
 

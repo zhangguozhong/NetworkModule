@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-@class NetworkRequestObject;
+@class BaseRequestObject;
 
 typedef NS_OPTIONS(NSUInteger, RequestSerializerType) {
     RequestSerializerTypeHTTP = 0,
@@ -24,6 +24,9 @@ typedef NS_OPTIONS(NSUInteger, RequestSerializerType) {
 
 @optional
 - (NSString *)baseUrl; //请求的接口域名地址
+- (BOOL)shouldRequestCompletionCacheData; //是否开启缓存，默认不开启
+- (BOOL)writeCacheAsynchronously;
+- (NSTimeInterval)cacheTimeInterval; //缓存过期时间
 
 @end
 
@@ -35,25 +38,23 @@ typedef NS_OPTIONS(NSUInteger, RequestSerializerType) {
  @param requestObject 请求对象
  @return 所配置的参数
  */
-- (id)requestParamsWithRequestObject:(NetworkRequestObject *)requestObject;
+- (id)requestParamsWithRequestObject:(BaseRequestObject *)requestObject;
 
 @end
 
-typedef void(^CompletionBlock)(NetworkRequestObject *requestObject);
-typedef void(^HasErrorBlock)(NetworkRequestObject *requestObject);
+typedef void(^CompletionBlock)(BaseRequestObject *requestObject);
+typedef void(^HasErrorBlock)(BaseRequestObject *requestObject);
 
-@interface NetworkRequestObject : NSObject<RequestObjectDelegate>
+@interface BaseRequestObject : NSObject<RequestObjectDelegate>
 
-/**
- 接口返回数据
- */
-@property (nonatomic) id responseObject;
+@property (nonatomic) id responseObject; // 返回数据
 @property (strong, nonatomic) NSError *error;
 
-@property (strong,nonatomic) NSURLSessionDataTask *requestDataTask;
+@property (strong,nonatomic) NSURLSessionDataTask *requestDataTask; // 本次请求的requestTask对象
 
 @property (copy,nonatomic,readonly) CompletionBlock completionBlock;
 @property (copy,nonatomic,readonly) HasErrorBlock hasErrorBlock;
+@property (assign, nonatomic) BOOL ignoreCache; // 忽略缓存
 
 
 /**
@@ -81,6 +82,8 @@ typedef void(^HasErrorBlock)(NetworkRequestObject *requestObject);
 
 - (void)cleanBlocks;
 - (void)taskStart;
+- (NSString *)cacheVersion; // 设置此次缓存的版本，默认与appVersion一致
+- (void)requestCompletionPreprocessor;
 
 
 @end

@@ -45,7 +45,7 @@
 
  @param requestObject 请求对象包含请求的方法、参数等
  */
-- (void)doNetworkTaskWithRequestObject:(NetworkRequestObject *)requestObject {
+- (void)doNetworkTaskWithRequestObject:(BaseRequestObject *)requestObject {
     NSString *requestMethod = [requestObject requestMethod];
     NSDictionary *requestParams = [requestObject requestParams];
     NSString *requestUrl = [self buildRequestUrl:requestObject];
@@ -65,7 +65,7 @@
  @param requestObject 请求对象requestObject
  @return requestSerializer对象
  */
-- (AFHTTPRequestSerializer *)requestSerializerWithRequestObject:(NetworkRequestObject *)requestObject {
+- (AFHTTPRequestSerializer *)requestSerializerWithRequestObject:(BaseRequestObject *)requestObject {
     AFHTTPRequestSerializer *requestSerializer;
     if (requestObject.requestSerializerType == RequestSerializerTypeJSON) {
         requestSerializer = [AFJSONRequestSerializer serializer];
@@ -106,21 +106,40 @@
  */
 - (void)handleRequestResult:(NSURLSessionDataTask *)requestDataTask responseObject:(id)responseObject error:(NSError *)error {
     Lock();
-    NetworkRequestObject *requestObject = [self.requestTaskRecords objectForKey:@(requestDataTask.taskIdentifier)];
+    BaseRequestObject *requestObject = [self.requestTaskRecords objectForKey:@(requestDataTask.taskIdentifier)];
     Unlock();
     requestObject.responseObject = [self handleResponseObject:responseObject];
     requestObject.error = error;
     
     if (error) {
-        if (requestObject.hasErrorBlock) {
-            requestObject.hasErrorBlock(requestObject);
+        if ([NSThread isMainThread]) {
+            if (requestObject.hasErrorBlock) {
+                requestObject.hasErrorBlock(requestObject);
+            }
+        } else {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                if (requestObject.hasErrorBlock) {
+                    requestObject.hasErrorBlock(requestObject);
+                }
+            });
         }
-    }else{
-        if (requestObject.completionBlock) {
-            requestObject.completionBlock(requestObject);
+    }else {
+        @autoreleasepool {
+            [requestObject requestCompletionPreprocessor];
+        }
+        if ([NSThread isMainThread]) {
+            if (requestObject.completionBlock) {
+                requestObject.completionBlock(requestObject);
+            }
+        } else {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                if (requestObject.completionBlock) {
+                    requestObject.completionBlock(requestObject);
+                }
+            });
         }
     }
-    
+
     dispatch_async(dispatch_get_main_queue(), ^{
         [self cancelNetworkTask:requestObject];
     });
@@ -134,14 +153,23 @@
  @return 格式化返回结果
  */
 - (id)handleResponseObject:(id)responseObject {
+    id resultObject = nil;
     if ([responseObject isKindOfClass:[NSData class]]) {
-        responseObject = [NSJSONSerialization JSONObjectWithData:responseObject options:kNilOptions error:nil];
+        NSError *error;
+        resultObject = [NSJSONSerialization JSONObjectWithData:responseObject options:kNilOptions error:&error];
+        if (error) {
+            resultObject = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
+        }
     }
     else if ([responseObject isKindOfClass:[NSString class]]) {
         NSData *jsonData = [responseObject dataUsingEncoding:NSUTF8StringEncoding];
-        responseObject = [NSJSONSerialization JSONObjectWithData:jsonData options:kNilOptions error:nil];
+        NSError *error;
+        resultObject = [NSJSONSerialization JSONObjectWithData:jsonData options:kNilOptions error:&error];
+        if (error) {
+            resultObject = responseObject;
+        }
     }
-    return responseObject;
+    return resultObject;
 }
 
 
@@ -151,7 +179,7 @@
  @param requestObject 封装好的请求对象
  @return 返回请求的url字符串
  */
-- (NSString *)buildRequestUrl:(NetworkRequestObject *)requestObject {
+- (NSString *)buildRequestUrl:(BaseRequestObject *)requestObject {
     NSString *requestUrl = [requestObject requestUrl];
     NSURL *tempUrl = [NSURL URLWithString:requestUrl];
     if (tempUrl && tempUrl.scheme && tempUrl.host) {
@@ -161,12 +189,12 @@
     NSString *domainUrl;
     if ([requestObject respondsToSelector:@selector(baseUrl)] && [requestObject baseUrl]) {
         domainUrl = [requestObject baseUrl];
-    }else {
+    } else {
         domainUrl = [AppContext appContext].domain;
     }
     
     tempUrl = [NSURL URLWithString:domainUrl];
-    if (domainUrl.length>0 && ![domainUrl hasPrefix:@"/"]) {
+    if (domainUrl.length > 0 && ![domainUrl hasPrefix:@"/"]) {
         tempUrl = [tempUrl URLByAppendingPathComponent:@""];
     }
     
@@ -193,9 +221,9 @@
 
  @param requestObjects 所有封装过的请求对象包含请求的方法、参数等
  */
-- (void)cancelNetworkTasks:(NSArray<NetworkRequestObject *> *)requestObjects {
+- (void)cancelNetworkTasks:(NSArray<BaseRequestObject *> *)requestObjects {
     if (requestObjects && requestObjects.count > 0) {
-        [requestObjects enumerateObjectsUsingBlock:^(NetworkRequestObject * _Nonnull requestObject, NSUInteger idx, BOOL * _Nonnull stop) {
+        [requestObjects enumerateObjectsUsingBlock:^(BaseRequestObject * _Nonnull requestObject, NSUInteger idx, BOOL * _Nonnull stop) {
             [self cancelNetworkTask:requestObject];
         }];
     }
@@ -207,7 +235,7 @@
 
  @param requestObject 封装过的请求对象包含请求的方法、参数等
  */
-- (void)cancelNetworkTask:(NetworkRequestObject *)requestObject {
+- (void)cancelNetworkTask:(BaseRequestObject *)requestObject {
     Lock();
     [requestObject.requestDataTask cancel];
     [requestObject cleanBlocks];

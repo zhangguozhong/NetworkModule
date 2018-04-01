@@ -17,9 +17,10 @@
 + (AppContext *)appContext;
 
 @property (copy, nonatomic) NSString *domain; //域名
-@property (copy, nonatomic, readonly) NSString *appVersion;
-@property (copy, nonatomic) NSString *sessionToken;
-@property (copy, nonatomic) NSString *apiVersion;
+@property (copy, nonatomic, readonly) NSString *appVersion; // app版本号
+@property (copy, nonatomic) NSString *sessionToken; // 用于判断是否登录
+@property (copy, nonatomic) NSString *apiVersion; // api版本，可以用于做api版本兼容
+@property (copy, nonatomic) NSString *cachePath;
 
 @property (copy, nonatomic, readonly) NSString *systemName;
 @property (copy, nonatomic, readonly) NSString *systemVersion;

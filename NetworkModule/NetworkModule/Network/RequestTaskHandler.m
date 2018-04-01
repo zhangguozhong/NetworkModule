@@ -153,15 +153,14 @@
  @return 格式化返回结果
  */
 - (id)handleResponseObject:(id)responseObject {
-    id resultObject = nil;
+    id resultObject = responseObject;
     if ([responseObject isKindOfClass:[NSData class]]) {
         NSError *error;
         resultObject = [NSJSONSerialization JSONObjectWithData:responseObject options:kNilOptions error:&error];
         if (error) {
             resultObject = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
         }
-    }
-    else if ([responseObject isKindOfClass:[NSString class]]) {
+    }else if ([responseObject isKindOfClass:[NSString class]]) {
         NSData *jsonData = [responseObject dataUsingEncoding:NSUTF8StringEncoding];
         NSError *error;
         resultObject = [NSJSONSerialization JSONObjectWithData:jsonData options:kNilOptions error:&error];
@@ -169,6 +168,7 @@
             resultObject = responseObject;
         }
     }
+    
     return resultObject;
 }
 

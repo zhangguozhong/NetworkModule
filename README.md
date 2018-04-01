@@ -13,6 +13,8 @@ pod 'NetworkModule'
  
  ```
   
+  
+  
 ### BaseRequestObject基类
 
 ```objective-c
@@ -100,6 +102,8 @@ typedef void(^HasErrorBlock)(BaseRequestObject *requestObject);
 @end
 
 ```
+
+
 
 ### 发起请求，每个请求类必须继承BaseRequestObject基类；
 ```objective-c

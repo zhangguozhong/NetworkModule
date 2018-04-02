@@ -35,4 +35,17 @@
     return [UIDevice currentDevice].systemVersion;
 }
 
+- (NSDictionary *)requestHeaders {
+    if (!_requestHeaders) {
+        _requestHeaders = @{
+                            @"appVersion": self.appVersion,
+                            @"apiVersion": self.apiVersion ?: @"1",
+                            @"sessionToken": self.sessionToken ?: [NSNull null],
+                            @"systemName": self.systemName,
+                            @"systemVersion": self.systemVersion
+                            };
+    }
+    return _requestHeaders;
+}
+
 @end

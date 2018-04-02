@@ -144,6 +144,14 @@ static dispatch_queue_t cache_writing_queue() {
 
 
 /**
+ 设置该请求的请求头
+ */
+- (NSDictionary *)requestHeaders {
+    return nil;
+}
+
+
+/**
  发起请求
  */
 - (void)taskStart {

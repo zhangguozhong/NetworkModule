@@ -18,13 +18,8 @@
         httpClient = [[self alloc] init];
         httpClient.securityPolicy = [AFSecurityPolicy policyWithPinningMode:AFSSLPinningModeNone];
         httpClient.responseSerializer = [AFHTTPResponseSerializer serializer];
-        // 设置headers
-        [httpClient.requestSerializer setValue:[AppContext appContext].appVersion forHTTPHeaderField:@"appVersion"];
-        [httpClient.requestSerializer setValue:[AppContext appContext].apiVersion forHTTPHeaderField:@"apiVersion"];
-        [httpClient.requestSerializer setValue:[AppContext appContext].sessionToken forHTTPHeaderField:@"sessionToken"];
-        [httpClient.requestSerializer setValue:[AppContext appContext].systemName forHTTPHeaderField:@"systemName"];
-        [httpClient.requestSerializer setValue:[AppContext appContext].systemVersion forHTTPHeaderField:@"systemVersion"];
     });
+    
     return httpClient;
 }
 

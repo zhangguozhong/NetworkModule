@@ -74,7 +74,17 @@
         requestSerializer = [AFHTTPRequestSerializer serializer];
     }
     
-    requestSerializer.timeoutInterval = [requestObject requestTimeoutInterval];
+    requestSerializer.timeoutInterval = [requestObject requestTimeoutInterval]; // 请求超时时间
+    NSDictionary *requestHeaders = [requestObject requestHeaders] ?: [AppContext appContext].requestHeaders;
+    // 加入请求头
+    if (requestHeaders) {
+        [requestHeaders enumerateKeysAndObjectsUsingBlock:^(NSString *  _Nonnull key, id  _Nonnull objValue, BOOL * _Nonnull stop) {
+            if ([key isKindOfClass:NSString.class] && [objValue isKindOfClass:NSString.class]) {
+                [requestSerializer setValue:objValue forHTTPHeaderField:key];
+            }
+        }];
+    }
+    
     return requestSerializer;
 }
 

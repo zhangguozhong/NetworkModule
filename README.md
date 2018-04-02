@@ -40,6 +40,7 @@ typedef NS_OPTIONS(NSUInteger, RequestSerializerType) {
 - (BOOL)shouldRequestCompletionCacheData; //是否开启缓存，默认不开启
 - (BOOL)writeCacheAsynchronously;
 - (NSTimeInterval)cacheTimeInterval; //缓存过期时间
+- (NSDictionary *)headerFieldValueDictionary; // 设置该请求的请求头
 
 @end
 

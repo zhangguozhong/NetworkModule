@@ -16,7 +16,7 @@ Pod::Spec.new do |s|
   #
 
   s.name         = "NetworkModule"
-  s.version      = "1.2.0"
+  s.version      = "1.2.1"
   s.summary      = "这是一个网络请求库，将AFNetworking封装成单例类，加入了缓存机制。"
 
   # This description is used to generate tags and improve search results.
@@ -25,7 +25,7 @@ Pod::Spec.new do |s|
   #   * Write the description between the DESC delimiters below.
   #   * Finally, don't worry about the indent, CocoaPods strips it!
   s.description  = <<-DESC
-  这是一个网络请求库，将AFNetworking封装成单例类，使用方便简单。
+  这是一个网络请求库，将AFNetworking封装成单例类，加入了缓存机制，每个请求都可以设置是否开启缓存，使用方便简单。
                    DESC
 
   s.homepage     = "https://github.com/zhangguozhong/NetworkModule.git"

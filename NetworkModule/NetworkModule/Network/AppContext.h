@@ -21,7 +21,7 @@
 @property (copy, nonatomic) NSString *sessionToken; // 用于判断是否登录
 @property (copy, nonatomic) NSString *apiVersion; // api版本，可以用于做api版本兼容
 @property (copy, nonatomic) NSString *cachePath;
-@property (strong, nonatomic) NSDictionary *requestHeaders; // 请求头信息
+@property (strong, nonatomic) NSDictionary *headerFieldValueDictionary; // 请求头信息
 
 @property (copy, nonatomic, readonly) NSString *systemName;
 @property (copy, nonatomic, readonly) NSString *systemVersion;

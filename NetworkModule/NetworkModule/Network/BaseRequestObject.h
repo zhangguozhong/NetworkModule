@@ -28,7 +28,7 @@ typedef NS_OPTIONS(NSUInteger, RequestSerializerType) {
 - (BOOL)writeCacheAsynchronously;
 - (NSTimeInterval)cacheTimeInterval; //缓存过期时间
 - (NSTimeInterval)requestTimeoutInterval; // 每个请求的超时时间
-- (NSDictionary *)requestHeaders; // 设置该请求的请求头
+- (NSDictionary *)headerFieldValueDictionary; // 设置该请求的请求头
 
 @end
 

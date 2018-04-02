@@ -35,9 +35,9 @@
     return [UIDevice currentDevice].systemVersion;
 }
 
-- (NSDictionary *)requestHeaders {
-    if (!_requestHeaders) {
-        _requestHeaders = @{
+- (NSDictionary *)headerFieldValueDictionary {
+    if (!_headerFieldValueDictionary) {
+        _headerFieldValueDictionary = @{
                             @"appVersion": self.appVersion,
                             @"apiVersion": self.apiVersion ?: @"1",
                             @"sessionToken": self.sessionToken ?: [NSNull null],
@@ -45,7 +45,7 @@
                             @"systemVersion": self.systemVersion
                             };
     }
-    return _requestHeaders;
+    return _headerFieldValueDictionary;
 }
 
 @end

@@ -144,9 +144,9 @@ static dispatch_queue_t cache_writing_queue() {
 
 
 /**
- 设置该请求的请求头
+ 设置请求头
  */
-- (NSDictionary *)requestHeaders {
+- (NSDictionary *)headerFieldValueDictionary {
     return nil;
 }
 

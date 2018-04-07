@@ -7,26 +7,28 @@
 //
 
 #import "UserService.h"
-#import "TestRequestObj.h"
 
-@interface UserService() <RequestParametersDelegate>
+@interface UserService() <RequestParametersDelegate, RequestCallBackDelegate>
 @property (strong,nonatomic) BaseRequestObject *userLoginRequest;
+@property (nonatomic, copy) void(^callBack)(BaseRequestObject *requestObject);
 @end
 
 @implementation UserService
 
-- (void)testAction {
+- (void)testActionWithCallBack:(void (^)(BaseRequestObject *))callBack {
     self.userLoginRequest = [[TestRequestObj alloc] init];
+    self.callBack = callBack;
     _userLoginRequest.paramsDelegate = self;
-    __weak typeof(self) weakSelf = self;
-    [_userLoginRequest setCompletionBlock:^(BaseRequestObject *requestObject) {
-        NSLog(@"%@",requestObject.responseObject);
-    } andHasErrorBlock:^(BaseRequestObject *requestObject) {
-        [weakSelf handleErrorAction:requestObject.responseObject];
-        NSLog(@"%@",requestObject.error);
-    }];
-    
+    _userLoginRequest.delegate = self;
     [self.userLoginRequest taskStart];
+}
+
+- (void)requestCompleteWithRequestObject:(BaseRequestObject *)requestObject withErrorInfo:(NSError *)errorInfo {
+    if (errorInfo) {
+        [self handleErrorAction:errorInfo];
+    }else {
+        self.callBack(requestObject);
+    }
 }
 
 - (id)requestParamsWithRequestObject:(BaseRequestObject *)requestObject {

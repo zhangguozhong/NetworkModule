@@ -32,6 +32,7 @@ typedef NS_OPTIONS(NSUInteger, RequestSerializerType) {
 
 @end
 
+
 @protocol RequestParametersDelegate <NSObject>
 
 /**
@@ -44,45 +45,26 @@ typedef NS_OPTIONS(NSUInteger, RequestSerializerType) {
 
 @end
 
-typedef void(^CompletionBlock)(BaseRequestObject *requestObject);
-typedef void(^HasErrorBlock)(BaseRequestObject *requestObject);
+
+/**
+ 请求回调协议
+ */
+@protocol RequestCallBackDelegate <NSObject>
+
+- (void)requestCompleteWithRequestObject:(BaseRequestObject *)requestObject withErrorInfo:(NSError *)errorInfo;
+
+@end
+
 
 @interface BaseRequestObject : NSObject<RequestObjectDelegate>
 
 @property (nonatomic) id responseObject; // 返回数据
-@property (strong, nonatomic) NSError *error;
-
-@property (strong,nonatomic) NSURLSessionDataTask *requestDataTask; // 本次请求的requestTask对象
-
-@property (copy,nonatomic,readonly) CompletionBlock completionBlock;
-@property (copy,nonatomic,readonly) HasErrorBlock hasErrorBlock;
+@property (strong,nonatomic) NSURLSessionDataTask *requestDataTask; // 该请求的requestTask对象
 @property (assign, nonatomic) BOOL ignoreCache; // 忽略缓存
+@property (weak, nonatomic) id<RequestCallBackDelegate> delegate; //回调委托对象
+@property (weak,nonatomic) id<RequestParametersDelegate> paramsDelegate; //配置参数委托对象
 
 
-/**
- 配置参数委托对象
- */
-@property (weak,nonatomic) id<RequestParametersDelegate> paramsDelegate;
-
-
-/**
- 配置网络回调事件
-
- @param completionBlock 请求成功block回调
- @param hasErrorBlock 请求失败block回调
- */
-- (void)setCompletionBlock:(CompletionBlock)completionBlock andHasErrorBlock:(HasErrorBlock)hasErrorBlock;
-
-
-/**
- 开始网络请求
-
- @param completionBlock 请求成功block回调
- @param hasErrorBlock 请求失败block回调
- */
-- (void)startWithCompletionBlock:(CompletionBlock)completionBlock andHasErrorBlock:(HasErrorBlock)hasErrorBlock;
-
-- (void)cleanBlocks;
 - (void)taskStart;
 - (NSString *)cacheVersion; // 设置此次缓存的版本，默认与appVersion一致
 - (void)requestCompletionPreprocessor;

@@ -12,7 +12,6 @@
 @implementation NSString (Md5)
 
 - (NSString *)stringToMd5 {
-    
     const char * input = [self UTF8String]; // UTF8的转码
     unsigned char result[CC_MD5_DIGEST_LENGTH];
     CC_MD5(input, (CC_LONG)strlen(input), result);

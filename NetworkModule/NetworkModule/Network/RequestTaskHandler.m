@@ -45,7 +45,7 @@
 
  @param requestObject 请求对象包含请求的方法、参数等
  */
-- (void)doNetworkTaskWithRequestObject:(BaseRequestObject *)requestObject {
+- (void)startWithRequestObject:(BaseRequestObject *)requestObject {
     NSString *requestMethod = [requestObject requestMethod];
     NSDictionary *requestParams = [requestObject requestParams];
     NSString *requestUrl = [self buildRequestUrl:requestObject];
@@ -121,35 +121,17 @@
     BaseRequestObject *requestObject = [self.requestTaskRecords objectForKey:@(requestDataTask.taskIdentifier)];
     Unlock();
     requestObject.responseObject = [self handleResponseObject:responseObject];
-    requestObject.error = error;
     
-    if (error) {
-        if ([NSThread isMainThread]) {
-            if (requestObject.hasErrorBlock) {
-                requestObject.hasErrorBlock(requestObject);
-            }
-        } else {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                if (requestObject.hasErrorBlock) {
-                    requestObject.hasErrorBlock(requestObject);
-                }
-            });
-        }
-    }else {
+    if (!error) {
         @autoreleasepool {
             [requestObject requestCompletionPreprocessor];
         }
-        if ([NSThread isMainThread]) {
-            if (requestObject.completionBlock) {
-                requestObject.completionBlock(requestObject);
-            }
-        } else {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                if (requestObject.completionBlock) {
-                    requestObject.completionBlock(requestObject);
-                }
-            });
-        }
+    }
+    
+    if ([requestObject.delegate respondsToSelector:@selector(requestCompleteWithRequestObject:withErrorInfo:)]) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [requestObject.delegate requestCompleteWithRequestObject:requestObject withErrorInfo:error];
+        });
     }
 
     dispatch_async(dispatch_get_main_queue(), ^{
@@ -250,7 +232,8 @@
 - (void)cancelNetworkTask:(BaseRequestObject *)requestObject {
     Lock();
     [requestObject.requestDataTask cancel];
-    [requestObject cleanBlocks];
+    requestObject.delegate = nil;
+    requestObject.paramsDelegate = nil;
     [self.requestTaskRecords removeObjectForKey:@(requestObject.requestDataTask.taskIdentifier)];
     Unlock();
 }

@@ -74,7 +74,6 @@ static dispatch_queue_t cache_writing_queue() {
 
 @end
 
-
 @implementation BaseRequestObject
 
 - (NSString *)requestMethod{
@@ -111,7 +110,6 @@ static dispatch_queue_t cache_writing_queue() {
     return NO;
 }
 
-
 - (NSTimeInterval)cacheTimeInterval {
     return 20;
 }
@@ -120,28 +118,9 @@ static dispatch_queue_t cache_writing_queue() {
     return 30;
 }
 
-
-- (void)setCompletionBlock:(CompletionBlock)completionBlock andHasErrorBlock:(HasErrorBlock)hasErrorBlock {
-    _completionBlock = completionBlock;
-    _hasErrorBlock = hasErrorBlock;
-}
-
-
-- (void)startWithCompletionBlock:(CompletionBlock)completionBlock andHasErrorBlock:(HasErrorBlock)hasErrorBlock {
-    [self setCompletionBlock:completionBlock andHasErrorBlock:hasErrorBlock];
-    [self taskStart];
-}
-
-
-- (void)cleanBlocks {
-    _completionBlock = nil;
-    _hasErrorBlock = nil;
-}
-
 - (NSString *)cacheVersion {
     return [AppContext appContext].appVersion;
 }
-
 
 /**
  设置请求头
@@ -149,6 +128,7 @@ static dispatch_queue_t cache_writing_queue() {
 - (NSDictionary *)headerFieldValueDictionary {
     return nil;
 }
+
 
 
 /**
@@ -166,8 +146,8 @@ static dispatch_queue_t cache_writing_queue() {
     
     self.isCache = YES; // 执行到这里说明可以使用之前的缓存
     dispatch_async(dispatch_get_main_queue(), ^{
-        if (self.completionBlock) {
-            self.completionBlock(self);
+        if ([self.delegate respondsToSelector:@selector(requestCompleteWithRequestObject:withErrorInfo:)]) {
+            [self.delegate requestCompleteWithRequestObject:self withErrorInfo:nil];
         }
     });
     
@@ -179,7 +159,7 @@ static dispatch_queue_t cache_writing_queue() {
  */
 - (void)startWithoutCache {
     [self clearCache];
-    [[RequestTaskHandler taskHandler] doNetworkTaskWithRequestObject:self];
+    [[RequestTaskHandler taskHandler] startWithRequestObject:self];
 }
 
 

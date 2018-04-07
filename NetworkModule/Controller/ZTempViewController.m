@@ -22,7 +22,9 @@
     self.view.backgroundColor = [UIColor whiteColor];
     
     self.userService = [[UserService alloc] init];
-    [self.userService testAction];
+    [self.userService testActionWithCallBack:^(BaseRequestObject *requestObject) {
+        NSLog(@"%@",requestObject.responseObject);
+    }];
     
     NSData *jsonData = [NSJSONSerialization dataWithJSONObject:@{@"test":@"value",@"name":@"zhangsan"} options:kNilOptions error:nil];
     

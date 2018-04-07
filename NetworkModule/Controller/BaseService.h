@@ -10,6 +10,6 @@
 
 @interface BaseService : NSObject
 
-- (void)handleErrorAction:(id)responseObject;
+- (void)handleErrorAction:(NSError *)errorInfo;
 
 @end

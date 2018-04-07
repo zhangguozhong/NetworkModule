@@ -7,9 +7,10 @@
 //
 
 #import "BaseService.h"
+#import "TestRequestObj.h"
 
 @interface UserService : BaseService
 
-- (void)testAction;
+- (void)testActionWithCallBack:(void(^)(BaseRequestObject *requestObject))callBack;
 
 @end

@@ -10,10 +10,9 @@
 
 @implementation BaseService
 
-- (void)handleErrorAction:(id)responseObject {
-    if ([responseObject[@"code"] isEqualToString:@"session_expire"]) {
-        NSLog(@"退出登录");
-    }
+- (void)handleErrorAction:(NSError *)errorInfo {
+    
+    NSLog(@"error");
 }
 
 @end

@@ -32,6 +32,6 @@
  
  @param requestObject 请求对象包含请求的方法、参数等
  */
-- (void)doNetworkTaskWithRequestObject:(BaseRequestObject *)requestObject;
+- (void)startWithRequestObject:(BaseRequestObject *)requestObject;
 
 @end

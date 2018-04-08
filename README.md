@@ -98,17 +98,15 @@ typedef NS_OPTIONS(NSUInteger, RequestSerializerType) {
     [self.userLoginRequest startTaskWithComplectionBlock:completionBlock];
 }
 
-    
-   ```
-    
-    
- ### 网络请求参数配置需通过以下方法；
- 
- ```objective-c
- 
-    - (id)paramsWithRequest:(BaseRequest *)baseRequest {
+
+// 参数设置
+- (id)paramsWithRequest:(BaseRequest *)baseRequest {
     return @{@"key":@"value"};
 }
+
+
+```
     
- ```
+    
+ 
 

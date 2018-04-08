@@ -15,12 +15,13 @@ pod 'NetworkModule'
   
   
   
-### BaseRequestObject基类
+### BaseReques基类
 
 ```objective-c
 
 #import <Foundation/Foundation.h>
-@class BaseRequestObject;
+#import "RequestProtocol.h"
+@class BaseRequest;
 
 typedef NS_OPTIONS(NSUInteger, RequestSerializerType) {
     RequestSerializerTypeHTTP = 0,
@@ -28,59 +29,37 @@ typedef NS_OPTIONS(NSUInteger, RequestSerializerType) {
 };
 
 
-@protocol RequestObjectDelegate <NSObject>
-
-- (NSString *)requestMethod;
-- (id)requestParams; //请求参数
-- (NSUInteger)requestSerializerType;
-- (NSString *)requestUrl; //请求的接口名称
-
-@optional
-- (NSString *)baseUrl; //请求的接口域名地址
-- (BOOL)shouldRequestCompletionCacheData; //是否开启缓存，默认不开启
-- (BOOL)writeCacheAsynchronously;
-- (NSTimeInterval)cacheTimeInterval; //缓存过期时间
-- (NSTimeInterval)requestTimeoutInterval; // 每个请求的超时时间
-- (NSDictionary *)headerFieldValueDictionary; // 设置该请求的请求头
-
-@end
-
-
 @protocol RequestParametersDelegate <NSObject>
-
 /**
- 配置参数方法
-
- @param requestObject 请求对象
- @return 所配置的参数
+ 配置请求参数方法
  */
-- (id)requestParamsWithRequestObject:(BaseRequestObject *)requestObject;
+@required
+- (id)paramsWithRequest:(BaseRequest *)baseRequest;
 
 @end
 
 
-/**
- 请求回调协议
- */
-@protocol RequestCallBackDelegate <NSObject>
+@protocol RequestDataReformer <NSObject>
 
-- (void)requestCompleteWithRequestObject:(BaseRequestObject *)requestObject withErrorInfo:(NSError *)errorInfo;
+/**
+ 格式化返回结果协议方法
+ */
+@required
+- (id)request:(BaseRequest *)baseRequest reformData:(NSDictionary *)data;
 
 @end
 
+@interface BaseRequest : NSObject<RequestProtocol>
 
-@interface BaseRequestObject : NSObject<RequestObjectDelegate>
-
-@property (nonatomic) id responseObject; // 返回数据
-@property (strong,nonatomic) NSURLSessionDataTask *requestDataTask; // 该请求的requestTask对象
+@property (strong, nonatomic) NSURLSessionDataTask *requestDataTask; // 该请求的requestTask对象
 @property (assign, nonatomic) BOOL ignoreCache; // 忽略缓存
-@property (weak, nonatomic) id<RequestCallBackDelegate> delegate; //回调委托对象
-@property (weak,nonatomic) id<RequestParametersDelegate> paramsDelegate; //配置参数委托对象
+@property (weak, nonatomic) id<RequestParametersDelegate> paramsDelegate; //配置参数委托对象
 
 
-- (void)taskStart;
+- (void)startTaskWithComplectionBlock:(void(^)(BaseRequest *baseRequest, NSError *error))complectionBlock;
 - (NSString *)cacheVersion; // 设置此次缓存的版本，默认与appVersion一致
 - (void)requestCompletionPreprocessor;
+- (id)fetchDataWithReformer:(id<RequestDataReformer>)reformer;
 
 
 @end
@@ -90,7 +69,7 @@ typedef NS_OPTIONS(NSUInteger, RequestSerializerType) {
 
 
 
-### 发起请求，每个请求类必须继承BaseRequestObject基类；
+### 发起请求，每个请求类必须继承BaseRequest基类；
 ```objective-c
    
    #import "TestRequestObj.h"

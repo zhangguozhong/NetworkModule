@@ -90,23 +90,14 @@ typedef NS_OPTIONS(NSUInteger, RequestSerializerType) {
 
    @end
 
-// 发起请求
-- (void)testActionWithCallBack:(void (^)(BaseRequestObject *))callBack {
+
+// 发起请求并回调
+- (void)testActionWithCallBack:(void (^)(BaseRequest *, NSError *))completionBlock {
     self.userLoginRequest = [[TestRequestObj alloc] init];
-    self.callBack = callBack;
     _userLoginRequest.paramsDelegate = self;
-    _userLoginRequest.delegate = self;
-    [self.userLoginRequest taskStart];
+    [self.userLoginRequest startTaskWithComplectionBlock:completionBlock];
 }
 
-// 回调逻辑
-- (void)requestCompleteWithRequestObject:(BaseRequestObject *)requestObject withErrorInfo:(NSError *)errorInfo {
-    if (errorInfo) {
-        [self handleErrorAction:errorInfo];
-    }else {
-        self.callBack(requestObject);
-    }
-}
     
    ```
     
@@ -115,9 +106,9 @@ typedef NS_OPTIONS(NSUInteger, RequestSerializerType) {
  
  ```objective-c
  
-    - (id)requestParamsWithRequestObject:(BaseRequestObject *)requestObject {
-    return @{@"key":@"value"};
-    }
+    - (id)paramsWithRequest:(BaseRequest *)baseRequest {
+    return @{@"key":@"value"};
+}
     
  ```
 

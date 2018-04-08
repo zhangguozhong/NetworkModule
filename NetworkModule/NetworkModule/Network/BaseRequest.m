@@ -6,7 +6,7 @@
 //  Copyright © 2018年 张国忠. All rights reserved.
 //
 
-#import "BaseRequestObject.h"
+#import "BaseRequest.h"
 #import "RequestTaskHandler.h"
 #import "AppContext.h"
 #import "NSString+ConvertToMd5.h"
@@ -67,14 +67,16 @@ static dispatch_queue_t cache_writing_queue() {
 @end
 
 
-@interface BaseRequestObject ()
+typedef void(^onCompletionBlock)(id result, NSError *error);
+@interface BaseRequest ()
 
 @property (strong, nonatomic) CacheMetaData *cacheMetaData;
 @property (assign, nonatomic) BOOL isCache;
+@property (nonatomic) id fetchResultData;
 
 @end
 
-@implementation BaseRequestObject
+@implementation BaseRequest
 
 - (NSString *)requestMethod{
     return @"GET";
@@ -86,8 +88,8 @@ static dispatch_queue_t cache_writing_queue() {
 
 // 配置请求参数
 - (id)requestParams {
-    if ([self.paramsDelegate respondsToSelector:@selector(requestParamsWithRequestObject:)]) {
-        return [self.paramsDelegate requestParamsWithRequestObject:self];
+    if ([self.paramsDelegate respondsToSelector:@selector(paramsWithRequest:)]) {
+        return [self.paramsDelegate paramsWithRequest:self];
     }
     return nil;
 }
@@ -102,11 +104,6 @@ static dispatch_queue_t cache_writing_queue() {
 }
 
 - (BOOL)shouldRequestCompletionCacheData {
-    return NO;
-}
-
-// 是否使用串行队列缓存
-- (BOOL)writeCacheAsynchronously {
     return NO;
 }
 
@@ -129,37 +126,46 @@ static dispatch_queue_t cache_writing_queue() {
     return nil;
 }
 
+// 获取数据
+- (id)fetchDataWithReformer:(id<RequestDataReformer>)reformer {
+    if ([reformer respondsToSelector:@selector(request:reformData:)]) {
+        return [reformer request:self reformData:self.fetchResultData];
+    }else{
+        return self.fetchResultData;
+    }
+}
 
 
 /**
  发起请求
  */
-- (void)taskStart {
-    if (self.ignoreCache) {
-        [self startWithoutCache];
-        return;
-    }
-    if (!self.loadCache) {
-        [self startWithoutCache];
+- (void)startTaskWithComplectionBlock:(void (^)(BaseRequest *, NSError *))complectionBlock {
+    // 回调block
+    void(^onComplectionBlock)(id responseObject, NSError *error) = ^(id responseObject, NSError *error) {
+        self.fetchResultData = responseObject;
+        complectionBlock(self,error);
+    };
+    
+    if (self.ignoreCache || !self.loadCache) {
+        [self startWithCompletionBlock:onComplectionBlock];
         return;
     }
     
     self.isCache = YES; // 执行到这里说明可以使用之前的缓存
     dispatch_async(dispatch_get_main_queue(), ^{
-        if ([self.delegate respondsToSelector:@selector(requestCompleteWithRequestObject:withErrorInfo:)]) {
-            [self.delegate requestCompleteWithRequestObject:self withErrorInfo:nil];
+        if (onComplectionBlock) {
+            onComplectionBlock(self.fetchResultData,nil);
         }
     });
-    
 }
 
 
 /**
  发起请求（没有缓存）
  */
-- (void)startWithoutCache {
+- (void)startWithCompletionBlock:(onCompletionBlock)onCompletionBlock {
     [self clearCache];
-    [[RequestTaskHandler taskHandler] startWithRequestObject:self];
+    [[RequestTaskHandler taskHandler] startWithRequestObject:self onCompleteBlock:onCompletionBlock];
 }
 
 
@@ -168,13 +174,9 @@ static dispatch_queue_t cache_writing_queue() {
  */
 - (void)requestCompletionPreprocessor {
     if (self.shouldRequestCompletionCacheData) {
-        if (self.writeCacheAsynchronously) {
-            dispatch_async(cache_writing_queue(), ^{
-                [self cacheDataToFile];
-            });
-        } else {
+        dispatch_async(cache_writing_queue(), ^{
             [self cacheDataToFile];
-        }
+        });
     }
 }
 
@@ -259,7 +261,7 @@ static dispatch_queue_t cache_writing_queue() {
         }
     }
     
-    self.responseObject = cacheResponseObject;
+    self.fetchResultData = cacheResponseObject;
     return !!cacheResponseObject;
 }
 
@@ -270,7 +272,7 @@ static dispatch_queue_t cache_writing_queue() {
  */
 - (void)cacheDataToFile {
     if (self.cacheTimeInterval > 0 && !self.isCache) {
-        NSData *responseData = [NSJSONSerialization dataWithJSONObject:self.responseObject options:kNilOptions error:nil];
+        NSData *responseData = [NSJSONSerialization dataWithJSONObject:self.fetchResultData options:kNilOptions error:nil];
         if (responseData) {
             @try{
                 [responseData writeToFile:[[FileCacheManager cacheManager] cacheDataFileWithName:[self cacheFileName]] atomically:YES];

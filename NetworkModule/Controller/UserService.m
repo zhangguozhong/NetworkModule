@@ -7,31 +7,22 @@
 //
 
 #import "UserService.h"
+#import "TestRequestObj.h"
 
-@interface UserService() <RequestParametersDelegate, RequestCallBackDelegate>
-@property (strong,nonatomic) BaseRequestObject *userLoginRequest;
-@property (nonatomic, copy) void(^callBack)(BaseRequestObject *requestObject);
+@interface UserService() <RequestParametersDelegate>
+@property (strong,nonatomic) BaseRequest *userLoginRequest;
 @end
 
 @implementation UserService
 
-- (void)testActionWithCallBack:(void (^)(BaseRequestObject *))callBack {
+- (void)testActionWithCallBack:(void (^)(BaseRequest *, NSError *))completionBlock {
     self.userLoginRequest = [[TestRequestObj alloc] init];
-    self.callBack = callBack;
     _userLoginRequest.paramsDelegate = self;
-    _userLoginRequest.delegate = self;
-    [self.userLoginRequest taskStart];
+    [self.userLoginRequest startTaskWithComplectionBlock:completionBlock];
 }
 
-- (void)requestCompleteWithRequestObject:(BaseRequestObject *)requestObject withErrorInfo:(NSError *)errorInfo {
-    if (errorInfo) {
-        [self handleErrorAction:errorInfo];
-    }else {
-        self.callBack(requestObject);
-    }
-}
 
-- (id)requestParamsWithRequestObject:(BaseRequestObject *)requestObject {
+- (id)paramsWithRequest:(BaseRequest *)baseRequest {
     return @{@"key":@"value"};
 }
 

@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "BaseRequestObject.h"
+#import "BaseRequest.h"
 
 @interface RequestTaskHandler : NSObject
 
@@ -16,22 +16,22 @@
 /**
  取消指定的网络请求任务
  
- @param requestObject 封装过的请求对象包含请求的方法、参数等
+ @param baseRequest 封装过的请求对象包含请求的方法、参数等
  */
-- (void)cancelNetworkTask:(BaseRequestObject *)requestObject;
+- (void)cancelNetworkTask:(BaseRequest *)baseRequest;
 
 /**
  取消所有网络请求任务
  
- @param requestObjects 所有封装过的请求对象包含请求的方法、参数等
+ @param baseRequests 所有封装过的请求对象包含请求的方法、参数等
  */
-- (void)cancelNetworkTasks:(NSArray <BaseRequestObject *> *)requestObjects;
+- (void)cancelNetworkTasks:(NSArray <BaseRequest *> *)baseRequests;
 
 /**
  执行网络请求
  
- @param requestObject 请求对象包含请求的方法、参数等
+ @param baseRequest 请求对象包含请求的方法、参数等
  */
-- (void)startWithRequestObject:(BaseRequestObject *)requestObject;
+- (void)startWithRequestObject:(BaseRequest *)baseRequest onCompleteBlock:(void(^)(id result, NSError *error))onCompleteBlock;
 
 @end

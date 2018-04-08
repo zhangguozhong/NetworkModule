@@ -43,39 +43,39 @@
 /**
  执行网络请求
 
- @param requestObject 请求对象包含请求的方法、参数等
+ @param baseRequest 请求对象包含请求的方法、参数等
  */
-- (void)startWithRequestObject:(BaseRequestObject *)requestObject {
-    NSString *requestMethod = [requestObject requestMethod];
-    NSDictionary *requestParams = [requestObject requestParams];
-    NSString *requestUrl = [self buildRequestUrl:requestObject];
-    AFHTTPRequestSerializer *requestSerializer = [self requestSerializerWithRequestObject:requestObject];
+- (void)startWithRequestObject:(BaseRequest *)baseRequest onCompleteBlock:(void (^)(id, NSError *))onCompleteBlock {
+    NSString *requestMethod = [baseRequest requestMethod];
+    NSDictionary *requestParams = [baseRequest requestParams];
+    NSString *requestUrl = [self buildRequestUrl:baseRequest];
+    AFHTTPRequestSerializer *requestSerializer = [self requestSerializerWithRequestObject:baseRequest];
     
-    requestObject.requestDataTask = [self dataTaskWithHTTPMethod:requestMethod requestUrl:requestUrl  parameters:requestParams requestSerializer:requestSerializer];
+    baseRequest.requestDataTask = [self dataTaskWithHTTPMethod:requestMethod requestUrl:requestUrl  parameters:requestParams requestSerializer:requestSerializer onCompleteBlock:onCompleteBlock];
     Lock();
-    [self.requestTaskRecords setObject:requestObject forKey:@(requestObject.requestDataTask.taskIdentifier)];
+    [self.requestTaskRecords setObject:baseRequest forKey:@(baseRequest.requestDataTask.taskIdentifier)];
     Unlock();
-    [requestObject.requestDataTask resume];
+    [baseRequest.requestDataTask resume];
 }
 
 
 /**
  创建requestSerializer对象
 
- @param requestObject 请求对象requestObject
+ @param baseRequest 请求对象requestObject
  @return requestSerializer对象
  */
-- (AFHTTPRequestSerializer *)requestSerializerWithRequestObject:(BaseRequestObject *)requestObject {
+- (AFHTTPRequestSerializer *)requestSerializerWithRequestObject:(BaseRequest *)baseRequest {
     AFHTTPRequestSerializer *requestSerializer;
-    if (requestObject.requestSerializerType == RequestSerializerTypeJSON) {
+    if (baseRequest.requestSerializerType == RequestSerializerTypeJSON) {
         requestSerializer = [AFJSONRequestSerializer serializer];
     }
-    else if (requestObject.requestSerializerType == RequestSerializerTypeHTTP) {
+    else if (baseRequest.requestSerializerType == RequestSerializerTypeHTTP) {
         requestSerializer = [AFHTTPRequestSerializer serializer];
     }
     
-    requestSerializer.timeoutInterval = [requestObject requestTimeoutInterval]; // 请求超时时间
-    NSDictionary *headerFieldValueDictionary = [requestObject headerFieldValueDictionary] ?: [AppContext appContext].headerFieldValueDictionary;
+    requestSerializer.timeoutInterval = [baseRequest requestTimeoutInterval]; // 请求超时时间
+    NSDictionary *headerFieldValueDictionary = [baseRequest headerFieldValueDictionary] ?: [AppContext appContext].headerFieldValueDictionary;
     // 加入请求头
     if (headerFieldValueDictionary) {
         [headerFieldValueDictionary enumerateKeysAndObjectsUsingBlock:^(NSString *  _Nonnull key, id  _Nonnull objValue, BOOL * _Nonnull stop) {
@@ -97,12 +97,12 @@
  @param requestSerializer 用于生成request对象
  @return 返回NSURLSessionDataTask对象
  */
-- (NSURLSessionDataTask *)dataTaskWithHTTPMethod:(NSString *)method requestUrl:(NSString *)requestUrl parameters:(NSDictionary *)parameters requestSerializer:(AFHTTPRequestSerializer *)requestSerializer {
+- (NSURLSessionDataTask *)dataTaskWithHTTPMethod:(NSString *)method requestUrl:(NSString *)requestUrl parameters:(NSDictionary *)parameters requestSerializer:(AFHTTPRequestSerializer *)requestSerializer onCompleteBlock:(void (^)(id, NSError *))onCompleteBlock {
     __block NSURLSessionDataTask *requestDataTask = nil;
     NSURLRequest *request = [requestSerializer requestWithMethod:method URLString:requestUrl parameters:parameters error:nil];
     requestDataTask = [[APIClient httpClient] dataTaskWithRequest:request uploadProgress:nil downloadProgress:nil completionHandler:^(NSURLResponse * _Nonnull response, id  _Nullable responseObject, NSError * _Nullable error)
                        {
-                           [self handleRequestResult:requestDataTask responseObject:responseObject error:error];
+                           [self handleRequestResult:requestDataTask responseObject:responseObject error:error onCompleteBlock:onCompleteBlock];
                        }];
     
     return requestDataTask;
@@ -116,26 +116,28 @@
  @param responseObject 返回的数据对象
  @param error 网络错误信息
  */
-- (void)handleRequestResult:(NSURLSessionDataTask *)requestDataTask responseObject:(id)responseObject error:(NSError *)error {
+- (void)handleRequestResult:(NSURLSessionDataTask *)requestDataTask responseObject:(id)responseObject error:(NSError *)error onCompleteBlock:(void (^)(id, NSError *))onCompleteBlock {
     Lock();
-    BaseRequestObject *requestObject = [self.requestTaskRecords objectForKey:@(requestDataTask.taskIdentifier)];
+    BaseRequest *baseRequest = [self.requestTaskRecords objectForKey:@(requestDataTask.taskIdentifier)];
+    id fetchResultData = [self handleResponseObject:responseObject];
     Unlock();
-    requestObject.responseObject = [self handleResponseObject:responseObject];
     
-    if (!error) {
+    if (!error){
+        if (onCompleteBlock) {
+            onCompleteBlock(fetchResultData,nil);
+        }
         @autoreleasepool {
-            [requestObject requestCompletionPreprocessor];
+            [baseRequest requestCompletionPreprocessor];
+        }
+    }
+    else{
+        if (onCompleteBlock) {
+            onCompleteBlock(fetchResultData,error);
         }
     }
     
-    if ([requestObject.delegate respondsToSelector:@selector(requestCompleteWithRequestObject:withErrorInfo:)]) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [requestObject.delegate requestCompleteWithRequestObject:requestObject withErrorInfo:error];
-        });
-    }
-
     dispatch_async(dispatch_get_main_queue(), ^{
-        [self cancelNetworkTask:requestObject];
+        [self cancelNetworkTask:baseRequest];
     });
 }
 
@@ -170,19 +172,19 @@
 /**
  生成请求url字符串
 
- @param requestObject 封装好的请求对象
+ @param baseRequest 封装好的请求对象
  @return 返回请求的url字符串
  */
-- (NSString *)buildRequestUrl:(BaseRequestObject *)requestObject {
-    NSString *requestUrl = [requestObject requestUrl];
+- (NSString *)buildRequestUrl:(BaseRequest *)baseRequest {
+    NSString *requestUrl = [baseRequest requestUrl];
     NSURL *tempUrl = [NSURL URLWithString:requestUrl];
     if (tempUrl && tempUrl.scheme && tempUrl.host) {
         return requestUrl;
     }
     
     NSString *domainUrl;
-    if ([requestObject respondsToSelector:@selector(baseUrl)] && [requestObject baseUrl]) {
-        domainUrl = [requestObject baseUrl];
+    if ([baseRequest respondsToSelector:@selector(baseUrl)] && [baseRequest baseUrl]) {
+        domainUrl = [baseRequest baseUrl];
     } else {
         domainUrl = [AppContext appContext].domain;
     }
@@ -213,12 +215,12 @@
 /**
  取消所有网络请求任务
 
- @param requestObjects 所有封装过的请求对象包含请求的方法、参数等
+ @param baseRequests 所有封装过的请求对象包含请求的方法、参数等
  */
-- (void)cancelNetworkTasks:(NSArray<BaseRequestObject *> *)requestObjects {
-    if (requestObjects && requestObjects.count > 0) {
-        [requestObjects enumerateObjectsUsingBlock:^(BaseRequestObject * _Nonnull requestObject, NSUInteger idx, BOOL * _Nonnull stop) {
-            [self cancelNetworkTask:requestObject];
+- (void)cancelNetworkTasks:(NSArray<BaseRequest*> *)baseRequests {
+    if (baseRequests && baseRequests.count > 0) {
+        [baseRequests enumerateObjectsUsingBlock:^(BaseRequest * _Nonnull baseRequest, NSUInteger idx, BOOL * _Nonnull stop) {
+            [self cancelNetworkTask:baseRequest];
         }];
     }
 }
@@ -227,14 +229,13 @@
 /**
  取消指定的网络请求任务
 
- @param requestObject 封装过的请求对象包含请求的方法、参数等
+ @param baseRequest 封装过的请求对象包含请求的方法、参数等
  */
-- (void)cancelNetworkTask:(BaseRequestObject *)requestObject {
+- (void)cancelNetworkTask:(BaseRequest *)baseRequest {
     Lock();
-    [requestObject.requestDataTask cancel];
-    requestObject.delegate = nil;
-    requestObject.paramsDelegate = nil;
-    [self.requestTaskRecords removeObjectForKey:@(requestObject.requestDataTask.taskIdentifier)];
+    [baseRequest.requestDataTask cancel];
+    baseRequest.paramsDelegate = nil;
+    [self.requestTaskRecords removeObjectForKey:@(baseRequest.requestDataTask.taskIdentifier)];
     Unlock();
 }
 @end

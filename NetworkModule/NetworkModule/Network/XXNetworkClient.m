@@ -10,6 +10,7 @@
 #import "XXAPIClient.h"
 #import "XXAppContext.h"
 #import <pthread/pthread.h>
+#import "XXXRequestConfiguration.h"
 
 #define Lock() pthread_mutex_lock(&_lock)
 #define Unlock() pthread_mutex_unlock(&_lock)
@@ -120,12 +121,12 @@
 - (void)handleRequestResult:(NSURLSessionDataTask *)requestDataTask responseObject:(id)responseObject error:(NSError *)error completion:(void (^)(id, NSError *))completion {
     Lock();
     XXXRequest *request = [self.requestTaskRecords objectForKey:@(requestDataTask.taskIdentifier)];
-    switch (error.code) {
+    switch (error.code){
         case NSURLErrorUnknown:
         case NSURLErrorTimedOut:
         case NSURLErrorCannotConnectToHost: {
-            request.timedOutCount += 1;
-            if (request.timedOutCount <=3) { //超时重连
+            ++request.timedOutCount;
+            if (request.timedOutCount <= XXRequestTimedOutCount) { //超时重连（最多3次）
                 [request.requestDataTask resume];
                 return;
             }
@@ -134,16 +135,15 @@
     }
     Unlock();
     
-    id fetchResultData = [self handleResponseObject:responseObject];
-    
+    id fetchedRawData = [self processResponseData:responseObject];
     if (!error){
         if (completion) {
-            completion(fetchResultData,nil);
+            completion(fetchedRawData, nil);
         }
     }
     else{
         if (completion) {
-            completion(fetchResultData,error);
+            completion(fetchedRawData, error);
         }
     }
     
@@ -154,29 +154,30 @@
 
 
 /**
- 格式化返回结果
+ 返回json对象或者是字符串对象
 
- @param responseObject 返回结果
+ @param responseObject 接口回调结果responseObject
  @return 格式化返回结果
  */
-- (id)handleResponseObject:(id)responseObject {
-    id resultObject = responseObject;
-    if ([responseObject isKindOfClass:[NSData class]]) {
-        NSError *error;
-        resultObject = [NSJSONSerialization JSONObjectWithData:responseObject options:kNilOptions error:&error];
-        if (error) {
-            resultObject = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
-        }
-    }else if ([responseObject isKindOfClass:[NSString class]]) {
+- (id)processResponseData:(id)responseObject {
+    id fetchedRawData;
+    if ([responseObject isKindOfClass:NSString.class]) {
         NSData *jsonData = [responseObject dataUsingEncoding:NSUTF8StringEncoding];
         NSError *error;
-        resultObject = [NSJSONSerialization JSONObjectWithData:jsonData options:kNilOptions error:&error];
+        fetchedRawData = [NSJSONSerialization JSONObjectWithData:jsonData options:kNilOptions error:&error];
         if (error) {
-            resultObject = responseObject;
+            fetchedRawData = responseObject;
         }
+    }else if ([responseObject isKindOfClass:NSData.class]) {
+        NSError *error;
+        fetchedRawData = [NSJSONSerialization JSONObjectWithData:responseObject options:kNilOptions error:&error];
+        if (error) {
+            fetchedRawData = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
+        }
+    }else {
+        fetchedRawData = responseObject;
     }
-    
-    return resultObject;
+    return fetchedRawData;
 }
 
 

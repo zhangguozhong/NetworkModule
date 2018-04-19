@@ -16,7 +16,7 @@ Pod::Spec.new do |s|
   #
 
   s.name         = "NetworkModule"
-  s.version      = "1.2.4"
+  s.version      = "1.2.5"
   s.summary      = "这是一个网络请求库，将AFNetworking封装成单例类，加入了缓存机制。"
 
   # This description is used to generate tags and improve search results.
@@ -130,9 +130,22 @@ Pod::Spec.new do |s|
   #  where they will only apply to your library. If you depend on other Podspecs
   #  you can include multiple dependencies to ensure it works.
 
-  # s.requires_arc = true
+  s.requires_arc = true
+
+  s.subspec 'Utils' do |u|
+  	u.source_files = 'NetworkModule/NetworkModule/Utils/**/*.{h,m}'
+  end
+
+  s.subspec 'XXCache' do |c|
+  	c.source_files = 'NetworkModule/NetworkModule/XXCache/**/*.{h,m}'
+  	c.dependency 'NetworkModule/NetworkModule/Utils'
+  end
+
+  
 
   # s.xcconfig = { "HEADER_SEARCH_PATHS" => "$(SDKROOT)/usr/include/libxml2" }
   s.dependency "AFNetworking", "~> 3.0"
+  s.dependency "NetworkModule/NetworkModule/XXCache"
+  s.dependency "NetworkModule/NetworkModule/Utils"
 
 end

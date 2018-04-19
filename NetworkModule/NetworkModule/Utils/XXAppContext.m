@@ -6,16 +6,16 @@
 //  Copyright © 2018年 张国忠. All rights reserved.
 //
 
-#import "AppContext.h"
+#import "XXAppContext.h"
 
-@interface AppContext ()
+@interface XXAppContext ()
 
 @end
 
-@implementation AppContext
+@implementation XXAppContext
 
-+ (AppContext *)appContext {
-    static AppContext *contextInstance = nil;
++ (XXAppContext *)appContext {
+    static XXAppContext *contextInstance = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         contextInstance = [[self alloc] init];

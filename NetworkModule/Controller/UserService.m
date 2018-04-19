@@ -9,20 +9,20 @@
 #import "UserService.h"
 #import "TestRequestObj.h"
 
-@interface UserService() <RequestParametersDelegate>
-@property (strong,nonatomic) BaseRequest *userLoginRequest;
+@interface UserService() <XXXRequestParametersDelegate>
+@property (strong,nonatomic) XXXRequest *userLoginRequest;
 @end
 
 @implementation UserService
 
-- (void)testActionWithCallBack:(void (^)(BaseRequest *, NSError *))completionBlock {
+- (void)testActionWithCallBack:(void (^)(XXXRequest *, NSError *))completionBlock {
     self.userLoginRequest = [[TestRequestObj alloc] init];
     _userLoginRequest.paramsDelegate = self;
-    [self.userLoginRequest startTaskWithComplectionBlock:completionBlock];
+    [self.userLoginRequest startWithBlock:completionBlock];
 }
 
 
-- (id)paramsWithRequest:(BaseRequest *)baseRequest {
+- (id)paramsWithRequest:(XXXRequest *)request {
     return @{@"key":@"value"};
 }
 

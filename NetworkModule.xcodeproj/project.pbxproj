@@ -9,12 +9,13 @@
 /* Begin PBXBuildFile section */
 		06F43C4B51DBAB7627C4A26D /* libPods-NetworkModule.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 83F9AF6DC77D85699BFF5872 /* libPods-NetworkModule.a */; };
 		77275AEB206FCDFD001D0C4E /* BaseService.m in Sources */ = {isa = PBXBuildFile; fileRef = 77275AEA206FCDFD001D0C4E /* BaseService.m */; };
-		772E92AC20270E93008E30F1 /* APIClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 772E92AB20270E93008E30F1 /* APIClient.m */; };
+		772E92AC20270E93008E30F1 /* XXAPIClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 772E92AB20270E93008E30F1 /* XXAPIClient.m */; };
 		772E92B0202726E0008E30F1 /* ZTempViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 772E92AF202726E0008E30F1 /* ZTempViewController.m */; };
 		772E92B32027313F008E30F1 /* UserService.m in Sources */ = {isa = PBXBuildFile; fileRef = 772E92B22027313F008E30F1 /* UserService.m */; };
 		77456D222029E7950060B4FF /* ZBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 77456D212029E7950060B4FF /* ZBaseViewController.m */; };
-		77B1F93E20708EF600F6A15E /* FileCacheManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 77B1F93D20708EF600F6A15E /* FileCacheManager.m */; };
-		77B1F9412070948800F6A15E /* NSString+ConvertToMd5.m in Sources */ = {isa = PBXBuildFile; fileRef = 77B1F9402070948800F6A15E /* NSString+ConvertToMd5.m */; };
+		77756BB82087906900A5EEEE /* XXNetworkCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 77756BB72087906900A5EEEE /* XXNetworkCache.m */; };
+		77756BBB2087908000A5EEEE /* XXNetworkCacheMananger.m in Sources */ = {isa = PBXBuildFile; fileRef = 77756BBA2087908000A5EEEE /* XXNetworkCacheMananger.m */; };
+		77756BC220879D3400A5EEEE /* NSString+XXXRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 77756BC120879D3400A5EEEE /* NSString+XXXRequest.m */; };
 		77B1F9472070C0F000F6A15E /* TestRequestObj.m in Sources */ = {isa = PBXBuildFile; fileRef = 77B1F9462070C0F000F6A15E /* TestRequestObj.m */; };
 		77DC07D42028855200F2CA09 /* configDomainDatas.plist in Resources */ = {isa = PBXBuildFile; fileRef = 77DC07D32028855200F2CA09 /* configDomainDatas.plist */; };
 		77F5EF6920249D8800DD9194 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 77F5EF6820249D8800DD9194 /* AppDelegate.m */; };
@@ -23,27 +24,29 @@
 		77F5EF7120249D8800DD9194 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 77F5EF7020249D8800DD9194 /* Assets.xcassets */; };
 		77F5EF7420249D8800DD9194 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 77F5EF7220249D8800DD9194 /* LaunchScreen.storyboard */; };
 		77F5EF7720249D8800DD9194 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 77F5EF7620249D8800DD9194 /* main.m */; };
-		77F5EF8020249F1D00DD9194 /* AppContext.m in Sources */ = {isa = PBXBuildFile; fileRef = 77F5EF7F20249F1D00DD9194 /* AppContext.m */; };
-		77F5EF842024A44D00DD9194 /* RequestTaskHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 77F5EF832024A44D00DD9194 /* RequestTaskHandler.m */; };
-		77F5EF872024A49600DD9194 /* BaseRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 77F5EF862024A49600DD9194 /* BaseRequest.m */; };
+		77F5EF8020249F1D00DD9194 /* XXAppContext.m in Sources */ = {isa = PBXBuildFile; fileRef = 77F5EF7F20249F1D00DD9194 /* XXAppContext.m */; };
+		77F5EF842024A44D00DD9194 /* XXNetworkClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 77F5EF832024A44D00DD9194 /* XXNetworkClient.m */; };
+		77F5EF872024A49600DD9194 /* XXXRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 77F5EF862024A49600DD9194 /* XXXRequest.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		771904CC207A57A4000C72DE /* RequestProtocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RequestProtocol.h; sourceTree = "<group>"; };
 		77275AE9206FCDFD001D0C4E /* BaseService.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BaseService.h; sourceTree = "<group>"; };
 		77275AEA206FCDFD001D0C4E /* BaseService.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BaseService.m; sourceTree = "<group>"; };
-		772E92AA20270E93008E30F1 /* APIClient.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = APIClient.h; sourceTree = "<group>"; };
-		772E92AB20270E93008E30F1 /* APIClient.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = APIClient.m; sourceTree = "<group>"; };
+		772E92AA20270E93008E30F1 /* XXAPIClient.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XXAPIClient.h; sourceTree = "<group>"; };
+		772E92AB20270E93008E30F1 /* XXAPIClient.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XXAPIClient.m; sourceTree = "<group>"; };
 		772E92AE202726E0008E30F1 /* ZTempViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZTempViewController.h; sourceTree = "<group>"; };
 		772E92AF202726E0008E30F1 /* ZTempViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZTempViewController.m; sourceTree = "<group>"; };
 		772E92B12027313F008E30F1 /* UserService.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UserService.h; sourceTree = "<group>"; };
 		772E92B22027313F008E30F1 /* UserService.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UserService.m; sourceTree = "<group>"; };
 		77456D202029E7950060B4FF /* ZBaseViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZBaseViewController.h; sourceTree = "<group>"; };
 		77456D212029E7950060B4FF /* ZBaseViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZBaseViewController.m; sourceTree = "<group>"; };
-		77B1F93C20708EF600F6A15E /* FileCacheManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FileCacheManager.h; sourceTree = "<group>"; };
-		77B1F93D20708EF600F6A15E /* FileCacheManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FileCacheManager.m; sourceTree = "<group>"; };
-		77B1F93F2070948800F6A15E /* NSString+ConvertToMd5.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSString+ConvertToMd5.h"; sourceTree = "<group>"; };
-		77B1F9402070948800F6A15E /* NSString+ConvertToMd5.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSString+ConvertToMd5.m"; sourceTree = "<group>"; };
+		77756BB62087906900A5EEEE /* XXNetworkCache.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XXNetworkCache.h; sourceTree = "<group>"; };
+		77756BB72087906900A5EEEE /* XXNetworkCache.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XXNetworkCache.m; sourceTree = "<group>"; };
+		77756BB92087908000A5EEEE /* XXNetworkCacheMananger.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XXNetworkCacheMananger.h; sourceTree = "<group>"; };
+		77756BBA2087908000A5EEEE /* XXNetworkCacheMananger.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XXNetworkCacheMananger.m; sourceTree = "<group>"; };
+		77756BC020879D3400A5EEEE /* NSString+XXXRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSString+XXXRequest.h"; sourceTree = "<group>"; };
+		77756BC120879D3400A5EEEE /* NSString+XXXRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSString+XXXRequest.m"; sourceTree = "<group>"; };
+		77AED2F72088D17D00BE9E0B /* XXXRequestConfiguration.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XXXRequestConfiguration.h; sourceTree = "<group>"; };
 		77B1F9452070C0F000F6A15E /* TestRequestObj.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TestRequestObj.h; sourceTree = "<group>"; };
 		77B1F9462070C0F000F6A15E /* TestRequestObj.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TestRequestObj.m; sourceTree = "<group>"; };
 		77DC07D32028855200F2CA09 /* configDomainDatas.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = configDomainDatas.plist; sourceTree = "<group>"; };
@@ -57,12 +60,12 @@
 		77F5EF7320249D8800DD9194 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		77F5EF7520249D8800DD9194 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		77F5EF7620249D8800DD9194 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		77F5EF7E20249F1D00DD9194 /* AppContext.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppContext.h; sourceTree = "<group>"; };
-		77F5EF7F20249F1D00DD9194 /* AppContext.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppContext.m; sourceTree = "<group>"; };
-		77F5EF822024A44D00DD9194 /* RequestTaskHandler.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RequestTaskHandler.h; sourceTree = "<group>"; };
-		77F5EF832024A44D00DD9194 /* RequestTaskHandler.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RequestTaskHandler.m; sourceTree = "<group>"; };
-		77F5EF852024A49600DD9194 /* BaseRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BaseRequest.h; sourceTree = "<group>"; };
-		77F5EF862024A49600DD9194 /* BaseRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BaseRequest.m; sourceTree = "<group>"; };
+		77F5EF7E20249F1D00DD9194 /* XXAppContext.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XXAppContext.h; sourceTree = "<group>"; };
+		77F5EF7F20249F1D00DD9194 /* XXAppContext.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XXAppContext.m; sourceTree = "<group>"; };
+		77F5EF822024A44D00DD9194 /* XXNetworkClient.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XXNetworkClient.h; sourceTree = "<group>"; };
+		77F5EF832024A44D00DD9194 /* XXNetworkClient.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XXNetworkClient.m; sourceTree = "<group>"; };
+		77F5EF852024A49600DD9194 /* XXXRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XXXRequest.h; sourceTree = "<group>"; };
+		77F5EF862024A49600DD9194 /* XXXRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XXXRequest.m; sourceTree = "<group>"; };
 		83F9AF6DC77D85699BFF5872 /* libPods-NetworkModule.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-NetworkModule.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		AAE1D25C8E8EB4B0C0300F1F /* Pods-NetworkModule.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NetworkModule.release.xcconfig"; path = "Pods/Target Support Files/Pods-NetworkModule/Pods-NetworkModule.release.xcconfig"; sourceTree = "<group>"; };
 		AC034E67A949EA79FDA0578A /* Pods-NetworkModule.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NetworkModule.debug.xcconfig"; path = "Pods/Target Support Files/Pods-NetworkModule/Pods-NetworkModule.debug.xcconfig"; sourceTree = "<group>"; };
@@ -103,6 +106,29 @@
 				77B1F9462070C0F000F6A15E /* TestRequestObj.m */,
 			);
 			path = Controller;
+			sourceTree = "<group>";
+		};
+		77756BB520878BC100A5EEEE /* XXCache */ = {
+			isa = PBXGroup;
+			children = (
+				77756BB62087906900A5EEEE /* XXNetworkCache.h */,
+				77756BB72087906900A5EEEE /* XXNetworkCache.m */,
+				77756BB92087908000A5EEEE /* XXNetworkCacheMananger.h */,
+				77756BBA2087908000A5EEEE /* XXNetworkCacheMananger.m */,
+			);
+			path = XXCache;
+			sourceTree = "<group>";
+		};
+		77756BBC20879AE400A5EEEE /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				77F5EF7E20249F1D00DD9194 /* XXAppContext.h */,
+				77F5EF7F20249F1D00DD9194 /* XXAppContext.m */,
+				77756BC020879D3400A5EEEE /* NSString+XXXRequest.h */,
+				77756BC120879D3400A5EEEE /* NSString+XXXRequest.m */,
+				77AED2F72088D17D00BE9E0B /* XXXRequestConfiguration.h */,
+			);
+			path = Utils;
 			sourceTree = "<group>";
 		};
 		77DC07D22028851A00F2CA09 /* Resources */ = {
@@ -153,6 +179,8 @@
 		77F5EF7D20249EF900DD9194 /* NetworkModule */ = {
 			isa = PBXGroup;
 			children = (
+				77756BB520878BC100A5EEEE /* XXCache */,
+				77756BBC20879AE400A5EEEE /* Utils */,
 				77F5EF812024A41000DD9194 /* Network */,
 			);
 			path = NetworkModule;
@@ -161,19 +189,12 @@
 		77F5EF812024A41000DD9194 /* Network */ = {
 			isa = PBXGroup;
 			children = (
-				772E92AA20270E93008E30F1 /* APIClient.h */,
-				772E92AB20270E93008E30F1 /* APIClient.m */,
-				77F5EF822024A44D00DD9194 /* RequestTaskHandler.h */,
-				77F5EF832024A44D00DD9194 /* RequestTaskHandler.m */,
-				77F5EF852024A49600DD9194 /* BaseRequest.h */,
-				77F5EF862024A49600DD9194 /* BaseRequest.m */,
-				77F5EF7E20249F1D00DD9194 /* AppContext.h */,
-				77F5EF7F20249F1D00DD9194 /* AppContext.m */,
-				77B1F93C20708EF600F6A15E /* FileCacheManager.h */,
-				77B1F93D20708EF600F6A15E /* FileCacheManager.m */,
-				77B1F93F2070948800F6A15E /* NSString+ConvertToMd5.h */,
-				77B1F9402070948800F6A15E /* NSString+ConvertToMd5.m */,
-				771904CC207A57A4000C72DE /* RequestProtocol.h */,
+				77F5EF852024A49600DD9194 /* XXXRequest.h */,
+				77F5EF862024A49600DD9194 /* XXXRequest.m */,
+				772E92AA20270E93008E30F1 /* XXAPIClient.h */,
+				772E92AB20270E93008E30F1 /* XXAPIClient.m */,
+				77F5EF822024A44D00DD9194 /* XXNetworkClient.h */,
+				77F5EF832024A44D00DD9194 /* XXNetworkClient.m */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -313,18 +334,19 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				77B1F9412070948800F6A15E /* NSString+ConvertToMd5.m in Sources */,
+				77756BB82087906900A5EEEE /* XXNetworkCache.m in Sources */,
+				77756BC220879D3400A5EEEE /* NSString+XXXRequest.m in Sources */,
 				77F5EF6C20249D8800DD9194 /* ViewController.m in Sources */,
 				77F5EF7720249D8800DD9194 /* main.m in Sources */,
 				77275AEB206FCDFD001D0C4E /* BaseService.m in Sources */,
 				77456D222029E7950060B4FF /* ZBaseViewController.m in Sources */,
-				77F5EF8020249F1D00DD9194 /* AppContext.m in Sources */,
+				77F5EF8020249F1D00DD9194 /* XXAppContext.m in Sources */,
 				77F5EF6920249D8800DD9194 /* AppDelegate.m in Sources */,
-				772E92AC20270E93008E30F1 /* APIClient.m in Sources */,
-				77B1F93E20708EF600F6A15E /* FileCacheManager.m in Sources */,
+				772E92AC20270E93008E30F1 /* XXAPIClient.m in Sources */,
+				77756BBB2087908000A5EEEE /* XXNetworkCacheMananger.m in Sources */,
 				77B1F9472070C0F000F6A15E /* TestRequestObj.m in Sources */,
-				77F5EF842024A44D00DD9194 /* RequestTaskHandler.m in Sources */,
-				77F5EF872024A49600DD9194 /* BaseRequest.m in Sources */,
+				77F5EF842024A44D00DD9194 /* XXNetworkClient.m in Sources */,
+				77F5EF872024A49600DD9194 /* XXXRequest.m in Sources */,
 				772E92B32027313F008E30F1 /* UserService.m in Sources */,
 				772E92B0202726E0008E30F1 /* ZTempViewController.m in Sources */,
 			);

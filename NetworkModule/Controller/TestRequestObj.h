@@ -6,8 +6,8 @@
 //  Copyright © 2018年 张国忠. All rights reserved.
 //
 
-#import "BaseRequest.h"
+#import "XXXRequest.h"
 
-@interface TestRequestObj : BaseRequest
+@interface TestRequestObj : XXXRequest
 
 @end

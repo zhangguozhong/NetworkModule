@@ -1,17 +1,17 @@
 //
-//  NSString+Md5.m
+//  NSString+XXXRequest.m
 //  NetworkModule
 //
-//  Created by 张国忠 on 2018/4/1.
+//  Created by 张国忠 on 2018/4/18.
 //  Copyright © 2018年 张国忠. All rights reserved.
 //
 
-#import "NSString+ConvertToMd5.h"
+#import "NSString+XXXRequest.h"
 #import <CommonCrypto/CommonCrypto.h>
 
-@implementation NSString (Md5)
+@implementation NSString (XXXRequest)
 
-- (NSString *)stringToMd5 {
+- (NSString *)stringToSignature {
     const char * input = [self UTF8String]; // UTF8的转码
     unsigned char result[CC_MD5_DIGEST_LENGTH];
     CC_MD5(input, (CC_LONG)strlen(input), result);

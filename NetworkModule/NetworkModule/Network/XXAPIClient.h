@@ -8,8 +8,11 @@
 
 #import "AFHTTPSessionManager.h"
 
-@interface APIClient : AFHTTPSessionManager
+@interface XXAPIClient : AFHTTPSessionManager
 
-+ (APIClient *)httpClient;
+- (instancetype)init NS_UNAVAILABLE;
+- (instancetype)new NS_UNAVAILABLE;
+
++ (XXAPIClient *)httpClient;
 
 @end

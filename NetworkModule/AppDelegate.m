@@ -7,7 +7,7 @@
 //
 
 #import "AppDelegate.h"
-#import "AppContext.h"
+#import "XXAppContext.h"
 #import "ViewController.h"
 
 @interface AppDelegate ()
@@ -18,7 +18,7 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    [AppContext appContext].domain = @"https://facebook.github.io/";
+    [XXAppContext appContext].domain = @"https://facebook.github.io/";
     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     ViewController *viewController = [[ViewController alloc] init];
     UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:viewController];

@@ -9,12 +9,12 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
-@interface AppContext : NSObject
+@interface XXAppContext : NSObject
 
 - (instancetype)init NS_UNAVAILABLE;
 - (instancetype)new NS_UNAVAILABLE;
 
-+ (AppContext *)appContext;
++ (XXAppContext *)appContext;
 
 @property (copy, nonatomic) NSString *domain; //域名
 @property (copy, nonatomic, readonly) NSString *appVersion; // app版本号

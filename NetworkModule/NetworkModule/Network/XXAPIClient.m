@@ -6,15 +6,14 @@
 //  Copyright © 2018年 张国忠. All rights reserved.
 //
 
-#import "APIClient.h"
-#import "AppContext.h"
+#import "XXAPIClient.h"
 
-@implementation APIClient
+@implementation XXAPIClient
 
-+ (APIClient *)httpClient {
-    static APIClient *httpClient;
-    static dispatch_once_t networkOnceToken;
-    dispatch_once(&networkOnceToken, ^{
++ (XXAPIClient *)httpClient {
+    static XXAPIClient *httpClient;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
         httpClient = [[self alloc] init];
         httpClient.securityPolicy = [AFSecurityPolicy policyWithPinningMode:AFSSLPinningModeNone];
         httpClient.responseSerializer = [AFHTTPResponseSerializer serializer];

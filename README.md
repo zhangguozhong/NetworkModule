@@ -20,8 +20,7 @@ pod 'NetworkModule'
 ```objective-c
 
 #import <Foundation/Foundation.h>
-#import "RequestProtocol.h"
-@class BaseRequest;
+#import "XXXRequestConfiguration.h"
 
 typedef NS_OPTIONS(NSUInteger, RequestSerializerType) {
     RequestSerializerTypeHTTP = 0,
@@ -29,37 +28,50 @@ typedef NS_OPTIONS(NSUInteger, RequestSerializerType) {
 };
 
 
-@protocol RequestParametersDelegate <NSObject>
-/**
- 配置请求参数方法
- */
+@protocol XXXRequestDelegate <NSObject>
 @required
-- (id)paramsWithRequest:(BaseRequest *)baseRequest;
+- (NSString *)requestMethod;
+- (id)requestParams; //请求参数
+- (NSUInteger)requestSerializerType;
+- (NSString *)requestUrl; //请求的接口名称
+
+@optional
+- (NSString *)baseUrl; //请求的接口域名地址
+- (NSTimeInterval)requestTimeoutInterval; // 每个请求的超时时间
+- (NSDictionary *)headerFieldValueDictionary; // 设置该请求的请求头
 
 @end
 
 
-@protocol RequestDataReformer <NSObject>
+@protocol XXXRequestParametersDelegate <NSObject>
+/**
+ 配置请求参数方法
+ */
+@required
+- (id)paramsWithRequest:(XXXRequest *)baseRequest;
+
+@end
+
+
+@protocol XXXRequestDataReformer <NSObject>
 
 /**
  格式化返回结果协议方法
  */
 @required
-- (id)request:(BaseRequest *)baseRequest reformData:(NSDictionary *)data;
+- (id)request:(XXXRequest *)request reformData:(NSDictionary *)data;
 
 @end
 
-@interface BaseRequest : NSObject<RequestProtocol>
+@interface XXXRequest : NSObject <XXXRequestDelegate>
 
 @property (strong, nonatomic) NSURLSessionDataTask *requestDataTask; // 该请求的requestTask对象
 @property (assign, nonatomic) BOOL ignoreCache; // 忽略缓存
-@property (weak, nonatomic) id<RequestParametersDelegate> paramsDelegate; //配置参数委托对象
+@property (assign, nonatomic) NSInteger timedOutCount; // 超时次数
+@property (weak, nonatomic) id<XXXRequestParametersDelegate> paramsDelegate; //配置参数委托对象
 
-
-- (void)startTaskWithComplectionBlock:(void(^)(BaseRequest *baseRequest, NSError *error))complectionBlock;
-- (NSString *)cacheVersion; // 设置此次缓存的版本，默认与appVersion一致
-- (void)requestCompletionPreprocessor;
-- (id)fetchDataWithReformer:(id<RequestDataReformer>)reformer;
+- (void)startWithBlock:(XXCallbackWithRequestBlock)callbackWithRequestBlock;
+- (id)fetchDataWithReformer:(id<XXXRequestDataReformer>)reformer;
 
 
 @end
@@ -72,35 +84,14 @@ typedef NS_OPTIONS(NSUInteger, RequestSerializerType) {
 ### 发起请求，每个请求类必须继承BaseRequest基类；
 ```objective-c
    
-   #import "TestRequestObj.h"
-
-   @implementation TestRequestObj
-
-   - (BOOL)shouldRequestCompletionCacheData {
-       return YES;
-   }
-
-   - (NSString *)cacheVersion {
-       return @"1233";
-   }
-
-   - (NSTimeInterval)cacheTimeInterval {
-       return 3000;
-   }
-
-   @end
-
-
-// 发起请求并回调
-- (void)testActionWithCallBack:(void (^)(BaseRequest *, NSError *))completionBlock {
+- (void)testActionWithCallBack:(void (^)(XXXRequest *, NSError *))completionBlock {
     self.userLoginRequest = [[TestRequestObj alloc] init];
     _userLoginRequest.paramsDelegate = self;
-    [self.userLoginRequest startTaskWithComplectionBlock:completionBlock];
+    [self.userLoginRequest startWithBlock:completionBlock];
 }
 
 
-// 参数设置
-- (id)paramsWithRequest:(BaseRequest *)baseRequest {
+- (id)paramsWithRequest:(XXXRequest *)request {
     return @{@"key":@"value"};
 }
 

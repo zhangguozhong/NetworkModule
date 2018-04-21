@@ -83,7 +83,7 @@
         return;
     }
     
-    // 命中缓存，直接回调
+    // 命中缓存直接回调，并且更新缓存过期时间
     NSError *error;
     id cacheDictionary = [NSJSONSerialization JSONObjectWithData:cacheData options:kNilOptions error:&error];
     if (error) {
@@ -95,6 +95,7 @@
                 callbackWithRequestBlock(self, error);
             }
         });
+        [[XXNetworkCacheMananger sharedInstance] saveCacheWithData:cacheData key:cacheKey];
     }
 }
 

@@ -50,4 +50,8 @@
 }
 */
 
+- (void)dealloc {
+    NSLog(@"视图已销毁");
+}
+
 @end

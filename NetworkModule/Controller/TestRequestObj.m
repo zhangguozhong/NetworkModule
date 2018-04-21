@@ -10,16 +10,9 @@
 
 @implementation TestRequestObj
 
-- (BOOL)shouldRequestCompletionCacheData {
-    return YES;
-}
 
-- (NSString *)cacheVersion {
-    return @"1233";
-}
-
-- (NSTimeInterval)cacheTimeInterval {
-    return 3000;
+- (void)dealloc {
+    NSLog(@"网络请求对象异步销毁");
 }
 
 @end

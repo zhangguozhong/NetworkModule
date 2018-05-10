@@ -10,17 +10,25 @@
 
 @interface XXAppContext ()
 
+@property (copy, nonatomic, readwrite) NSString *accessToken;
+
 @end
+
 
 @implementation XXAppContext
 
+
+@synthesize apiVersion = _apiVersion;
+
+@synthesize headerFieldValueDictionary = _headerFieldValueDictionary;
+
 + (XXAppContext *)appContext {
-    static XXAppContext *contextInstance = nil;
+    static XXAppContext *shareInstance;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        contextInstance = [[self alloc] init];
+        shareInstance = [[self alloc] init];
     });
-    return contextInstance;
+    return shareInstance;
 }
 
 - (NSString *)appVersion {
@@ -35,17 +43,28 @@
     return [UIDevice currentDevice].systemVersion;
 }
 
+
+- (NSString *)apiVersion {
+    if (!_apiVersion) {
+        return @"1";
+    }
+    return _apiVersion;
+}
+
 - (NSDictionary *)headerFieldValueDictionary {
     if (!_headerFieldValueDictionary) {
         _headerFieldValueDictionary = @{
-                            @"appVersion": self.appVersion,
-                            @"apiVersion": self.apiVersion ?: @"1",
-                            @"sessionToken": self.sessionToken ?: [NSNull null],
-                            @"systemName": self.systemName,
-                            @"systemVersion": self.systemVersion
-                            };
+                                        @"appVersion": self.appVersion,
+                                        @"apiVersion": self.apiVersion,
+                                        @"systemName": self.systemName,
+                                        @"systemVersion": self.systemVersion
+                                        };
     }
     return _headerFieldValueDictionary;
+}
+
+- (void)updateAccessToken:(NSString *)accessToken {
+    self.accessToken = accessToken;
 }
 
 @end

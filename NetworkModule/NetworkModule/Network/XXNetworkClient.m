@@ -86,6 +86,10 @@
             }
         }];
     }
+    // 是否登录
+    if ([XXAppContext appContext].accessToken) {
+        [requestSerializer setValue:[XXAppContext appContext].accessToken forHTTPHeaderField:@"accessToken"];
+    }
     
     return requestSerializer;
 }
@@ -121,18 +125,10 @@
 - (void)handleRequestResult:(NSURLSessionDataTask *)requestDataTask responseObject:(id)responseObject error:(NSError *)error completion:(void (^)(id, NSError *))completion {
     Lock();
     XXXRequest *request = [self.requestTaskRecords objectForKey:@(requestDataTask.taskIdentifier)];
-    switch (error.code){
-        case NSURLErrorUnknown:
-        case NSURLErrorTimedOut:
-        case NSURLErrorCannotConnectToHost: {
-            ++request.timedOutCount;
-            if (request.timedOutCount <= XXRequestTimedOutCount) { //超时重连（最多3次）
-                [request.requestDataTask resume];
-                return;
-            }
-        }
-        default:break;
+    if (error) {
+        [self resumeRequest:request withErrorCode:error.code];
     }
+    
     Unlock();
     
     id fetchedRawData = [self processResponseData:responseObject];
@@ -150,6 +146,23 @@
     dispatch_async(dispatch_get_main_queue(), ^{
         [self cancelNetworkTask:request];
     });
+}
+
+
+/**
+ 网络请求重连（3次）
+
+ @param request 请求对象
+ @param errorCode 错误码NSURLErrorUnknown、NSURLErrorTimedOut以及NSURLErrorCannotConnectToHost
+ */
+- (void)resumeRequest:(XXXRequest *)request withErrorCode:(NSInteger)errorCode {
+    if (errorCode == NSURLErrorUnknown || errorCode == NSURLErrorTimedOut || errorCode == NSURLErrorCannotConnectToHost) {
+        // 超时重连
+        request.timedOutCount++;
+        if (request.timedOutCount < XXRequestTimedOutCount) {
+            [request.requestDataTask resume];
+        }
+    }
 }
 
 

@@ -18,13 +18,14 @@
 
 @property (copy, nonatomic) NSString *domain; //域名
 @property (copy, nonatomic, readonly) NSString *appVersion; // app版本号
-@property (copy, nonatomic) NSString *sessionToken; // 用于判断是否登录
-@property (copy, nonatomic) NSString *apiVersion; // api版本，可以用于做api版本兼容
-@property (copy, nonatomic) NSString *cachePath;
-@property (strong, nonatomic) NSDictionary *headerFieldValueDictionary; // 请求头信息
+@property (copy, nonatomic, readonly) NSString *accessToken; // 用于判断是否登录
+@property (copy, nonatomic, readonly) NSString *apiVersion; // api版本，可以用于做api版本兼容
+@property (copy, nonatomic, readonly) NSDictionary *headerFieldValueDictionary; // 公用请求头信息
 
 @property (copy, nonatomic, readonly) NSString *systemName;
 @property (copy, nonatomic, readonly) NSString *systemVersion;
+
+- (void)updateAccessToken:(NSString *)accessToken;
 
 
 @end

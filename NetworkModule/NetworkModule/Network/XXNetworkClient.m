@@ -259,6 +259,7 @@
 - (void)cancelNetworkTask:(XXXRequest *)request {
     Lock();
     [request.requestDataTask cancel];
+    request.timedOutCount = 0;
     request.paramsDelegate = nil;
     [self.requestTaskRecords removeObjectForKey:@(request.requestDataTask.taskIdentifier)];
     Unlock();

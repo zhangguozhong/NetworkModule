@@ -35,6 +35,6 @@
  
  @param request 请求对象包含请求的方法、参数等
  */
-- (void)startRequest:(XXXRequest *)request completion:(void(^)(id result, NSError *error))completion;
+- (void)startRequest:(XXXRequest *)request;
 
 @end

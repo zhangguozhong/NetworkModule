@@ -14,7 +14,7 @@
 
 @interface XXXRequest ()
 
-@property (nonatomic, strong, readwrite) id fetchedRawData;
+@property (nonatomic, copy) NSString *cacheKey;
 
 @end
 
@@ -23,9 +23,11 @@
 - (NSString *)requestMethod{
     return @"GET";
 }
-
 - (NSUInteger)requestSerializerType {
     return RequestSerializerTypeJSON;
+}
+- (NSUInteger)responseSerializerType {
+    return ResponseSerializerTypeJSON;
 }
 
 // 配置请求参数
@@ -40,7 +42,6 @@
 - (NSString *)requestUrl {
     return @"react-native/movies.json";
 }
-
 - (NSString *)baseUrl {
     return nil;
 }
@@ -49,18 +50,11 @@
     return 10;
 }
 
-/**
- 设置请求头
- */
-- (NSDictionary *)headerFieldValueDictionary {
-    return nil;
-}
-
 // 获取数据
 - (id)fetchDataWithReformer:(id<XXXRequestDataReformer>)reformer {
     if ([reformer respondsToSelector:@selector(request:reformData:)]) {
         return [reformer request:self reformData:[self.fetchedRawData copy]];
-    }else{
+    }else {
         return [self.fetchedRawData copy];
     }
 }
@@ -69,68 +63,54 @@
 /**
  发起请求
  */
-- (void)startWithBlock:(XXCallbackWithRequestBlock)callbackWithRequestBlock
-{
-    // 生成缓存key
-    NSString *baseUrl = self.baseUrl ?: [XXAppContext appContext].domain;
-    NSString *cacheKey = [NSString stringWithFormat:@"Method:%@ Host:%@ Url:%@ requestParams:%@", [self requestMethod], baseUrl, [self requestUrl], [self requestParams]].stringToSignature;
-    
-    // 读取缓存
-    XXCallbackBlock callbackBlock = [self callbackBlock:callbackWithRequestBlock withKey:cacheKey];
-    NSData *cacheData = [[XXNetworkCacheMananger sharedInstance] fetchCachedDataWithKey:cacheKey];
+- (void)start {
+    //读取缓存
+    NSData *cacheData = [[XXNetworkCacheMananger sharedInstance] fetchCachedDataWithKey:self.cacheKey];
     if (!cacheData || self.ignoreCache) {
-        [self startWithCompletionBlock:callbackBlock];
+        [self startRequest];
         return;
     }
     
-    // 命中缓存直接回调，并且更新缓存过期时间
-    NSError *error;
-    id cacheDictionary = [NSJSONSerialization JSONObjectWithData:cacheData options:kNilOptions error:&error];
-    if (error) {
-        [self startWithCompletionBlock:callbackBlock];
+    NSError *cacheError = nil;
+    id fetchedRawData = [NSJSONSerialization JSONObjectWithData:cacheData options:kNilOptions error:&cacheError];
+    if (cacheError) {
+        [self startRequest];
     }else{
         dispatch_async(dispatch_get_main_queue(), ^{
-            self.fetchedRawData = cacheDictionary;
-            if (callbackWithRequestBlock) {
-                callbackWithRequestBlock(self, error);
+            self.fetchedRawData = fetchedRawData;
+            if (self.completionBlock) {
+                self.completionBlock(cacheError);
             }
         });
-        [[XXNetworkCacheMananger sharedInstance] saveCacheWithData:cacheData key:cacheKey];
+        
+        //更新缓存
+        [[XXNetworkCacheMananger sharedInstance] saveCacheWithData:cacheData key:self.cacheKey];
     }
 }
 
 
 /**
- 生成回调block
-
- @param callbackWithRequestBlock XXCallbackWithRequestBlock
- @param cacheKey 缓存的key
- @return XXCallbackBlock
+ 保存缓存
  */
-- (XXCallbackBlock)callbackBlock:(XXCallbackWithRequestBlock)callbackWithRequestBlock withKey:(NSString *)cacheKey {
-    XXCallbackBlock callbackBlock = ^(id responseObject, NSError *error) {
-        self.fetchedRawData = responseObject;
-        dispatch_async(dispatch_get_main_queue(), ^{
-            if (callbackWithRequestBlock) {
-                callbackWithRequestBlock(self, error);
-            }
-        });
-        
-        NSError *jsonError;
-        NSData *jsonData = [NSJSONSerialization dataWithJSONObject:responseObject options:kNilOptions error:&jsonError];
-        if (!jsonError && !error) {
-            [[XXNetworkCacheMananger sharedInstance] saveCacheWithData:jsonData key:cacheKey];
-        }
-    };
-    return callbackBlock;
+- (void)cacheData {
+    if (self.responseObject && [self.responseObject isKindOfClass:NSData.class]) {
+        [[XXNetworkCacheMananger sharedInstance] saveCacheWithData:_responseObject key:self.cacheKey];
+    }
+}
+
+- (NSString *)cacheKey {
+    if (!_cacheKey) {
+        _cacheKey = [NSString stringWithFormat:@"Method:%@ Host:%@ Url:%@ requestParams:%@", [self requestMethod], self.baseUrl ?: [XXAppContext appContext].domain, [self requestUrl], [self requestParams]].stringToSignature;
+    }
+    return _cacheKey;
 }
 
 
 /**
  发起请求（没有缓存）
  */
-- (void)startWithCompletionBlock:(XXCallbackBlock)callbackBlock {
-    [[XXNetworkClient sharedInstance] startRequest:self completion:callbackBlock];
+- (void)startRequest {
+    [[XXNetworkClient sharedInstance] startRequest:self];
 }
 
 - (void)dealloc {

@@ -11,6 +11,8 @@
 
 @interface UserService : BaseService
 
-- (void)testActionWithCallBack:(void(^)(XXXRequest *request, NSError *error))completionBlock;
+- (void)testActionWithCallBack:(void(^)(NSError *error))completionBlock;
+
+- (id)fetchDataWithReformer;
 
 @end

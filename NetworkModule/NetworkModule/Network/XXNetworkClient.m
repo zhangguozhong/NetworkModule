@@ -47,13 +47,13 @@
 
  @param request 请求对象包含请求的方法、参数等
  */
-- (void)startRequest:(XXXRequest *)request completion:(void (^)(id, NSError *))completion {
+- (void)startRequest:(XXXRequest *)request {
     NSString *requestMethod = [request requestMethod];
     NSDictionary *requestParams = [request requestParams];
     NSString *requestUrl = [self buildRequestUrl:request];
     AFHTTPRequestSerializer *requestSerializer = [self requestSerializerWithRequestObject:request];
     
-    request.requestDataTask = [self dataTaskWithHTTPMethod:requestMethod requestUrl:requestUrl  parameters:requestParams requestSerializer:requestSerializer completion:completion];
+    request.requestDataTask = [self dataTaskWithHTTPMethod:requestMethod requestUrl:requestUrl  parameters:requestParams requestSerializer:requestSerializer];
     Lock();
     [self.requestTaskRecords setObject:request forKey:@(request.requestDataTask.taskIdentifier)];
     Unlock();
@@ -68,7 +68,7 @@
  @return requestSerializer对象
  */
 - (AFHTTPRequestSerializer *)requestSerializerWithRequestObject:(XXXRequest *)request {
-    AFHTTPRequestSerializer *requestSerializer;
+    AFHTTPRequestSerializer *requestSerializer = nil;
     if (request.requestSerializerType == RequestSerializerTypeJSON) {
         requestSerializer = [AFJSONRequestSerializer serializer];
     }
@@ -96,6 +96,28 @@
 
 
 /**
+ 创建responseSerializer对象
+
+ @param request 请求对象XXXRequest
+ @return responseSerializer对象
+ */
+- (AFHTTPResponseSerializer *)responseSerializerWithRequest:(XXXRequest *)request {
+    AFHTTPResponseSerializer *responseSerializer = nil;
+    if (request.responseSerializerType == ResponseSerializerTypeXML) {
+        responseSerializer = [AFXMLParserResponseSerializer serializer];
+    }
+    else if (request.responseSerializerType == ResponseSerializerTypeHTTP) {
+        responseSerializer = [AFHTTPResponseSerializer serializer];
+    }
+    else {
+        responseSerializer = [AFJSONResponseSerializer serializer];
+    }
+    
+    return responseSerializer;
+}
+
+
+/**
  根据请求方法、参数等创建网络请求任务
 
  @param method 请求方法（POST、GET等）
@@ -103,15 +125,15 @@
  @param requestSerializer 用于生成request对象
  @return 返回NSURLSessionDataTask对象
  */
-- (NSURLSessionDataTask *)dataTaskWithHTTPMethod:(NSString *)method requestUrl:(NSString *)requestUrl parameters:(NSDictionary *)parameters requestSerializer:(AFHTTPRequestSerializer *)requestSerializer completion:(void (^)(id, NSError *))completion {
-    __block NSURLSessionDataTask *requestDataTask = nil;
+- (NSURLSessionDataTask *)dataTaskWithHTTPMethod:(NSString *)method requestUrl:(NSString *)requestUrl parameters:(NSDictionary *)parameters requestSerializer:(AFHTTPRequestSerializer *)requestSerializer {
+    __block NSURLSessionDataTask *dataTask = nil;
     NSURLRequest *request = [requestSerializer requestWithMethod:method URLString:requestUrl parameters:parameters error:nil];
-    requestDataTask = [[XXAPIClient httpClient] dataTaskWithRequest:request uploadProgress:nil downloadProgress:nil completionHandler:^(NSURLResponse * _Nonnull response, id  _Nullable responseObject, NSError * _Nullable error)
+    dataTask = [[XXAPIClient httpClient] dataTaskWithRequest:request uploadProgress:nil downloadProgress:nil completionHandler:^(NSURLResponse * _Nonnull response, id  _Nullable responseObject, NSError * _Nullable error)
                        {
-                           [self handleRequestResult:requestDataTask responseObject:responseObject error:error completion:completion];
+                           [self handleTask:dataTask withResponse:response withData:responseObject error:error];
                        }];
     
-    return requestDataTask;
+    return dataTask;
 }
 
 
@@ -122,24 +144,34 @@
  @param responseObject 返回的数据对象
  @param error 网络错误信息
  */
-- (void)handleRequestResult:(NSURLSessionDataTask *)requestDataTask responseObject:(id)responseObject error:(NSError *)error completion:(void (^)(id, NSError *))completion {
+- (void)handleTask:(NSURLSessionDataTask *)requestDataTask withResponse:(NSURLResponse *)response withData:(id)responseObject error:(NSError *)error {
     Lock();
     XXXRequest *request = [self.requestTaskRecords objectForKey:@(requestDataTask.taskIdentifier)];
     if (error) {
-        [self resumeRequest:request withErrorCode:error.code];
+        [self resumeRequest:request errorCode:error.code];
     }
-    
     Unlock();
     
-    id fetchedRawData = [self processResponseData:responseObject];
-    if (!error){
-        if (completion) {
-            completion(fetchedRawData, nil);
-        }
+    // 处理返回的数据
+    AFHTTPResponseSerializer *responseSerializer = [self responseSerializerWithRequest:request];
+    NSError *responseSerializerError = nil;
+    id fetchedRawData = [responseSerializer responseObjectForResponse:response data:responseObject error:&responseSerializerError];
+    
+    request.responseObject = responseObject;
+    request.fetchedRawData = fetchedRawData;
+    request.error = error;
+    
+    if (responseSerializerError) {
+       request.completionBlock(responseSerializerError);
     }
-    else{
-        if (completion) {
-            completion(fetchedRawData, error);
+    if (error) {
+        if (request.completionBlock) {
+            request.completionBlock(error);
+        }
+    }else {
+        [request cacheData];
+        if (request.completionBlock) {
+            request.completionBlock(nil);
         }
     }
     
@@ -155,42 +187,16 @@
  @param request 请求对象
  @param errorCode 错误码NSURLErrorUnknown、NSURLErrorTimedOut以及NSURLErrorCannotConnectToHost
  */
-- (void)resumeRequest:(XXXRequest *)request withErrorCode:(NSInteger)errorCode {
+- (void)resumeRequest:(XXXRequest *)request errorCode:(NSInteger)errorCode {
     if (errorCode == NSURLErrorUnknown || errorCode == NSURLErrorTimedOut || errorCode == NSURLErrorCannotConnectToHost) {
-        // 超时重连
+        
+        [self.requestTaskRecords removeObjectForKey:@(request.requestDataTask.taskIdentifier)];
         request.timedOutCount++;
         if (request.timedOutCount < XXRequestTimedOutCount) {
-            [request.requestDataTask resume];
+            //超时重连
+            [self startRequest:request];
         }
     }
-}
-
-
-/**
- 返回json对象或者是字符串对象
-
- @param responseObject 接口回调结果responseObject
- @return 格式化返回结果
- */
-- (id)processResponseData:(id)responseObject {
-    id fetchedRawData;
-    if ([responseObject isKindOfClass:NSString.class]) {
-        NSData *jsonData = [responseObject dataUsingEncoding:NSUTF8StringEncoding];
-        NSError *error;
-        fetchedRawData = [NSJSONSerialization JSONObjectWithData:jsonData options:kNilOptions error:&error];
-        if (error) {
-            fetchedRawData = responseObject;
-        }
-    }else if ([responseObject isKindOfClass:NSData.class]) {
-        NSError *error;
-        fetchedRawData = [NSJSONSerialization JSONObjectWithData:responseObject options:kNilOptions error:&error];
-        if (error) {
-            fetchedRawData = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
-        }
-    }else {
-        fetchedRawData = responseObject;
-    }
-    return fetchedRawData;
 }
 
 

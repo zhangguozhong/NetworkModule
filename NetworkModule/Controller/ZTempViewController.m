@@ -22,9 +22,9 @@
     self.view.backgroundColor = [UIColor whiteColor];
     
     self.userService = [[UserService alloc] init];
-    [self.userService testActionWithCallBack:^(XXXRequest *request, NSError *error) {
+    [self.userService testActionWithCallBack:^(NSError *error) {
         if (!error) {
-           id result = [request fetchDataWithReformer:nil];
+           id result = [self.userService fetchDataWithReformer];
             NSLog(@"result -- %@",result);
         }
     }];

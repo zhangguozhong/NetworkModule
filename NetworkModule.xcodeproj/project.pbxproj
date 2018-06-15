@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		06F43C4B51DBAB7627C4A26D /* libPods-NetworkModule.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 83F9AF6DC77D85699BFF5872 /* libPods-NetworkModule.a */; };
+		770953A920D003420002FD79 /* XXXBaseRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 770953A820D003420002FD79 /* XXXBaseRequest.m */; };
 		77275AEB206FCDFD001D0C4E /* BaseService.m in Sources */ = {isa = PBXBuildFile; fileRef = 77275AEA206FCDFD001D0C4E /* BaseService.m */; };
 		772E92AC20270E93008E30F1 /* XXAPIClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 772E92AB20270E93008E30F1 /* XXAPIClient.m */; };
 		772E92B0202726E0008E30F1 /* ZTempViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 772E92AF202726E0008E30F1 /* ZTempViewController.m */; };
@@ -30,6 +31,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		770953A720D003420002FD79 /* XXXBaseRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XXXBaseRequest.h; sourceTree = "<group>"; };
+		770953A820D003420002FD79 /* XXXBaseRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XXXBaseRequest.m; sourceTree = "<group>"; };
 		77275AE9206FCDFD001D0C4E /* BaseService.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BaseService.h; sourceTree = "<group>"; };
 		77275AEA206FCDFD001D0C4E /* BaseService.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BaseService.m; sourceTree = "<group>"; };
 		772E92AA20270E93008E30F1 /* XXAPIClient.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XXAPIClient.h; sourceTree = "<group>"; };
@@ -199,6 +202,8 @@
 			children = (
 				77F5EF852024A49600DD9194 /* XXXRequest.h */,
 				77F5EF862024A49600DD9194 /* XXXRequest.m */,
+				770953A720D003420002FD79 /* XXXBaseRequest.h */,
+				770953A820D003420002FD79 /* XXXBaseRequest.m */,
 				772E92AA20270E93008E30F1 /* XXAPIClient.h */,
 				772E92AB20270E93008E30F1 /* XXAPIClient.m */,
 				77F5EF822024A44D00DD9194 /* XXNetworkClient.h */,
@@ -349,6 +354,7 @@
 				77275AEB206FCDFD001D0C4E /* BaseService.m in Sources */,
 				77456D222029E7950060B4FF /* ZBaseViewController.m in Sources */,
 				77F5EF8020249F1D00DD9194 /* XXAppContext.m in Sources */,
+				770953A920D003420002FD79 /* XXXBaseRequest.m in Sources */,
 				77F5EF6920249D8800DD9194 /* AppDelegate.m in Sources */,
 				772E92AC20270E93008E30F1 /* XXAPIClient.m in Sources */,
 				77756BBB2087908000A5EEEE /* XXNetworkCacheMananger.m in Sources */,

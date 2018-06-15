@@ -11,9 +11,7 @@
 
 @class XXXRequest;
 
-typedef void(^XXCallbackWithRequestBlock)(XXXRequest *request, NSError *error);
-
-typedef void(^XXCallbackBlock)(id result, NSError *error);
+typedef void(^XXCallbackWithRequestBlock)(NSError *error);
 
 static NSTimeInterval kCTCacheOutdateTimeSeconds = 300; // 5分钟的cache过期时间
 

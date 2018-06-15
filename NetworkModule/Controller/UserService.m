@@ -15,10 +15,15 @@
 
 @implementation UserService
 
-- (void)testActionWithCallBack:(void (^)(XXXRequest *, NSError *))completionBlock {
+- (void)testActionWithCallBack:(void (^)(NSError *))completionBlock {
     self.userLoginRequest = [[TestRequestObj alloc] init];
     _userLoginRequest.paramsDelegate = self;
-    [self.userLoginRequest startWithBlock:completionBlock];
+    _userLoginRequest.completionBlock = completionBlock;
+    [self.userLoginRequest start];
+}
+
+- (id)fetchDataWithReformer{
+    return [self.userLoginRequest fetchDataWithReformer:nil];
 }
 
 

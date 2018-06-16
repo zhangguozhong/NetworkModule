@@ -35,6 +35,7 @@ typedef NS_OPTIONS(NSUInteger, ResponseSerializerType) {
 
 
 @protocol XXXRequestDelegate <NSObject>
+
 @required
 - (NSString *)requestMethod;
 - (id)requestParams; //请求参数

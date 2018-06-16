@@ -12,4 +12,6 @@
 
 - (NSDictionary *)headerFieldValueDictionary; // 设置该请求的请求头
 
+- (void)requestCompletePreprocessor;
+
 @end

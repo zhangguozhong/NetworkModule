@@ -17,6 +17,7 @@
 
 @interface XXNetworkClient() {
     pthread_mutex_t _lock;
+    dispatch_queue_t ioQueue;
 }
 
 @property (strong, nonatomic) NSMutableDictionary *requestTaskRecords;
@@ -37,6 +38,7 @@
     self = [super init];
     if (self) {
         pthread_mutex_init(&_lock, NULL);
+        ioQueue = dispatch_queue_create("com.request.cache.queue", DISPATCH_QUEUE_SERIAL);
     }
     return self;
 }
@@ -126,14 +128,14 @@
  @return 返回NSURLSessionDataTask对象
  */
 - (NSURLSessionDataTask *)dataTaskWithHTTPMethod:(NSString *)method requestUrl:(NSString *)requestUrl parameters:(NSDictionary *)parameters requestSerializer:(AFHTTPRequestSerializer *)requestSerializer {
-    __block NSURLSessionDataTask *dataTask = nil;
+    __block NSURLSessionDataTask *requestDataTask = nil;
     NSURLRequest *request = [requestSerializer requestWithMethod:method URLString:requestUrl parameters:parameters error:nil];
-    dataTask = [[XXAPIClient httpClient] dataTaskWithRequest:request uploadProgress:nil downloadProgress:nil completionHandler:^(NSURLResponse * _Nonnull response, id  _Nullable responseObject, NSError * _Nullable error)
+    requestDataTask = [[XXAPIClient httpClient] dataTaskWithRequest:request uploadProgress:nil downloadProgress:nil completionHandler:^(NSURLResponse * _Nonnull response, id  _Nullable responseObject, NSError * _Nullable error)
                        {
-                           [self handleTask:dataTask withResponse:response withData:responseObject error:error];
+                           [self handleTask:requestDataTask withData:responseObject error:error];
                        }];
     
-    return dataTask;
+    return requestDataTask;
 }
 
 
@@ -144,7 +146,7 @@
  @param responseObject 返回的数据对象
  @param error 网络错误信息
  */
-- (void)handleTask:(NSURLSessionDataTask *)requestDataTask withResponse:(NSURLResponse *)response withData:(id)responseObject error:(NSError *)error {
+- (void)handleTask:(NSURLSessionDataTask *)requestDataTask withData:(id)responseObject error:(NSError *)error {
     Lock();
     XXXRequest *request = [self.requestTaskRecords objectForKey:@(requestDataTask.taskIdentifier)];
     if (error) {
@@ -155,7 +157,7 @@
     // 处理返回的数据
     AFHTTPResponseSerializer *responseSerializer = [self responseSerializerWithRequest:request];
     NSError *responseSerializerError = nil;
-    id fetchedRawData = [responseSerializer responseObjectForResponse:response data:responseObject error:&responseSerializerError];
+    id fetchedRawData = [responseSerializer responseObjectForResponse:requestDataTask.response data:responseObject error:&responseSerializerError];
     
     request.responseObject = responseObject;
     request.fetchedRawData = fetchedRawData;
@@ -163,15 +165,16 @@
     
     if (responseSerializerError) {
        request.completionBlock(responseSerializerError);
-    }
-    if (error) {
+    }else {
+        if (!error) {
+            //开启缓存队列（串行）
+            dispatch_async(ioQueue, ^{
+                [request requestCompletePreprocessor];
+            });
+        }
+        
         if (request.completionBlock) {
             request.completionBlock(error);
-        }
-    }else {
-        [request cacheData];
-        if (request.completionBlock) {
-            request.completionBlock(nil);
         }
     }
     
@@ -266,6 +269,7 @@
     Lock();
     [request.requestDataTask cancel];
     request.timedOutCount = 0;
+    request.completionBlock = nil;
     request.paramsDelegate = nil;
     [self.requestTaskRecords removeObjectForKey:@(request.requestDataTask.taskIdentifier)];
     Unlock();

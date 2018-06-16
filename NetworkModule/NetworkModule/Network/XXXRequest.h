@@ -64,13 +64,11 @@ typedef NS_OPTIONS(NSUInteger, ResponseSerializerType) {
 @property (copy, nonatomic) XXCallbackWithRequestBlock completionBlock;
 @property (weak, nonatomic) id<XXXRequestParametersDelegate> paramsDelegate; //配置参数委托对象
 
-
 @property (nonatomic) id fetchedRawData;
 @property (nonatomic, strong) NSData *responseObject;
 @property (nonatomic, strong) NSError *error;
 
 - (void)start;
-- (void)cacheData;
 - (id)fetchDataWithReformer:(id<XXXRequestDataReformer>)reformer;
 
 

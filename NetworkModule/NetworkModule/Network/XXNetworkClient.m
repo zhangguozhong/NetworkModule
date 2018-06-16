@@ -21,6 +21,7 @@
 }
 
 @property (strong, nonatomic) NSMutableDictionary *requestTaskRecords;
+
 @end
 
 @implementation XXNetworkClient
@@ -149,10 +150,13 @@
 - (void)handleTask:(NSURLSessionDataTask *)requestDataTask withData:(id)responseObject error:(NSError *)error {
     Lock();
     XXXRequest *request = [self.requestTaskRecords objectForKey:@(requestDataTask.taskIdentifier)];
-    if (error) {
-        [self resumeRequest:request errorCode:error.code];
-    }
     Unlock();
+    
+    //判断是否需要重连
+    if ([self shouldReStartTaskForErrorCode:error.code] && request.timedOutCount < XXRequestTimedOutCount) {
+        [self reConnectWithRequest:request];
+        return;
+    }
     
     // 处理返回的数据
     AFHTTPResponseSerializer *responseSerializer = [self responseSerializerWithRequest:request];
@@ -188,18 +192,22 @@
  网络请求重连（3次）
 
  @param request 请求对象
- @param errorCode 错误码NSURLErrorUnknown、NSURLErrorTimedOut以及NSURLErrorCannotConnectToHost
  */
-- (void)resumeRequest:(XXXRequest *)request errorCode:(NSInteger)errorCode {
-    if (errorCode == NSURLErrorUnknown || errorCode == NSURLErrorTimedOut || errorCode == NSURLErrorCannotConnectToHost) {
-        
-        [self.requestTaskRecords removeObjectForKey:@(request.requestDataTask.taskIdentifier)];
-        request.timedOutCount++;
-        if (request.timedOutCount < XXRequestTimedOutCount) {
-            //超时重连
-            [self startRequest:request];
-        }
-    }
+- (void)reConnectWithRequest:(XXXRequest *)request {
+    [self.requestTaskRecords removeObjectForKey:@(request.requestDataTask.taskIdentifier)];//移除request对象
+    request.timedOutCount++;//重连次数自增
+    [self startRequest:request];//超时重连
+}
+
+
+/**
+ 是否需要重连
+
+ @param errorCode 错误码NSURLErrorUnknown、NSURLErrorTimedOut以及NSURLErrorCannotConnectToHost
+ @return YES OR NO
+ */
+- (BOOL)shouldReStartTaskForErrorCode:(NSUInteger)errorCode {
+    return (errorCode == NSURLErrorUnknown || errorCode == NSURLErrorTimedOut || errorCode == NSURLErrorCannotConnectToHost);
 }
 
 

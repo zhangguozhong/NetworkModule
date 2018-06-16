@@ -83,7 +83,6 @@ typedef NS_OPTIONS(NSUInteger, ResponseSerializerType) {
 @property (nonatomic, strong) NSError *error;
 
 - (void)start;
-- (void)cacheData;
 - (id)fetchDataWithReformer:(id<XXXRequestDataReformer>)reformer;
 
 

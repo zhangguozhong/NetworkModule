@@ -15,17 +15,10 @@
 
 @implementation UserService
 
-- (void)testActionWithCallBack:(void (^)(BaseService *,NSError *))completionBlockUI {
+- (void)testActionWithCallBack:(void (^)(NSError *))completionBlockUI {
     self.userLoginRequest = [[TestRequestObj alloc] init];
     _userLoginRequest.paramsDelegate = self;
-    
-    void(^completionBlock)(NSError *) = ^(NSError *error){
-        if (completionBlockUI) {
-            completionBlockUI(self, error);
-        }
-    };
-    
-    _userLoginRequest.completionBlock = completionBlock;
+    _userLoginRequest.completionBlock = completionBlockUI;
     [self.userLoginRequest start];
 }
 
@@ -36,6 +29,10 @@
 
 - (id)paramsWithRequest:(XXXRequest *)request {
     return @{@"key":@"value"};
+}
+
+- (void)dealloc{
+    NSLog(@"服务对象已销毁");
 }
 
 @end

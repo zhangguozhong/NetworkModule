@@ -13,6 +13,7 @@
 
 typedef void(^XXCallbackWithRequestBlock)(NSError *error);
 
+static NSString *XXXCacheFilesDirectory = @"XXXCacheFilesDirectory";//文件缓存目录
 static NSTimeInterval kCTCacheOutdateTimeSeconds = 300; // 5分钟的cache过期时间
 static NSUInteger kCTCacheCountLimit = 1000; // 最多1000条cache
 

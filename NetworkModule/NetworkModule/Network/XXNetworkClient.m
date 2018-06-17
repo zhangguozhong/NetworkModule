@@ -89,11 +89,11 @@
             }
         }];
     }
-    //是否登录
     if ([XXAppContext appContext].accessToken) {
         [requestSerializer setValue:[XXAppContext appContext].accessToken forHTTPHeaderField:@"accessToken"];
     }
     
+    [requestSerializer setValue:request.apiVersion forHTTPHeaderField:@"apiVersion"];
     return requestSerializer;
 }
 

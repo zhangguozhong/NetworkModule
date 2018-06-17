@@ -22,9 +22,10 @@
     self.view.backgroundColor = [UIColor whiteColor];
     
     self.userService = [[UserService alloc] init];
-    [self.userService testActionWithCallBack:^(BaseService *service, NSError *error) {
+    __weak typeof(self) weakSelf = self;
+    [self.userService testActionWithCallBack:^(NSError *error) {
         if (!error) {
-            id result = [service fetchDataWithReformer];
+            id result = [weakSelf fetchDataWithReformer];
             NSLog(@"result -- %@",result);
         }
     }];
@@ -33,6 +34,10 @@
     
     NSString *testStr = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
     NSLog(@"json string == %@", testStr);
+}
+
+- (id)fetchDataWithReformer {
+    return [self.userService fetchDataWithReformer];
 }
 
 - (void)didReceiveMemoryWarning {

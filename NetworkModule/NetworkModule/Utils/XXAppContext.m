@@ -11,9 +11,7 @@
 @interface XXAppContext ()
 
 @property (copy, nonatomic, readwrite) NSString *accessToken;
-
 @end
-
 
 @implementation XXAppContext
 

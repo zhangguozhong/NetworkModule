@@ -22,6 +22,7 @@ typedef NS_OPTIONS(NSUInteger, ResponseSerializerType) {
 
 
 @protocol XXXRequestDelegate <NSObject>
+
 @required
 - (NSString *)requestMethod;
 - (id)requestParams; //请求参数
@@ -29,9 +30,11 @@ typedef NS_OPTIONS(NSUInteger, ResponseSerializerType) {
 
 @optional
 - (NSString *)baseUrl; //请求的接口域名地址
+- (NSString *)apiVersion;//接口版本
 - (NSUInteger)requestSerializerType;
 - (NSUInteger)responseSerializerType;
-- (NSTimeInterval)requestTimeoutInterval; // 每个请求的超时时间
+- (NSTimeInterval)requestTimeoutInterval; //每个请求的超时时间
+- (NSTimeInterval)cacheInVaild;
 
 @end
 

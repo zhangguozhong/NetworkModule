@@ -14,10 +14,11 @@
 		772E92B0202726E0008E30F1 /* ZTempViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 772E92AF202726E0008E30F1 /* ZTempViewController.m */; };
 		772E92B32027313F008E30F1 /* UserService.m in Sources */ = {isa = PBXBuildFile; fileRef = 772E92B22027313F008E30F1 /* UserService.m */; };
 		77456D222029E7950060B4FF /* ZBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 77456D212029E7950060B4FF /* ZBaseViewController.m */; };
-		77756BB82087906900A5EEEE /* XXNetworkCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 77756BB72087906900A5EEEE /* XXNetworkCache.m */; };
-		77756BBB2087908000A5EEEE /* XXNetworkCacheMananger.m in Sources */ = {isa = PBXBuildFile; fileRef = 77756BBA2087908000A5EEEE /* XXNetworkCacheMananger.m */; };
 		77756BC220879D3400A5EEEE /* NSString+XXXRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 77756BC120879D3400A5EEEE /* NSString+XXXRequest.m */; };
 		77B1F9472070C0F000F6A15E /* TestRequestObj.m in Sources */ = {isa = PBXBuildFile; fileRef = 77B1F9462070C0F000F6A15E /* TestRequestObj.m */; };
+		77D8BC8020D69CBB0063BB34 /* XXXCacheFilesManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 77D8BC7F20D69CBB0063BB34 /* XXXCacheFilesManager.m */; };
+		77D8BC8320D6A6EC0063BB34 /* XXXFilesUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 77D8BC8220D6A6EC0063BB34 /* XXXFilesUtils.m */; };
+		77D8BC8620D6A7600063BB34 /* XXXCacheMetadata.m in Sources */ = {isa = PBXBuildFile; fileRef = 77D8BC8520D6A7600063BB34 /* XXXCacheMetadata.m */; };
 		77DC07D42028855200F2CA09 /* configDomainDatas.plist in Resources */ = {isa = PBXBuildFile; fileRef = 77DC07D32028855200F2CA09 /* configDomainDatas.plist */; };
 		77F5EF6920249D8800DD9194 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 77F5EF6820249D8800DD9194 /* AppDelegate.m */; };
 		77F5EF6C20249D8800DD9194 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 77F5EF6B20249D8800DD9194 /* ViewController.m */; };
@@ -43,15 +44,17 @@
 		772E92B22027313F008E30F1 /* UserService.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UserService.m; sourceTree = "<group>"; };
 		77456D202029E7950060B4FF /* ZBaseViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZBaseViewController.h; sourceTree = "<group>"; };
 		77456D212029E7950060B4FF /* ZBaseViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZBaseViewController.m; sourceTree = "<group>"; };
-		77756BB62087906900A5EEEE /* XXNetworkCache.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XXNetworkCache.h; sourceTree = "<group>"; };
-		77756BB72087906900A5EEEE /* XXNetworkCache.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XXNetworkCache.m; sourceTree = "<group>"; };
-		77756BB92087908000A5EEEE /* XXNetworkCacheMananger.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XXNetworkCacheMananger.h; sourceTree = "<group>"; };
-		77756BBA2087908000A5EEEE /* XXNetworkCacheMananger.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XXNetworkCacheMananger.m; sourceTree = "<group>"; };
 		77756BC020879D3400A5EEEE /* NSString+XXXRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSString+XXXRequest.h"; sourceTree = "<group>"; };
 		77756BC120879D3400A5EEEE /* NSString+XXXRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSString+XXXRequest.m"; sourceTree = "<group>"; };
 		77AED2F72088D17D00BE9E0B /* XXXRequestConfiguration.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XXXRequestConfiguration.h; sourceTree = "<group>"; };
 		77B1F9452070C0F000F6A15E /* TestRequestObj.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TestRequestObj.h; sourceTree = "<group>"; };
 		77B1F9462070C0F000F6A15E /* TestRequestObj.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TestRequestObj.m; sourceTree = "<group>"; };
+		77D8BC7E20D69CBB0063BB34 /* XXXCacheFilesManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XXXCacheFilesManager.h; sourceTree = "<group>"; };
+		77D8BC7F20D69CBB0063BB34 /* XXXCacheFilesManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XXXCacheFilesManager.m; sourceTree = "<group>"; };
+		77D8BC8120D6A6EC0063BB34 /* XXXFilesUtils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XXXFilesUtils.h; sourceTree = "<group>"; };
+		77D8BC8220D6A6EC0063BB34 /* XXXFilesUtils.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XXXFilesUtils.m; sourceTree = "<group>"; };
+		77D8BC8420D6A7600063BB34 /* XXXCacheMetadata.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XXXCacheMetadata.h; sourceTree = "<group>"; };
+		77D8BC8520D6A7600063BB34 /* XXXCacheMetadata.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XXXCacheMetadata.m; sourceTree = "<group>"; };
 		77DC07D32028855200F2CA09 /* configDomainDatas.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = configDomainDatas.plist; sourceTree = "<group>"; };
 		77F5EF6420249D8800DD9194 /* NetworkModule.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NetworkModule.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		77F5EF6720249D8800DD9194 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -121,10 +124,12 @@
 		77756BB520878BC100A5EEEE /* XXCache */ = {
 			isa = PBXGroup;
 			children = (
-				77756BB62087906900A5EEEE /* XXNetworkCache.h */,
-				77756BB72087906900A5EEEE /* XXNetworkCache.m */,
-				77756BB92087908000A5EEEE /* XXNetworkCacheMananger.h */,
-				77756BBA2087908000A5EEEE /* XXNetworkCacheMananger.m */,
+				77D8BC7E20D69CBB0063BB34 /* XXXCacheFilesManager.h */,
+				77D8BC7F20D69CBB0063BB34 /* XXXCacheFilesManager.m */,
+				77D8BC8120D6A6EC0063BB34 /* XXXFilesUtils.h */,
+				77D8BC8220D6A6EC0063BB34 /* XXXFilesUtils.m */,
+				77D8BC8420D6A7600063BB34 /* XXXCacheMetadata.h */,
+				77D8BC8520D6A7600063BB34 /* XXXCacheMetadata.m */,
 			);
 			path = XXCache;
 			sourceTree = "<group>";
@@ -347,8 +352,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				77756BB82087906900A5EEEE /* XXNetworkCache.m in Sources */,
 				77756BC220879D3400A5EEEE /* NSString+XXXRequest.m in Sources */,
+				77D8BC8320D6A6EC0063BB34 /* XXXFilesUtils.m in Sources */,
 				77F5EF6C20249D8800DD9194 /* ViewController.m in Sources */,
 				77F5EF7720249D8800DD9194 /* main.m in Sources */,
 				77275AEB206FCDFD001D0C4E /* BaseService.m in Sources */,
@@ -357,10 +362,11 @@
 				770953A920D003420002FD79 /* XXXBaseRequest.m in Sources */,
 				77F5EF6920249D8800DD9194 /* AppDelegate.m in Sources */,
 				772E92AC20270E93008E30F1 /* XXAPIClient.m in Sources */,
-				77756BBB2087908000A5EEEE /* XXNetworkCacheMananger.m in Sources */,
 				77B1F9472070C0F000F6A15E /* TestRequestObj.m in Sources */,
+				77D8BC8620D6A7600063BB34 /* XXXCacheMetadata.m in Sources */,
 				77F5EF842024A44D00DD9194 /* XXNetworkClient.m in Sources */,
 				77F5EF872024A49600DD9194 /* XXXRequest.m in Sources */,
+				77D8BC8020D69CBB0063BB34 /* XXXCacheFilesManager.m in Sources */,
 				772E92B32027313F008E30F1 /* UserService.m in Sources */,
 				772E92B0202726E0008E30F1 /* ZTempViewController.m in Sources */,
 			);

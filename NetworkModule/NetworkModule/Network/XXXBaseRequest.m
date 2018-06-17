@@ -13,10 +13,9 @@
 - (NSDictionary *)headerFieldValueDictionary {
     return @{
              @"appVersion": [XXAppContext appContext].appVersion,
-             @"apiVersion": [XXAppContext appContext].appVersion,
              @"systemName": [XXAppContext appContext].systemName,
              @"systemVersion": [XXAppContext appContext].systemVersion
-             };;
+             };
 }
 
 - (void)requestCompletePreprocessor{

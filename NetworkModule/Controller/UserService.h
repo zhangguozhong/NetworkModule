@@ -11,7 +11,7 @@
 
 @interface UserService : BaseService
 
-- (void)testActionWithCallBack:(void(^)(BaseService *service, NSError *error))completionBlockUI;
+- (void)testActionWithCallBack:(void(^)(NSError *error))completionBlockUI;
 
 
 

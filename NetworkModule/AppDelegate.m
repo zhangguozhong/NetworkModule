@@ -19,6 +19,8 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     [XXAppContext appContext].domain = @"https://facebook.github.io/";
+    [XXAppContext appContext].cacheFileDirectory = @"CacheFiles";
+    
     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     ViewController *viewController = [[ViewController alloc] init];
     UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:viewController];

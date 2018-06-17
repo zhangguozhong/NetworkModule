@@ -11,7 +11,12 @@
 @implementation XXXBaseRequest
 
 - (NSDictionary *)headerFieldValueDictionary {
-    return nil;
+    return @{
+             @"appVersion": [XXAppContext appContext].appVersion,
+             @"apiVersion": [XXAppContext appContext].appVersion,
+             @"systemName": [XXAppContext appContext].systemName,
+             @"systemVersion": [XXAppContext appContext].systemVersion
+             };;
 }
 
 - (void)requestCompletePreprocessor{

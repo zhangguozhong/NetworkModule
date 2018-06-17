@@ -80,8 +80,8 @@
     }
     
     requestSerializer.timeoutInterval = [request requestTimeoutInterval]; //请求超时时间
-    NSDictionary *headerFieldValueDictionary = [request headerFieldValueDictionary] ?: [XXAppContext appContext].headerFieldValueDictionary;
-    // 加入请求头
+    NSDictionary *headerFieldValueDictionary = [request headerFieldValueDictionary];
+    //加入请求头
     if (headerFieldValueDictionary) {
         [headerFieldValueDictionary enumerateKeysAndObjectsUsingBlock:^(NSString *  _Nonnull key, id  _Nonnull objValue, BOOL * _Nonnull stop) {
             if ([key isKindOfClass:NSString.class] && [objValue isKindOfClass:NSString.class]) {
@@ -89,7 +89,7 @@
             }
         }];
     }
-    // 是否登录
+    //是否登录
     if ([XXAppContext appContext].accessToken) {
         [requestSerializer setValue:[XXAppContext appContext].accessToken forHTTPHeaderField:@"accessToken"];
     }

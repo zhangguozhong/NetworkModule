@@ -14,7 +14,6 @@
 typedef void(^XXCallbackWithRequestBlock)(NSError *error);
 
 static NSTimeInterval kCTCacheOutdateTimeSeconds = 300; // 5分钟的cache过期时间
-
 static NSUInteger kCTCacheCountLimit = 1000; // 最多1000条cache
 
 static NSUInteger XXRequestTimedOutCount = 3; // 3次重连

@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "XXAppContext.h"
 
 @interface XXXBaseRequest : NSObject
 

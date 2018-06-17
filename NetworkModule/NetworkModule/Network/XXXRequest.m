@@ -71,21 +71,21 @@
         return;
     }
     
-    NSError *error = nil;
-    id fetchedRawData = [NSJSONSerialization JSONObjectWithData:cacheData options:kNilOptions error:&error];
-    if (error) {
+    NSError *serializerError = nil;
+    id fetchedRawData = [NSJSONSerialization JSONObjectWithData:cacheData options:kNilOptions error:&serializerError];
+    if (serializerError) {
         [self startRequest];
-    }else {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            self.fetchedRawData = fetchedRawData;
-            if (self.completionBlock) {
-                self.completionBlock(error);
-            }
-        });
-        
-        //更新缓存
-        [[XXNetworkCacheMananger sharedInstance] saveCacheWithData:cacheData key:self.cacheKey];
+        return;
     }
+    
+    self.fetchedRawData = fetchedRawData;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if (self.completionBlock) {
+            self.completionBlock(serializerError);
+        }
+    });
+    //更新缓存
+    [[XXNetworkCacheMananger sharedInstance] saveCacheWithData:cacheData key:self.cacheKey];
 }
 
 
@@ -116,6 +116,5 @@
 - (void)dealloc {
     [[XXNetworkClient sharedInstance] cancelNetworkTask:self];
 }
-
 
 @end

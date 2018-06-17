@@ -12,4 +12,6 @@
 
 - (void)handleErrorAction:(NSError *)errorInfo;
 
+- (id)fetchDataWithReformer;
+
 @end

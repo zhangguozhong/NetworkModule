@@ -15,9 +15,16 @@
 
 @implementation UserService
 
-- (void)testActionWithCallBack:(void (^)(NSError *))completionBlock {
+- (void)testActionWithCallBack:(void (^)(BaseService *,NSError *))completionBlockUI {
     self.userLoginRequest = [[TestRequestObj alloc] init];
     _userLoginRequest.paramsDelegate = self;
+    
+    void(^completionBlock)(NSError *) = ^(NSError *error){
+        if (completionBlockUI) {
+            completionBlockUI(self, error);
+        }
+    };
+    
     _userLoginRequest.completionBlock = completionBlock;
     [self.userLoginRequest start];
 }

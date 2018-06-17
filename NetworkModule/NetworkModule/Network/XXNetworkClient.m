@@ -168,7 +168,7 @@
     request.error = error;
     
     if (responseSerializerError) {
-       request.completionBlock(responseSerializerError);
+        [self excuteInMainQueueWithRequest:request withError:responseSerializerError];
     }else {
         if (!error) {
             //开启缓存队列（串行）
@@ -177,14 +177,33 @@
             });
         }
         
-        if (request.completionBlock) {
-            request.completionBlock(error);
-        }
+        [self excuteInMainQueueWithRequest:request withError:error];
     }
     
     dispatch_async(dispatch_get_main_queue(), ^{
         [self cancelNetworkTask:request];
     });
+}
+
+
+/**
+ 主线程执行回调
+
+ @param request request对象
+ @param error 错误信息对象
+ */
+- (void)excuteInMainQueueWithRequest:(XXXRequest *)request withError:(NSError *)error {
+    if ([NSThread currentThread].isMainThread) {
+        if (request.completionBlock) {
+            request.completionBlock(error);
+        }
+    }else {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if (request.completionBlock) {
+                request.completionBlock(error);
+            }
+        });
+    }
 }
 
 

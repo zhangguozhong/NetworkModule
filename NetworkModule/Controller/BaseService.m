@@ -15,4 +15,9 @@
     NSLog(@"error");
 }
 
+- (id)fetchDataWithReformer {
+    
+    return nil;
+}
+
 @end

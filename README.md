@@ -43,9 +43,11 @@ typedef NS_OPTIONS(NSUInteger, ResponseSerializerType) {
 
 @optional
 - (NSString *)baseUrl; //请求的接口域名地址
+- (NSString *)apiVersion;//接口版本
 - (NSUInteger)requestSerializerType;
 - (NSUInteger)responseSerializerType;
-- (NSTimeInterval)requestTimeoutInterval; // 每个请求的超时时间
+- (NSTimeInterval)requestTimeoutInterval; //每个请求的超时时间
+- (NSTimeInterval)cacheInVaild;
 
 @end
 
@@ -77,7 +79,6 @@ typedef NS_OPTIONS(NSUInteger, ResponseSerializerType) {
 @property (assign, nonatomic) NSInteger timedOutCount; //超时次数
 @property (copy, nonatomic) XXCallbackWithRequestBlock completionBlock;
 @property (weak, nonatomic) id<XXXRequestParametersDelegate> paramsDelegate; //配置参数委托对象
-
 
 @property (nonatomic) id fetchedRawData;
 @property (nonatomic, strong) NSData *responseObject;

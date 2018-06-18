@@ -214,8 +214,8 @@
  */
 - (void)reConnectWithRequest:(XXXRequest *)request {
     [self.requestTaskRecords removeObjectForKey:@(request.requestDataTask.taskIdentifier)];//移除request对象
-    request.timedOutCount++;//重连次数自增
     [self startRequest:request];//超时重连
+    request.timedOutCount++;//重连次数自增
 }
 
 
@@ -297,7 +297,6 @@
     [request.requestDataTask cancel];
     request.timedOutCount = 0;
     request.completionBlock = nil;
-    request.paramsDelegate = nil;
     [self.requestTaskRecords removeObjectForKey:@(request.requestDataTask.taskIdentifier)];
     Unlock();
 }

@@ -9,15 +9,14 @@
 #import "UserService.h"
 #import "TestRequestObj.h"
 
-@interface UserService() <XXXRequestParametersDelegate>
+@interface UserService()
 @property (strong,nonatomic) XXXRequest *userLoginRequest;
 @end
 
 @implementation UserService
 
 - (void)testActionWithCallBack:(void (^)(NSError *))completionBlockUI {
-    self.userLoginRequest = [[TestRequestObj alloc] init];
-    _userLoginRequest.paramsDelegate = self;
+    self.userLoginRequest = [[TestRequestObj alloc] initWithRequestParams:@{@"key":@"value"}];
     _userLoginRequest.completionBlock = completionBlockUI;
     [self.userLoginRequest start];
 }
@@ -26,10 +25,6 @@
     return [self.userLoginRequest fetchDataWithReformer:nil];
 }
 
-
-- (id)paramsWithRequest:(XXXRequest *)request {
-    return @{@"key":@"value"};
-}
 
 - (void)dealloc{
     NSLog(@"服务对象已销毁");

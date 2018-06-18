@@ -39,16 +39,6 @@ typedef NS_OPTIONS(NSUInteger, ResponseSerializerType) {
 @end
 
 
-@protocol XXXRequestParametersDelegate <NSObject>
-/**
- 配置请求参数方法
- */
-@required
-- (id)paramsWithRequest:(XXXRequest *)request;
-
-@end
-
-
 @protocol XXXRequestDataReformer <NSObject>
 
 /**
@@ -65,12 +55,12 @@ typedef NS_OPTIONS(NSUInteger, ResponseSerializerType) {
 @property (assign, nonatomic) BOOL ignoreCache; //忽略缓存
 @property (assign, nonatomic) NSInteger timedOutCount; //超时次数
 @property (copy, nonatomic) XXCallbackWithRequestBlock completionBlock;
-@property (weak, nonatomic) id<XXXRequestParametersDelegate> paramsDelegate; //配置参数委托对象
 
 @property (nonatomic) id fetchedRawData;
 @property (nonatomic, strong) NSData *responseObject;
 @property (nonatomic, strong) NSError *error;
 
+- (instancetype)initWithRequestParams:(id)requestParams;
 - (void)start;
 - (id)fetchDataWithReformer:(id<XXXRequestDataReformer>)reformer;
 

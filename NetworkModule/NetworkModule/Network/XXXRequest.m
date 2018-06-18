@@ -9,18 +9,29 @@
 #import "XXXRequest.h"
 #import "XXNetworkClient.h"
 #import "XXAppContext.h"
-#import "NSString+XXXRequest.h"
 #import "XXXCacheFilesManager.h"
 #import "XXXCacheMetadata.h"
+#import "XXXNetworkUtils.h"
 
 @interface XXXRequest() {
     XXXCacheMetadata *_cacheMetadata;
+    id _requestParams;
 }
-@property (nonatomic, copy) NSString *cacheKey;
-
+@property (copy, nonatomic) NSString *cacheFileName;
 @end
 
 @implementation XXXRequest
+
+- (instancetype)initWithRequestParams:(id)requestParams {
+    self = [super init];
+    if (!self) {
+        return nil;
+    }
+    
+    _requestParams = requestParams;
+    
+    return self;
+}
 
 - (NSString *)requestMethod{
     return @"GET";
@@ -37,10 +48,7 @@
 
 // 配置请求参数
 - (id)requestParams {
-    if ([self.paramsDelegate respondsToSelector:@selector(paramsWithRequest:)]) {
-        return [self.paramsDelegate paramsWithRequest:self];
-    }
-    return nil;
+    return _requestParams;
 }
 
 // 接口地址，可以配置完整的地址
@@ -72,9 +80,13 @@
  开始请求
  */
 - (void)start{
-    //读取缓存
-    NSData *data = [self getCacheForName:self.cacheKey];
-    if (!data || self.ignoreCache) {
+    if (self.ignoreCache) {
+        [self startRequest];
+        return;
+    }
+    
+    NSData *data = [self cacheForName:self.cacheFileName];
+    if (!data) {
         [self startRequest];
         return;
     }
@@ -101,14 +113,14 @@
 - (void)requestCompletePreprocessor {
     if (self.cacheInVaild > 0 && self.responseObject) {
         @try{
-            [[XXXCacheFilesManager cacheManager] generateCacheObject:self.responseObject aName:self.cacheKey];
+            [[XXXCacheFilesManager cacheManager] generateCacheObject:self.responseObject aName:self.cacheFileName];
             
             XXXCacheMetadata *cacheMetadata = [[XXXCacheMetadata alloc] init];
             cacheMetadata.apiVersion = self.apiVersion;
             cacheMetadata.appVersion = [XXAppContext appContext].appVersion;
             cacheMetadata.cacheCreateTime = [NSDate date];
             
-            [[XXXCacheFilesManager cacheManager] generateMetadataObject:cacheMetadata aName:self.cacheKey];
+            [[XXXCacheFilesManager cacheManager] generateMetadataObject:cacheMetadata aName:self.cacheFileName];
         }@catch(NSException *exception) {
             NSLog(@"Save cache failed, reason = %@",exception.reason);
         }
@@ -119,13 +131,11 @@
 /**
  缓存文件名
 
- @return _cacheKey
+ @return fileName
  */
-- (NSString *)cacheKey {
-    if (!_cacheKey) {
-        _cacheKey = [NSString stringWithFormat:@"Method:%@ Host:%@ Url:%@ requestParams:%@", [self requestMethod], self.baseUrl ?: [XXAppContext appContext].domain, [self requestUrl], [self requestParams]].stringToSignature;
-    }
-    return _cacheKey;
+- (NSString *)cacheFileName {
+    NSString *fileName = [NSString stringWithFormat:@"Method:%@ Host:%@ Url:%@ requestParams:%@", [self requestMethod], self.baseUrl ?: [XXAppContext appContext].domain, [self requestUrl], [self requestParams]];
+    return [XXXNetworkUtils md5StringFromString:fileName];
 }
 
 
@@ -135,7 +145,7 @@
  @param aName 缓存文件名
  @return data
  */
-- (NSData *)getCacheForName:(NSString *)aName {
+- (NSData *)cacheForName:(NSString *)aName {
     NSString *cacheDirectory = [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) firstObject];
     NSString *filesDirectory = [XXAppContext appContext].cacheFileDirectory ?: XXXCacheFilesDirectory;
     cacheDirectory = [cacheDirectory stringByAppendingPathComponent:filesDirectory];
@@ -173,7 +183,27 @@
  */
 - (BOOL)isCacheVaild:(XXXCacheMetadata *)cacheMetadata {
     NSTimeInterval timeInterval = [[NSDate date] timeIntervalSinceDate:cacheMetadata.cacheCreateTime];
-    return cacheMetadata && [cacheMetadata.apiVersion isEqualToString:self.apiVersion] && [cacheMetadata.appVersion isEqualToString:[XXAppContext appContext].appVersion] && (timeInterval < self.cacheInVaild);
+    if (timeInterval > self.cacheInVaild) {
+        return NO;
+    }
+    
+    NSString *curApiVersion = self.apiVersion;
+    NSString *cacheApiVersion = cacheMetadata.apiVersion;
+    if (cacheApiVersion || curApiVersion) {
+        if (cacheApiVersion.length != curApiVersion.length || ![cacheApiVersion isEqualToString:curApiVersion]) {
+            return NO;
+        }
+    }
+    
+    NSString *curAppVersion = [XXAppContext appContext].appVersion;
+    NSString *cacheAppVersion = cacheMetadata.appVersion;
+    if (cacheAppVersion || curAppVersion) {
+        if (cacheAppVersion.length != curAppVersion.length || ![cacheAppVersion isEqualToString:curAppVersion]) {
+            return NO;
+        }
+    }
+    
+    return YES;
 }
 
 

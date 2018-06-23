@@ -9,7 +9,8 @@ pod 'ZNetworkModule'
 
  ```objective-c
  
- [AppContext appContext].domain = @"https://facebook.github.io/";
+ [XXAppContext appContext].domain = @"https://facebook.github.io/";//API域名地址
+ [XXAppContext appContext].cacheFileDirectory = @"CacheFiles";//缓存文件目录
  
  ```
   

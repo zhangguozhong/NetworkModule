@@ -18,8 +18,8 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    [XXAppContext appContext].domain = @"https://facebook.github.io/";
-    [XXAppContext appContext].cacheFileDirectory = @"CacheFiles";
+    [XXAppContext appContext].domain = @"https://facebook.github.io/";//API域名地址
+    [XXAppContext appContext].cacheFileDirectory = @"CacheFiles";//缓存文件目录
     
     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     ViewController *viewController = [[ViewController alloc] init];

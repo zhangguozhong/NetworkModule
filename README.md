@@ -47,17 +47,8 @@ typedef NS_OPTIONS(NSUInteger, ResponseSerializerType) {
 - (NSUInteger)requestSerializerType;
 - (NSUInteger)responseSerializerType;
 - (NSTimeInterval)requestTimeoutInterval; //每个请求的超时时间
-- (NSTimeInterval)cacheInVaild;
-
-@end
-
-
-@protocol XXXRequestParametersDelegate <NSObject>
-/**
- 配置请求参数方法
- */
-@required
-- (id)paramsWithRequest:(XXXRequest *)request;
+- (NSTimeInterval)cacheInVaild;//缓存有效期
+- (NSDictionary *)headerFieldValueDictionary;
 
 @end
 
@@ -78,12 +69,12 @@ typedef NS_OPTIONS(NSUInteger, ResponseSerializerType) {
 @property (assign, nonatomic) BOOL ignoreCache; //忽略缓存
 @property (assign, nonatomic) NSInteger timedOutCount; //超时次数
 @property (copy, nonatomic) XXCallbackWithRequestBlock completionBlock;
-@property (weak, nonatomic) id<XXXRequestParametersDelegate> paramsDelegate; //配置参数委托对象
 
 @property (nonatomic) id fetchedRawData;
 @property (nonatomic, strong) NSData *responseObject;
 @property (nonatomic, strong) NSError *error;
 
+- (instancetype)initWithRequestParams:(id)requestParams;
 - (void)start;
 - (id)fetchDataWithReformer:(id<XXXRequestDataReformer>)reformer;
 
@@ -98,20 +89,14 @@ typedef NS_OPTIONS(NSUInteger, ResponseSerializerType) {
 ### 发起请求，每个请求类必须继承BaseRequest基类；
 ```objective-c
    
-- (void)testActionWithCallBack:(void (^)(NSError *))completionBlock {
-    self.userLoginRequest = [[TestRequestObj alloc] init];
-    _userLoginRequest.paramsDelegate = self;
-    _userLoginRequest.completionBlock = completionBlock;
+- (void)testActionWithCallBack:(void (^)(NSError *))completionBlockUI {
+    self.userLoginRequest = [[TestRequestObj alloc] initWithRequestParams:@{@"key":@"value"}];
+    _userLoginRequest.completionBlock = completionBlockUI;
     [self.userLoginRequest start];
 }
 
 - (id)fetchDataWithReformer{
     return [self.userLoginRequest fetchDataWithReformer:nil];
-}
-
-
-- (id)paramsWithRequest:(XXXRequest *)request {
-    return @{@"key":@"value"};
 }
 
 

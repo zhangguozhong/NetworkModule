@@ -16,7 +16,7 @@ Pod::Spec.new do |s|
   #
 
   s.name         = "ZNetworkModule"
-  s.version      = "1.7.5"
+  s.version      = "1.7.6"
   s.summary      = "这是一个网络请求库，将AFNetworking封装成单例类，加入了缓存机制。"
 
   # This description is used to generate tags and improve search results.

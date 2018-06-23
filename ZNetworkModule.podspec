@@ -16,7 +16,7 @@ Pod::Spec.new do |s|
   #
 
   s.name         = "ZNetworkModule"
-  s.version      = "1.8.0"
+  s.version      = "1.8.1"
   s.summary      = "这是一个网络请求库，将AFNetworking封装成单例类，加入了缓存机制。"
 
   # This description is used to generate tags and improve search results.
@@ -91,10 +91,30 @@ Pod::Spec.new do |s|
   #  Not including the public_header_files will make all headers public.
   #
 
-  s.source_files  = "NetworkModule/ZNetworkModule/Network/**/*.{h,m}","NetworkModule/ZNetworkModule/XXCache/**/*.{h,m}","NetworkModule/ZNetworkModule/Utils/**/*.{h,m}"
+  s.public_header_files = "NetworkModule/ZNetworkModule/ZNetworkModule.h"
+  s.source_files  = "NetworkModule/ZNetworkModule/ZNetworkModule.h"
   s.exclude_files = "Classes/Exclude"
 
   # s.public_header_files = "Classes/**/*.h"
+
+
+  s.subspec 'Utils' do |ss|
+     ss.source_files = "NetworkModule/ZNetworkModule/Utils/**/*.{h,m}"
+  end
+
+
+  s.subspec 'XXCache' do |ss|
+    ss.source_files = "NetworkModule/ZNetworkModule/XXCache/**/*.{h,m}"
+    ss.dependency = "NetworkModule/ZNetworkModule/Utils"
+    ss.frameworks = "Security"
+  end
+
+
+  s.subspec 'Network' do |ss|
+    ss.source_files = "NetworkModule/ZNetworkModule/Network/**/*.{h,m}"
+    ss.dependency = "NetworkModule/ZNetworkModule/Utils"
+    ss.dependency = "NetworkModule/ZNetworkModule/XXCache"
+  end
 
 
   # ――― Resources ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
@@ -118,7 +138,6 @@ Pod::Spec.new do |s|
   #
 
   # s.framework  = "SomeFramework"
-  s.frameworks = "UIKit", "Foundation", "Security"
 
   # s.library   = "iconv"
   # s.libraries = "iconv", "xml2"

@@ -117,13 +117,6 @@
 			path = Controller;
 			sourceTree = "<group>";
 		};
-		776F80D22098B88D00BD605B /* Servers */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Servers;
-			sourceTree = "<group>";
-		};
 		77756BB520878BC100A5EEEE /* XXCache */ = {
 			isa = PBXGroup;
 			children = (
@@ -182,7 +175,7 @@
 			children = (
 				77DC07D22028851A00F2CA09 /* Resources */,
 				772E92AD202726C2008E30F1 /* Controller */,
-				77F5EF7D20249EF900DD9194 /* NetworkModule */,
+				77F5EF7D20249EF900DD9194 /* ZNetworkModule */,
 				77F5EF6720249D8800DD9194 /* AppDelegate.h */,
 				77F5EF6820249D8800DD9194 /* AppDelegate.m */,
 				77F5EF6A20249D8800DD9194 /* ViewController.h */,
@@ -196,15 +189,14 @@
 			path = NetworkModule;
 			sourceTree = "<group>";
 		};
-		77F5EF7D20249EF900DD9194 /* NetworkModule */ = {
+		77F5EF7D20249EF900DD9194 /* ZNetworkModule */ = {
 			isa = PBXGroup;
 			children = (
-				776F80D22098B88D00BD605B /* Servers */,
 				77756BB520878BC100A5EEEE /* XXCache */,
 				77756BBC20879AE400A5EEEE /* Utils */,
 				77F5EF812024A41000DD9194 /* Network */,
 			);
-			path = NetworkModule;
+			path = ZNetworkModule;
 			sourceTree = "<group>";
 		};
 		77F5EF812024A41000DD9194 /* Network */ = {

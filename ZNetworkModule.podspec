@@ -15,8 +15,8 @@ Pod::Spec.new do |s|
   #  summary should be tweet-length, and the description more in depth.
   #
 
-  s.name         = "NetworkModule"
-  s.version      = "1.6.5"
+  s.name         = "ZNetworkModule"
+  s.version      = "1.7.5"
   s.summary      = "这是一个网络请求库，将AFNetworking封装成单例类，加入了缓存机制。"
 
   # This description is used to generate tags and improve search results.
@@ -91,7 +91,7 @@ Pod::Spec.new do |s|
   #  Not including the public_header_files will make all headers public.
   #
 
-  s.source_files  = "NetworkModule/NetworkModule/Network/**/*.{h,m}","NetworkModule/NetworkModule/XXCache/**/*.{h,m}","NetworkModule/NetworkModule/Utils/**/*.{h,m}"
+  s.source_files  = "NetworkModule/ZNetworkModule/Network/**/*.{h,m}","NetworkModule/ZNetworkModule/XXCache/**/*.{h,m}","NetworkModule/ZNetworkModule/Utils/**/*.{h,m}"
   s.exclude_files = "Classes/Exclude"
 
   # s.public_header_files = "Classes/**/*.h"

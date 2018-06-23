@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "NetworkModule/NetworkModule/Network/XXXRequest.m"
-            timestampString = "551031298.453531"
+            timestampString = "551413114.4658639"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "88"
-            endingLineNumber = "88"
+            startingLineNumber = "92"
+            endingLineNumber = "92"
             landmarkName = "-start"
             landmarkType = "7">
          </BreakpointContent>
@@ -26,11 +26,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "NetworkModule/NetworkModule/Network/XXXRequest.m"
-            timestampString = "551031298.453612"
+            timestampString = "551413114.4664741"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "164"
-            endingLineNumber = "164"
+            startingLineNumber = "168"
+            endingLineNumber = "168"
             landmarkName = "-cacheForName:"
             landmarkType = "7">
          </BreakpointContent>
@@ -42,11 +42,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "NetworkModule/NetworkModule/Network/XXXRequest.m"
-            timestampString = "551031298.453673"
+            timestampString = "551413114.466823"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "186"
-            endingLineNumber = "186"
+            startingLineNumber = "190"
+            endingLineNumber = "190"
             landmarkName = "-isCacheVaild:"
             landmarkType = "7">
          </BreakpointContent>
@@ -65,6 +65,69 @@
             endingLineNumber = "42"
             landmarkName = "-generateCacheData:filesDirectory:aName:"
             landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "NetworkModule/NetworkModule/Network/XXNetworkClient.m"
+            timestampString = "551413130.379256"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "89"
+            endingLineNumber = "89"
+            landmarkName = "-requestSerializerWithRequestObject:"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[XXNetworkClient requestSerializerWithRequestObject:]"
+                  moduleName = "NetworkModule"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/zhangguozhong1/Desktop/demo/NetworkModule/NetworkModule/NetworkModule/Network/XXNetworkClient.m"
+                  timestampString = "551413130.7434371"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "89"
+                  endingLineNumber = "89"
+                  offsetFromSymbolStart = "440">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "__54-[XXNetworkClient requestSerializerWithRequestObject:]_block_invoke"
+                  moduleName = "NetworkModule"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/zhangguozhong1/Desktop/demo/NetworkModule/NetworkModule/NetworkModule/Network/XXNetworkClient.m"
+                  timestampString = "551413130.746658"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "90"
+                  endingLineNumber = "90"
+                  offsetFromSymbolStart = "81">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "__destroy_helper_block_.57"
+                  moduleName = "NetworkModule"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/zhangguozhong1/Desktop/demo/NetworkModule/NetworkModule/NetworkModule/Network/XXNetworkClient.m"
+                  timestampString = "551413130.748252"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "89"
+                  endingLineNumber = "89"
+                  offsetFromSymbolStart = "16">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

@@ -80,20 +80,22 @@
     }
     
     requestSerializer.timeoutInterval = [request requestTimeoutInterval]; //请求超时时间
-    NSDictionary *headerFieldValueDictionary = [request headerFieldValueDictionary];
-    //加入请求头
-    if (headerFieldValueDictionary) {
-        [headerFieldValueDictionary enumerateKeysAndObjectsUsingBlock:^(NSString *  _Nonnull key, id  _Nonnull objValue, BOOL * _Nonnull stop) {
-            if ([key isKindOfClass:NSString.class] && [objValue isKindOfClass:NSString.class]) {
-                [requestSerializer setValue:objValue forHTTPHeaderField:key];
-            }
-        }];
+    NSMutableDictionary *fieldValuesDictionary = [[request CommonFieldValueDictionary] mutableCopy];//获取通用请求头
+    NSDictionary *headerFieldValueDictionary = [request headerFieldValueDictionary];//获取当前接口指定请求头
+    
+    if (headerFieldValueDictionary && headerFieldValueDictionary.count > 0) {
+        [fieldValuesDictionary addEntriesFromDictionary:headerFieldValueDictionary];
     }
+    [fieldValuesDictionary enumerateKeysAndObjectsUsingBlock:^(NSString *  _Nonnull key, id  _Nonnull objValue, BOOL * _Nonnull stop) {
+        if ([key isKindOfClass:NSString.class] && [objValue isKindOfClass:NSString.class]) {
+            [requestSerializer setValue:objValue forHTTPHeaderField:key];
+        }
+    }];
+    
     if ([XXAppContext appContext].accessToken) {
         [requestSerializer setValue:[XXAppContext appContext].accessToken forHTTPHeaderField:@"accessToken"];
     }
     
-    [requestSerializer setValue:request.apiVersion forHTTPHeaderField:@"apiVersion"];
     return requestSerializer;
 }
 

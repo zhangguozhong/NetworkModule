@@ -10,7 +10,7 @@
 
 @implementation XXXBaseRequest
 
-- (NSDictionary *)headerFieldValueDictionary {
+- (NSDictionary *)CommonFieldValueDictionary {
     return @{
              @"appVersion": [XXAppContext appContext].appVersion,
              @"systemName": [XXAppContext appContext].systemName,

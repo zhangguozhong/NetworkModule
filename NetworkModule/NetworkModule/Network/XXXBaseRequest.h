@@ -11,7 +11,7 @@
 
 @interface XXXBaseRequest : NSObject
 
-- (NSDictionary *)headerFieldValueDictionary; // 设置该请求的请求头
+- (NSDictionary *)CommonFieldValueDictionary; // 设置该请求的请求头
 
 - (void)requestCompletePreprocessor;
 

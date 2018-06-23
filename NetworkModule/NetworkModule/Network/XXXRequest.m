@@ -29,7 +29,6 @@
     }
     
     _requestParams = requestParams;
-    
     return self;
 }
 
@@ -44,6 +43,11 @@
 }
 - (NSString *)apiVersion{
     return @"1";
+}
+- (NSDictionary *)headerFieldValueDictionary {
+    return @{
+             @"apiVersion":self.apiVersion
+             };
 }
 
 // 配置请求参数

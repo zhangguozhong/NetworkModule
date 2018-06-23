@@ -34,7 +34,8 @@ typedef NS_OPTIONS(NSUInteger, ResponseSerializerType) {
 - (NSUInteger)requestSerializerType;
 - (NSUInteger)responseSerializerType;
 - (NSTimeInterval)requestTimeoutInterval; //每个请求的超时时间
-- (NSTimeInterval)cacheInVaild;
+- (NSTimeInterval)cacheInVaild;//缓存有效期
+- (NSDictionary *)headerFieldValueDictionary;
 
 @end
 

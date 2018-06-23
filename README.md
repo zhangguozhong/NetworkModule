@@ -1,6 +1,6 @@
 # NetworkModule
 
-pod 'NetworkModule'
+pod 'ZNetworkModule'
 
 
 ## 基本介绍

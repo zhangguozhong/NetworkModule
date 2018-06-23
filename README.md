@@ -15,7 +15,7 @@ pod 'ZNetworkModule'
   
   
   
-### BaseReques基类
+### XXXRequest
 
 ```objective-c
 
@@ -86,7 +86,7 @@ typedef NS_OPTIONS(NSUInteger, ResponseSerializerType) {
 
 
 
-### 发起请求，每个请求类必须继承BaseRequest基类；
+### 发起请求，每个请求API必须继承XXXRequest；
 ```objective-c
    
 - (void)testActionWithCallBack:(void (^)(NSError *))completionBlockUI {

@@ -7,7 +7,8 @@
 //
 
 #import "XXXBaseRequest.h"
-#import "XXXRequestConfiguration.h"
+@class XXXRequest;
+typedef void(^XXCallbackWithRequestBlock)(NSError *error);
 
 typedef NS_OPTIONS(NSUInteger, RequestSerializerType) {
     RequestSerializerTypeHTTP = 0,

@@ -8,16 +8,15 @@
 
 #import "XXXRequest.h"
 #import "XXNetworkClient.h"
-#import "XXAppContext.h"
 #import "XXXCacheFilesManager.h"
 #import "XXXCacheMetadata.h"
 #import "XXXNetworkUtils.h"
+#import "XXXRequestConfiguration.h"
 
 @interface XXXRequest() {
     XXXCacheMetadata *_cacheMetadata;
     id _requestParams;
 }
-@property (copy, nonatomic) NSString *cacheFileName;
 @end
 
 @implementation XXXRequest

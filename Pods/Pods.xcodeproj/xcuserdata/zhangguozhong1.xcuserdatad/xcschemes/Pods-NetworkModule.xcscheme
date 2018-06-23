@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "0700"
+   LastUpgradeVersion = "0930"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -13,11 +13,11 @@
             buildForProfiling = "YES"
             buildForArchiving = "YES">
             <BuildableReference
-               BuildableIdentifier = 'primary'
-               BlueprintIdentifier = '2959E5C0A84F24F3B9FA5F5D7EDF10D5'
-               BlueprintName = 'Pods-NetworkModule'
-               ReferencedContainer = 'container:Pods.xcodeproj'
-               BuildableName = 'libPods-NetworkModule.a'>
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "2959E5C0A84F24F3B9FA5F5D7EDF10D5"
+               BlueprintName = "Pods-NetworkModule"
+               ReferencedContainer = "container:Pods.xcodeproj"
+               BuildableName = "libPods-NetworkModule.a">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>

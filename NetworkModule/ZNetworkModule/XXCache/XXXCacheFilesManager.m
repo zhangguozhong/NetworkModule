@@ -10,6 +10,7 @@
 #import "XXAppContext.h"
 #import "XXXRequestConfiguration.h"
 #import "XXXFilesUtils.h"
+#import "XXXCacheMetadata.h"
 
 @interface XXXCacheFilesManager ()
 

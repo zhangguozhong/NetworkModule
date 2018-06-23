@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "XXXCacheMetadata.h"
+@class XXXCacheMetadata;
 
 @interface XXXFilesUtils : NSObject
 

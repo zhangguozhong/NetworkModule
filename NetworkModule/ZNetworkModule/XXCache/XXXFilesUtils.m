@@ -7,6 +7,7 @@
 //
 
 #import "XXXFilesUtils.h"
+#import "XXXCacheMetadata.h"
 
 @interface XXXFilesUtils() {
     

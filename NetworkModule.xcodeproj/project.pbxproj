@@ -46,6 +46,7 @@
 		77456D212029E7950060B4FF /* ZBaseViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZBaseViewController.m; sourceTree = "<group>"; };
 		7787CFE320D80D02008CDFF7 /* XXXNetworkUtils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XXXNetworkUtils.h; sourceTree = "<group>"; };
 		7787CFE420D80D02008CDFF7 /* XXXNetworkUtils.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XXXNetworkUtils.m; sourceTree = "<group>"; };
+		77AA36AE20DF337500D31BA2 /* ZNetworkModule.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZNetworkModule.h; sourceTree = "<group>"; };
 		77AED2F72088D17D00BE9E0B /* XXXRequestConfiguration.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XXXRequestConfiguration.h; sourceTree = "<group>"; };
 		77B1F9452070C0F000F6A15E /* TestRequestObj.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TestRequestObj.h; sourceTree = "<group>"; };
 		77B1F9462070C0F000F6A15E /* TestRequestObj.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TestRequestObj.m; sourceTree = "<group>"; };
@@ -187,6 +188,7 @@
 		77F5EF7D20249EF900DD9194 /* ZNetworkModule */ = {
 			isa = PBXGroup;
 			children = (
+				77AA36AE20DF337500D31BA2 /* ZNetworkModule.h */,
 				77756BB520878BC100A5EEEE /* XXCache */,
 				77756BBC20879AE400A5EEEE /* Utils */,
 				77F5EF812024A41000DD9194 /* Network */,

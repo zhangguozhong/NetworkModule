@@ -9,7 +9,7 @@
 Pod::Spec.new do |s|
 
   s.name         = "ZNetworkModule"
-  s.version      = "1.8.5"
+  s.version      = "1.9.0"
   s.summary      = "这是一个网络请求库，将AFNetworking封装成单例类，加入了缓存机制。"
 
   s.description  = <<-DESC
@@ -28,7 +28,8 @@ Pod::Spec.new do |s|
   
 
   s.source       = { :git => "https://github.com/zhangguozhong/NetworkModule.git", :tag => "#{s.version}" }
-  #s.source_files  = "NetworkModule/ZNetworkModule/**/*"
+  s.source_files  = "NetworkModule/ZNetworkModule/ZNetworkModule.h"
+  s.public_header_files = 'NetworkModule/ZNetworkModule/ZNetworkModule.h'
   s.requires_arc = true
 
 

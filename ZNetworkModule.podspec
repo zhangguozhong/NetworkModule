@@ -9,7 +9,7 @@
 Pod::Spec.new do |s|
 
   s.name         = "ZNetworkModule"
-  s.version      = "1.8.3"
+  s.version      = "1.8.5"
   s.summary      = "这是一个网络请求库，将AFNetworking封装成单例类，加入了缓存机制。"
 
   s.description  = <<-DESC
@@ -28,40 +28,29 @@ Pod::Spec.new do |s|
   
 
   s.source       = { :git => "https://github.com/zhangguozhong/NetworkModule.git", :tag => "#{s.version}" }
-  s.source_files  = "NetworkModule/ZNetworkModule/**/*"
+  #s.source_files  = "NetworkModule/ZNetworkModule/**/*"
   s.requires_arc = true
 
-  
-  #s.default_subspec = 'Classes'
-
-
-  # s.subspec 'Classes' do |networkModule|
-  #   networkModule.dependency = 'NetworkModule/ZNetworkModule/Utils'
-  #   networkModule.dependency = 'NetworkModule/ZNetworkModule/XXCache'
-  #   networkModule.dependency = 'NetworkModule/ZNetworkModule/Network'
-  #   networkModule.dependency "AFNetworking", "~> 3.0"
-  # end
 
   #私有库
-  # s.subspec 'Utils' do |utils|
-  #    utils.source_files = "NetworkModule/ZNetworkModule/Utils/**/*.{h,m}"
-  # end
+  s.subspec 'Utils' do |utils|
+     utils.source_files = "NetworkModule/ZNetworkModule/Utils/**/*.{h,m}"
+  end
 
-  # s.subspec 'XXCache' do |cache|
-  #   cache.source_files = "NetworkModule/ZNetworkModule/XXCache/**/*.{h,m}"
-  #   cache.dependency = 'ZNetworkModule/Utils'
-  #   cache.frameworks = 'Security'
-  # end
+  s.subspec 'XXCache' do |cache|
+    cache.source_files = "NetworkModule/ZNetworkModule/XXCache/**/*.{h,m}"
+    cache.dependency 'ZNetworkModule/Utils'
+    cache.frameworks = 'Security'
+  end
 
-  # s.subspec 'Network' do |network|
-  #    network.source_files = "NetworkModule/ZNetworkModule/Network/**/*.{h,m}"
-  #    network.dependency = 'ZNetworkModule/Utils'
-  #    network.dependency = 'ZNetworkModule/XXCache'
-  # end
+  s.subspec 'Network' do |network|
+     network.source_files = "NetworkModule/ZNetworkModule/Network/**/*.{h,m}"
+     network.dependency 'ZNetworkModule/Utils'
+     network.dependency 'ZNetworkModule/XXCache'
+  end
 
 
   s.dependency "AFNetworking", "~> 3.0"
-  s.frameworks = 'Security'
   # s.xcconfig = { "HEADER_SEARCH_PATHS" => "$(SDKROOT)/usr/include/libxml2" }
 
 end

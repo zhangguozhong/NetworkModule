@@ -17,6 +17,7 @@
 + (XXAppContext *)appContext;
 
 @property (copy, nonatomic) NSString *domain; //域名
+@property (copy, nonatomic) NSString *apiVersion;//接口版本号
 @property (copy, nonatomic) NSString *cacheFileDirectory;//文件缓存目录
 @property (copy, nonatomic, readonly) NSString *appVersion; //app版本号
 @property (copy, nonatomic, readonly) NSString *accessToken; //用于判断是否登录

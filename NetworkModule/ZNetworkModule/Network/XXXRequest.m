@@ -41,7 +41,7 @@
     return ResponseSerializerTypeJSON;
 }
 - (NSString *)apiVersion{
-    return @"1";
+    return @"2";
 }
 - (NSDictionary *)headerFieldValueDictionary {
     return @{

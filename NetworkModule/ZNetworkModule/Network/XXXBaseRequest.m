@@ -14,7 +14,8 @@
     return @{
              @"appVersion": [XXAppContext appContext].appVersion,
              @"systemName": [XXAppContext appContext].systemName,
-             @"systemVersion": [XXAppContext appContext].systemVersion
+             @"systemVersion": [XXAppContext appContext].systemVersion,
+             @"apiVersion": [XXAppContext appContext].apiVersion
              };
 }
 

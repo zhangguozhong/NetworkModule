@@ -54,6 +54,10 @@
     NSString *requestMethod = [request requestMethod];
     NSDictionary *requestParams = [request requestParams];
     NSString *requestUrl = [self buildRequestUrl:request];
+    
+    NSAssert(requestMethod && requestMethod.length!=0, @"requestMethod is required");
+    NSAssert(requestUrl && requestUrl.length!=0, @"requestUrl is required");
+    
     AFHTTPRequestSerializer *requestSerializer = [self requestSerializerWithRequestObject:request];
     
     request.requestDataTask = [self dataTaskWithHTTPMethod:requestMethod requestUrl:requestUrl  parameters:requestParams requestSerializer:requestSerializer];

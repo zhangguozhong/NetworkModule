@@ -2,4 +2,69 @@
 <Bucket
    type = "0"
    version = "2.0">
+   <Breakpoints>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "NetworkModule/ZNetworkModule/Network/XXNetworkClient.m"
+            timestampString = "551620608.399893"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "93"
+            endingLineNumber = "93"
+            landmarkName = "-requestSerializerWithRequestObject:"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[XXNetworkClient requestSerializerWithRequestObject:]"
+                  moduleName = "NetworkModule"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/zhangguozhong1/Desktop/demo/NetworkModule/NetworkModule/ZNetworkModule/Network/XXNetworkClient.m"
+                  timestampString = "551620608.418951"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "93"
+                  endingLineNumber = "93"
+                  offsetFromSymbolStart = "440">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "__54-[XXNetworkClient requestSerializerWithRequestObject:]_block_invoke"
+                  moduleName = "NetworkModule"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/zhangguozhong1/Desktop/demo/NetworkModule/NetworkModule/ZNetworkModule/Network/XXNetworkClient.m"
+                  timestampString = "551620608.420879"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "94"
+                  endingLineNumber = "94"
+                  offsetFromSymbolStart = "81">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "__destroy_helper_block_.73"
+                  moduleName = "NetworkModule"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/zhangguozhong1/Desktop/demo/NetworkModule/NetworkModule/ZNetworkModule/Network/XXNetworkClient.m"
+                  timestampString = "551620608.422778"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "93"
+                  endingLineNumber = "93"
+                  offsetFromSymbolStart = "16">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+   </Breakpoints>
 </Bucket>

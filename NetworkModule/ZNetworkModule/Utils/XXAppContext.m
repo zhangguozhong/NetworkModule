@@ -32,6 +32,10 @@
     return [UIDevice currentDevice].systemName;
 }
 
+- (NSString *)apiVersion {
+    return _apiVersion ?: @"1";
+}
+
 - (NSString *)systemVersion {
     return [UIDevice currentDevice].systemVersion;
 }

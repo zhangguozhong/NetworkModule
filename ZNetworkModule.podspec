@@ -9,7 +9,7 @@
 Pod::Spec.new do |s|
 
   s.name         = "ZNetworkModule"
-  s.version      = "1.9.0"
+  s.version      = "1.9.1"
   s.summary      = "这是一个网络请求库，将AFNetworking封装成单例类，加入了缓存机制。"
 
   s.description  = <<-DESC
